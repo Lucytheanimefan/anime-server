@@ -13,9 +13,8 @@ def home():
 @app.route("/addNews", methods=["POST"])
 def add_news():
 	print "ADD NEWS"
-	news = request.get_json()
-	print news
-	database.articles.insert_one(request.get_json())
+	news = request.form
+	database.articles.insert_one(dict(news))
 	return "DONE"
 
 
