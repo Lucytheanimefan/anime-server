@@ -2,6 +2,7 @@ import os
 from flask import Flask, render_template,send_from_directory, jsonify, request
 import requests
 import server
+import JSONEncoder
 
 app = Flask(__name__)
 database = server.get_db()
@@ -20,12 +21,16 @@ def add_news():
 
 @app.route("/getNews", methods=["GET"])
 def get_news():
-	news = request.get_json()
-	print news
+	news = database.articles.find({})
+	for doc in news:
+		print doc
+	#print news
+	articles = [JSONEncoder().encode(data) for data in news]
+	print articles
+	return jsonify(articles)
 
 
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
 	port = int(os.environ.get("PORT", 5000))
 	app.run(host='0.0.0.0', port=port)
