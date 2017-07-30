@@ -4,7 +4,7 @@ import requests
 import server
 import JSONEncoder
 import time
-import anime_rec.findSeasonRecs
+from anime_rec import findSeasonRecs
 
 app = Flask(__name__)
 database = server.get_db()
@@ -18,18 +18,12 @@ def add_news():
 	news = dict(request.form)
 	news["date"]=time.strftime("%m/%d/%Y") 
 	database.articles.insert_one(news)
-	#database.titles.insert_one({"title":news["title"],"date":news["date"]})
+	database.titles.insert_one({"title":news["title"],"date":news["date"]})
 	return home()
 
 @app.route("/animerec", methods=["POST"])
-def add_news():
-	data = request.data
-	dataDict = json.loads(data)
-	year = dataDict["year"]
-	season = dataDict["season"]
-	seasonrecs = findSeasonRecs(year, season)
-	print seasonrecs
-	return findSeasonRecs(year, season)
+def animerec():
+	return findSeasonRecs("2016", "summer")
 
 
 @app.route("/getNews", methods=["GET"])
@@ -41,7 +35,6 @@ def get_news():
 		articles.append(doc)
 
 	return jsonify(articles)
-	#return jsonify(articles)
 
 
 
