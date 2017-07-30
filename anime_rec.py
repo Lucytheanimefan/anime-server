@@ -38,7 +38,7 @@ def findSeasonRecs(season, year):
 	animez = soup.find_all("div", {"class": "anime-card"})
 	for anime in animez:
 		titlez = anime.find_all("h3",{"class":"main-title"})[0]
-		title = titlez.text
+		title = (titlez.text).encode('utf-8').strip()
 		#print title
 		scores[title] = 0 #each show starts off with 0
 
