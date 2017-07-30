@@ -23,7 +23,7 @@ def add_news():
 
 @app.route("/animerec", methods=["POST"])
 def animerec():
-	return jsonify({"message_format":"html","message":findSeasonRecs("summer","2016")})
+	return jsonify({"message_format":"html","message":findSeasonRecs("summer","2014")})
 
 
 @app.route("/getNews", methods=["GET"])

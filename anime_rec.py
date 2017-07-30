@@ -93,7 +93,7 @@ def findSeasonRecs(season, year):
 	anime_string = "<ol>" 
 	for anime in sorted_anime:
 		i+=1
-		anime_string = anime_string + "<li>" + str(i) +": " + anime[0]+", "+str(anime[1]) + "</li>"
+		anime_string = anime_string + "<li>: " + anime[0]+", "+str(anime[1]) + "</li>"
 	print("-------------")
 	#print(season_anime)
 	anime_string = anime_string + "</ol>"
