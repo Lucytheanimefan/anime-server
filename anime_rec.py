@@ -90,11 +90,12 @@ def findSeasonRecs(season, year):
 	#print season_anime
 	sorted_anime = sorted(scores.items(), key=operator.itemgetter(1))
 	i=0
-	for anime in reversed(sorted_anime):
+	anime_string = "" 
+	for anime in sorted_anime:
 		i+=1
-		print str(i) +": " + anime[0]+", "+str(anime[1])
+		anime_string = anime_string + "\n" + str(i) +": " + anime[0]+", "+str(anime[1])
 	print("-------------")
 	#print(season_anime)
-	return sorted_anime
+	return anime_string
 
 
