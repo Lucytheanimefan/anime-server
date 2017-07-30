@@ -23,7 +23,7 @@ def add_news():
 
 @app.route("/animerec", methods=["POST"])
 def animerec():
-	return findSeasonRecs("2016", "summer")
+	return jsonify({"Anime Recommendations: ":findSeasonRecs("summer","2016")})
 
 
 @app.route("/getNews", methods=["GET"])
