@@ -45,7 +45,7 @@ def get_news():
 
 @app.route("/sayslucy", methods=["POST"])
 def sayslucy():
-	return "Watch A Silent Voice"
+	return "Watch A Silent Voice (Koe no Katachi)"
 
 if __name__ == '__main__':
 	port = int(os.environ.get("PORT", 5000))
