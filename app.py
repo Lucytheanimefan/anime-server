@@ -6,6 +6,7 @@ import JSONEncoder
 import time
 from anime_rec import findSeasonRecs
 from datetime import datetime
+import random
 
 app = Flask(__name__)
 database = server.get_db()
