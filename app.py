@@ -5,6 +5,7 @@ import server
 import JSONEncoder
 import time
 from anime_rec import findSeasonRecs
+from datetime import datetime
 
 app = Flask(__name__)
 database = server.get_db()
@@ -23,7 +24,11 @@ def add_news():
 
 @app.route("/animerec", methods=["POST"])
 def animerec():
-	return jsonify({"message_format":"html","message":findSeasonRecs("summer","2014")})
+	seasons = ["fall","winter","summer","spring"]
+	today = datetime.today()
+	year = str(random.randint(2007,int(today.year)))
+	season = random.choice(seasons)
+	return jsonify({"message_format":"html","message":findSeasonRecs(season,year)})
 
 
 @app.route("/getNews", methods=["GET"])

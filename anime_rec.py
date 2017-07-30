@@ -14,6 +14,7 @@ from bs4 import BeautifulSoup
 import requests
 #from textblob import TextBlob
 import operator
+import random
 
 aniChartUrl="https://www.livechart.me/"
 great_studios = ["MAPPA","A-1 Pictures","Bones","Madhouse"]
@@ -90,7 +91,7 @@ def findSeasonRecs(season, year):
 	#print season_anime
 	sorted_anime = sorted(scores.items(), key=operator.itemgetter(1))
 	i=0
-	anime_string = "<h1>Anime of " + season + year + "</h1><ol>" 
+	anime_string = "Anime of " + season +" " + year + "<ol>" 
 	for anime in reversed(sorted_anime):
 		i+=1
 		anime_string = anime_string + "<li>" + anime[0]+", "+str(anime[1]) + "</li>"
