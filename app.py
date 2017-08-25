@@ -43,9 +43,9 @@ def get_news():
 	return jsonify(articles)
 
 
-@app.route("/sayslucy", methods=["POST"])
-def sayslucy():
-	return jsonify({"message":"Watch A Silent Voice (Koe no Katachi)"})
+@app.route("/animeapplehipchat", methods=["GET"])
+def jsonstuff():
+	return app.send_static_file("animeapple.json")
 
 if __name__ == '__main__':
 	port = int(os.environ.get("PORT", 5000))
