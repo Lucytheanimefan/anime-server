@@ -7,6 +7,7 @@ import time
 from anime_rec import findSeasonRecs
 from datetime import datetime
 import random
+import MalCoordinator
 
 app = Flask(__name__)
 database = server.get_db()
@@ -46,6 +47,16 @@ def get_news():
 @app.route("/animeapplehipchat", methods=["GET"])
 def jsonstuff():
 	return app.send_static_file("animeapple.json")
+
+
+@app.route("/myanimelist", methods = ["GET"])
+def getMAL():
+	username = request.args.get('username')
+	if username is None:
+		username = "Silent_Muse"
+	coordinator = MalCoordinator()
+	return jsonify(coordinator.fetch_animelist(username))
+
 
 if __name__ == '__main__':
 	port = int(os.environ.get("PORT", 5000))
