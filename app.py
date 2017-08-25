@@ -54,7 +54,7 @@ def getMAL():
 	username = request.args.get('username')
 	if username is None:
 		username = "Silent_Muse"
-	coordinator = MalCoordinator()
+	coordinator = MalCoordinator.MalCoordinator()
 	return jsonify(coordinator.fetch_animelist(username))
 
 
