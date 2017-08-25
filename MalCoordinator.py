@@ -39,7 +39,7 @@ class MalCoordinator(object):
             entry.watched_episodes = json_entry['num_watched_episodes']
             entry.total_episodes = json_entry['anime_num_episodes']
             entry.user_score = json_entry['score']
-            entries.append(entry)
+            entries.append(entry.to_string())
 
         return entries
 
@@ -47,5 +47,5 @@ class MalCoordinator(object):
 if __name__ == '__main__':
     coordinator = MalCoordinator()
     for entry in coordinator.fetch_animelist("Silent_Muse"):
-        print entry.title
+        print entry
         print "\n"
