@@ -8,6 +8,7 @@ from anime_rec import findSeasonRecs
 from datetime import datetime
 import random
 import MalCoordinator
+import CrunchyRoll
 
 app = Flask(__name__)
 database = server.get_db()
@@ -57,6 +58,13 @@ def getMAL():
 	coordinator = MalCoordinator.MalCoordinator()
 	return jsonify(coordinator.fetch_animelist(username))
 
+@app.route("/crunchyroll", methods = ["GET"])
+def getCrunchy():
+	username = request.args.get('username')
+	if username is None:
+		username = "KowaretaSekai"
+	crunchy = CrunchyRoll.CrunchyRoll(username)
+	return jsonify(crunchy.fetch_user_info())
 
 if __name__ == '__main__':
 	port = int(os.environ.get("PORT", 5000))
