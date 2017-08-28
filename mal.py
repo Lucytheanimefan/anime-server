@@ -26,9 +26,10 @@ class MalEntry():
         self.total_episodes = None
         self.user_score = None
         self.image_url = None
+        self.url = None
 
     def to_string(self):
-        return {"username":self.username, "anime_id":self.anime_id, "title": self.title, "user_status":self.user_status, "airing_status": self.airing_status, "watched_episodes":self.watched_episodes, "total_episodes":self.total_episodes, "user_score":self.user_score, "image_url":self.image_url}
+        return {"username":self.username, "anime_id":self.anime_id, "title": self.title, "user_status":self.user_status, "airing_status": self.airing_status, "watched_episodes":self.watched_episodes, "total_episodes":self.total_episodes, "user_score":self.user_score, "image_url":self.image_url, "url":self.url}
 
 class MalUser():
     def __init__(self, username):

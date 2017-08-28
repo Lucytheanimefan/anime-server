@@ -40,6 +40,7 @@ class MalCoordinator(object):
             entry.total_episodes = json_entry['anime_num_episodes']
             entry.user_score = json_entry['score']
             entry.image_url = json_entry['anime_image_path']
+            entry.url = "https://myanimelist.net" + json_entry['anime_url']
             entries.append(entry.to_string())
 
         return entries
