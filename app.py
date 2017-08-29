@@ -13,6 +13,7 @@ import Funimation
 
 app = Flask(__name__)
 database = server.get_db()
+funi = Funimation.Funimation()
 
 @app.route("/")
 def home():
@@ -70,12 +71,15 @@ def getCrunchy():
 @app.route("/funiLogin", methods = ["POST"])
 def funiLogin():
 	params = request.get_json()
-	print params
 	user = params["username"]
 	passw = params["password"]
-	funi = Funimation.Funimation()
 	response = funi.login(user, passw)
 	return jsonify(response)
+
+@app.route("/funiQueue", methods = ["GET"])
+def funi_queue():
+	funi = Funimation.Funimation()
+	return jsonify(funi.get_my_queue())
 
 
 if __name__ == '__main__':
