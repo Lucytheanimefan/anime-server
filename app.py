@@ -83,7 +83,7 @@ def funiLogin():
 @app.route("/funiQueue", methods = ["GET"])
 def funi_queue():
 	funi = Funimation.Funimation()
-	return jsonify(funi.get_my_queue(session['funiAuthToken']))
+	return jsonify(funi.get_my_queue(session.get('funiAuthToken')))
 
 
 if __name__ == '__main__':
