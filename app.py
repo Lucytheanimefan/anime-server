@@ -9,6 +9,7 @@ from datetime import datetime
 import random
 import MalCoordinator
 import CrunchyRoll
+import Funimation
 
 app = Flask(__name__)
 database = server.get_db()
@@ -65,6 +66,16 @@ def getCrunchy():
 		username = "KowaretaSekai"
 	crunchy = CrunchyRoll.CrunchyRoll(username)
 	return jsonify(crunchy.fetch_user_info())
+
+@app.route("/funiLogin", methods = ["POST"])
+def funiLogin():
+	params = request.get_json()
+	username = params["username"]
+	password = params["password"]
+	funi = Funimation.Funimation()
+	response = funi.login(username, password)
+	return response
+
 
 if __name__ == '__main__':
 	port = int(os.environ.get("PORT", 5000))
