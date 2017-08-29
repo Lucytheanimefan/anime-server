@@ -1,5 +1,5 @@
 import os
-from flask import Flask, render_template,send_from_directory, jsonify, request
+from flask import Flask, render_template,send_from_directory, jsonify, request, session
 import requests
 import server
 import JSONEncoder
@@ -74,12 +74,15 @@ def funiLogin():
 	user = params["username"]
 	passw = params["password"]
 	response = funi.login(user, passw)
+	auth_token = response["token"]
+	session['funiAuthToken'] = auth_token
 	return jsonify(response)
+	
 
 @app.route("/funiQueue", methods = ["GET"])
 def funi_queue():
 	funi = Funimation.Funimation()
-	return jsonify(funi.get_my_queue())
+	return jsonify(funi.get_my_queue(session['funiAuthToken']))
 
 
 if __name__ == '__main__':

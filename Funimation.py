@@ -28,10 +28,12 @@ class Funimation(object):
 		print r.headers
 		print "------------------"
 		self.csrftoken = r.headers['Set-Cookie'].split(';')[0].split('=')[1]
-		self.auth_token = r.json()["token"]
-		return r.json()
+		return r.json()#["token"]
+		#return auth_token
 
-	def get_my_queue(self):
+	def get_my_queue(self, auth_token = None):
+		if auth_token:
+			self.auth_token = auth_token
 		if self.auth_token:
 			headers = {"Authorization":"Token " + self.auth_token}#, "x-csrftoken":self.csrftoken, "territory":"US", "accept-language":"en-US,en;q=0.8"}
 			r = requests.get(base_url + my_queue, headers = headers, verify=False)
