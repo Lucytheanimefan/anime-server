@@ -70,10 +70,11 @@ def getCrunchy():
 @app.route("/funiLogin", methods = ["POST"])
 def funiLogin():
 	params = request.get_json()
-	username = params["username"]
-	password = params["password"]
+	print params
+	user = params["username"]
+	passw = params["password"]
 	funi = Funimation.Funimation()
-	response = funi.login(username, password)
+	response = funi.login(user, passw)
 	return jsonify(response)
 
 
