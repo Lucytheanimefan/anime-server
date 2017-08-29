@@ -74,7 +74,7 @@ def funiLogin():
 	password = params["password"]
 	funi = Funimation.Funimation()
 	response = funi.login(username, password)
-	return response
+	return jsonify(response)
 
 
 if __name__ == '__main__':
