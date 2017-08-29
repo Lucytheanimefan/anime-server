@@ -76,14 +76,16 @@ def funiLogin():
 	passw = params["password"]
 	response = funi.login(user, passw)
 	auth_token = response["token"]
-	session['funiAuthToken'] = auth_token
+	#print auth_token
+	#session['funiAuthToken'] = auth_token
 	return jsonify(response)
 	
 
-@app.route("/funiQueue", methods = ["GET"])
+@app.route("/funiQueue", methods = ["POST"])
 def funi_queue():
 	funi = Funimation.Funimation()
-	return jsonify(funi.get_my_queue(session.get('funiAuthToken')))
+	auth_token = request.get_json()["funiAuthToken"]
+	return jsonify(funi.get_my_queue(auth_token))
 
 
 if __name__ == '__main__':
