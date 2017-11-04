@@ -1,0 +1,12 @@
+{% extends "layout.html" %} {% block body %}
+<form action="/mal" method="get" enctype="multipart/form-data">
+    <input type="" name="username">
+    <input class="btn btn-default" type="submit" value="Go">
+</form>
+
+<div id="visual" data-list = '{{ malList }}' >
+{% endblock %}
+
+{% block scripts %} 
+<script type="text/javascript" src="{{ url_for('static', filename='js/malVisual.js') }}"></script>
+{% endblock %}

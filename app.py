@@ -1,5 +1,5 @@
 import os
-from flask import Flask, render_template,send_from_directory, jsonify, request, session
+from flask import Flask, render_template,send_from_directory, jsonify, request, session, json
 import requests
 import server
 import JSONEncoder
@@ -18,7 +18,8 @@ funi = Funimation.Funimation()
 
 @app.route("/")
 def home():
-	return render_template("index.html")
+	return "Hello world"
+	#return render_template("index.html")
 
 @app.route("/addNews", methods=["POST"])
 def add_news():
@@ -61,6 +62,18 @@ def getMAL():
 	coordinator = MalCoordinator.MalCoordinator()
 	return jsonify(coordinator.fetch_animelist(username))
 
+@app.route("/mal", methods = ["GET"])
+def malVisualList():
+	username = request.args.get('username')
+	if username is None:
+		username = "Silent_Muse"
+	coordinator = MalCoordinator.MalCoordinator()
+	return render_template('malVisual.html', malList = json.dumps(coordinator.fetch_animelist(username)))
+
+@app.route("/malVisual")
+def malVisual():
+	return render_template("malVisual.html")
+
 @app.route("/crunchyroll", methods = ["GET"])
 def getCrunchy():
 	username = request.args.get('username')
@@ -90,4 +103,5 @@ def funi_queue():
 
 if __name__ == '__main__':
 	port = int(os.environ.get("PORT", 5000))
-	app.run(host='0.0.0.0', port=port)
+	#app.run(host='0.0.0.0', port=port, debug=True)
+	app.run(debug=True)
