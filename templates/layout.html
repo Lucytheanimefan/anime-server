@@ -11,9 +11,10 @@
 
 <body>
     {% block body %}{% endblock %}
-    <script src="http://code.jquery.com/jquery-1.12.4.min.js"></script>
-    <!-- Compiled and minified JavaScript -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/js/materialize.min.js"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='plugins/jquery.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='plugins/bootstrap.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='plugins/three.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='plugins/OrbitControls.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='js/script.js') }}"></script>
     {% block scripts %} {% endblock %}
 </body>
