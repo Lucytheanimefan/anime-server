@@ -70,9 +70,9 @@ def malVisualList():
 	coordinator = MalCoordinator.MalCoordinator()
 	return render_template('malVisual.html', malList = json.dumps(coordinator.fetch_animelist(username)))
 
-@app.route("/malVisual")
-def malVisual():
-	return render_template("malVisual.html")
+# @app.route("/malVisual")
+# def malVisual():
+# 	return render_template("malVisual.html")
 
 @app.route("/crunchyroll", methods = ["GET"])
 def getCrunchy():
