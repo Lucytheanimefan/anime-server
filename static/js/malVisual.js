@@ -30,7 +30,7 @@ function init3d() {
     camera.position.y = 150;
     camera.position.z = 500;
     camera.lookAt(scene.position);
-    container = document.getElementById("visual");
+    container = document.getElementById("malVisual");
     renderer = new THREE.WebGLRenderer({ alpha: true });
     renderer.setSize(window.innerWidth, window.innerHeight);
     container.appendChild(renderer.domElement);
@@ -65,18 +65,21 @@ function render(speed) {
 };
 
 function generateSpheresForAnime() {
-    var finishedColor = new THREE.Color("rgb(100,100,100)");
+    var finishedColor = new THREE.Color("rgb(255,255,255)");
 
     for (var i = 0; i < malList.length; i++) {
         var animeData = malList[i];
         if (animeData["airing_status"] == FINISHED) {
-            var rad = animeData["user_score"] * 100;
-            //console.log("Score: " + rad);
-            var sphere = createSphere(rad, 5, 5, finishedColor, 50, 50);
+            var rad = animeData["user_score"];// * 100;
+            var x = animeData["total_episodes"];
+            var y = animeData["watched_episodes"];
+            var sphere = createSphere(rad, 5, 5, finishedColor, x, y);
+            //sphere.material.color = finishedColor;
+            //sphere.material.color.set("rgb(100,100,100)");
 
             // Set sphere on orbit
-            var speed = 10; 
-            var tilt = Math.PI / 2; 
+            var speed = 10;
+            var tilt = Math.PI / 2;
 
             var orbitContainer = new THREE.Object3D();
             orbitContainer.rotation.z = tilt;
@@ -102,19 +105,19 @@ function generateSpheresForAnime() {
         }
         //var geometry = new THREE.SphereGeometry(150, 5, 5); //.BoxGeometry(200, 200, 200, 10, 10, 10);
     }
-    
+
     console.log("new parent1");
     console.log(parent1);
 
 }
 
-function createSphere(radius, wSegments, hSegments, color, x, y) {
+function createSphere(radius, wSegments, hSegments, color = 0x56a0d3, x, y) {
     var sphereGeometry = new THREE.SphereGeometry(radius, wSegments, hSegments); //new THREE.DodecahedronGeometry(radius); //THREE.BoxGeometry(20, 20, 20, 10, 10, 10);//
     var sphereMaterial = new THREE.MeshLambertMaterial({ color: color, wireframe: true });
 
     var sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
-    //sphere.position.x = x;
-    //sphere.position.y = y;
+    sphere.position.x = x;
+    sphere.position.y = y;
 
     return sphere;
 }
