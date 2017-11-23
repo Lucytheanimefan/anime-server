@@ -75,7 +75,7 @@ function generateSpheresForAnime() {
             var rad = Math.pow(score, 1.5); // * 100;
             var seg = rad;
             var x = animeData["total_episodes"] + Math.random() * 10;
-            var y = animeData["watched_episodes"] * 10;
+            var y = animeData["watched_episodes"] + Math.random() * 10;
             var z = Math.pow(10-score, 3);
 
             var sprite = makeTextSprite(animeData["title"], { fontsize: 20, borderThickness: 0.5, borderColor: { r: 255, g: 0, b: 0, a: 1.0 }, backgroundColor: { r: 255, g: 100, b: 100, a: 0.8 } });

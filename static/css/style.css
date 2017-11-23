@@ -1,3 +1,11 @@
 body{
 	background-color: black;
 }
+
+form{
+	z-index: 100;
+}
+
+#malVisual{
+	margin-top: 20px;
+}
