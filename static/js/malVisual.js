@@ -34,7 +34,7 @@ function init3d() {
     renderer = new THREE.WebGLRenderer({ alpha: true });
     renderer.setSize(window.innerWidth, window.innerHeight);
     container.appendChild(renderer.domElement);
-    //geometry = new THREE.SphereGeometry(150, 5, 5); //.BoxGeometry(200, 200, 200, 10, 10, 10);
+    geometry = new THREE.SphereGeometry(150, 5, 5); //.BoxGeometry(200, 200, 200, 10, 10, 10);
 
     controls = new THREE.OrbitControls(camera);
     controls.rotateSpeed = 1.0;
@@ -42,30 +42,15 @@ function init3d() {
     controls.panSpeed = 0.8;
 
     parent1 = new THREE.Object3D();
+    console.log("parent1");
+    console.log(parent1);
     generateSpheresForAnime();
-    parent1.position.set(0, 0, 0);
+    //parent1.position.set(0, 0, 0);
+
+    console.log("Add to scene");
     scene.add(parent1);
 
-    //var geometry = new THREE.BoxGeometry(1, 1, 1);
-    // var material = new THREE.MeshBasicMaterial({
-    //     color: 0x56a0d3,
-    //     emissive: new THREE.Color('rgb(23,23,23)'),
-    //     shading: THREE.FlatShading,
-    //     wireframeLinewidth: 30,
-    //     wireframe: true
-    // });
 
-    // var material = new THREE.LineBasicMaterial({
-    //     color: 0x56a0d3,
-    //     linewidth: 30,
-    //     linecap: 'round', //ignored by WebGLRenderer
-    //     linejoin: 'round', //ignored by WebGLRenderer
-    //     wireframe: true
-    // });
-
-    //new THREE.MeshBasicMaterial({ color: 0x56a0d3, wireframe: true });
-    //shape = new THREE.Mesh(geometry, material);
-    //scene.add(shape);
 }
 
 function render(speed) {
@@ -80,13 +65,35 @@ function render(speed) {
 };
 
 function generateSpheresForAnime() {
-    var finishedColor = new THREE.Color("rgb(255,255,255)");
-
+    var finishedColor = new THREE.Color("rgb(100,100,100)");
 
     for (var i = 0; i < malList.length; i++) {
         var animeData = malList[i];
         if (animeData["airing_status"] == FINISHED) {
-            let sphere = createSphere(200, 5, 5, finishedColor, 50, 50);
+            var rad = animeData["user_score"] * 100;
+            //console.log("Score: " + rad);
+            var sphere = createSphere(rad, 5, 5, finishedColor, 50, 50);
+
+            // Set sphere on orbit
+            var speed = 10; 
+            var tilt = Math.PI / 2; 
+
+            var orbitContainer = new THREE.Object3D();
+            orbitContainer.rotation.z = tilt;
+
+            var orbit = new THREE.Object3D();
+
+            orbit.add(sphere);
+
+            var tween = new TWEEN.Tween(orbit.rotation).to({ z: '+' + (Math.PI * 2) }, 10000 / speed);
+            tween.onComplete(function() {
+                orbit.rotation.y = 0;
+                tween.start();
+            });
+            tween.start();
+
+            console.log("Start tween");
+
             parent1.add(sphere);
         } else if (animeData["airing_status"] == ONGOING) {
 
@@ -95,7 +102,8 @@ function generateSpheresForAnime() {
         }
         //var geometry = new THREE.SphereGeometry(150, 5, 5); //.BoxGeometry(200, 200, 200, 10, 10, 10);
     }
-    //scene.add(parent1);
+    
+    console.log("new parent1");
     console.log(parent1);
 
 }
@@ -105,8 +113,8 @@ function createSphere(radius, wSegments, hSegments, color, x, y) {
     var sphereMaterial = new THREE.MeshLambertMaterial({ color: color, wireframe: true });
 
     var sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
-    sphere.position.x = x;
-    sphere.position.y = y;
+    //sphere.position.x = x;
+    //sphere.position.y = y;
 
     return sphere;
 }
