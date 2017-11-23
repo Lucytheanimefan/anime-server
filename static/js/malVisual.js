@@ -3,8 +3,8 @@ var FINISHED = 2;
 var ONGOING = 1;
 var NOTAIRED = 3;
 
-watching = 1
-completed = 2
+WATCHING = 1
+COMPLETED = 2
 on_hold = 3
 dropped = 4
 plan_to_watch = 6
@@ -70,16 +70,16 @@ function generateSpheresForAnime() {
     for (var i = 0; i < malList.length; i++) {
         var animeData = malList[i];
         // Maybe should base this on if user completed instead of if user has alreadu
-        if (animeData["airing_status"] == FINISHED) {
-        	var score = animeData["user_score"];
-            var rad = score; // * 100;
+        if (animeData["user_status"] == COMPLETED) {
+            var score = animeData["user_score"];
+            var rad = Math.pow(score, 1.5); // * 100;
             var seg = rad;
-            var x = animeData["total_episodes"];
+            var x = animeData["total_episodes"] + Math.random() * 10;
             var y = animeData["watched_episodes"] * 10;
-            var z = Math.pow(score, 3)
+            var z = Math.pow(10-score, 3);
 
-            var sprite = makeTextSprite(animeData["title"], { fontsize: 20, borderThickness: 0.5,borderColor: { r: 255, g: 0, b: 0, a: 1.0 }, backgroundColor: { r: 255, g: 100, b: 100, a: 0.8 } });
-            sprite.position.set(x,y,z);
+            var sprite = makeTextSprite(animeData["title"], { fontsize: 20, borderThickness: 0.5, borderColor: { r: 255, g: 0, b: 0, a: 1.0 }, backgroundColor: { r: 255, g: 100, b: 100, a: 0.8 } });
+            sprite.position.set(x, y, z);
             var sphere = createSphere(rad, seg, seg, finishedColor, x, y, z);
             //sphere.material.color = finishedColor;
             //sphere.material.color = new THREE.Color( 'skyblue' );
@@ -111,11 +111,10 @@ function generateSpheresForAnime() {
             //parent1.add(orbitContainer);
             parent1.add(sphere);
             parent1.add(sprite);
-        } else if (animeData["airing_status"] == ONGOING) {
+        } else if (animeData["user_status"] == WATCHING) {
+         } //else if (animeData["airing_status"] == NOTAIRED) {
 
-        } else if (animeData["airing_status"] == NOTAIRED) {
-
-        }
+        // }
         //var geometry = new THREE.SphereGeometry(150, 5, 5); //.BoxGeometry(200, 200, 200, 10, 10, 10);
         scene.add(parent1);
     }
@@ -129,7 +128,7 @@ function generateSpheresForAnime() {
 function createSphere(radius, wSegments, hSegments, color = 0x56a0d3, x, y, z) {
     var sphereGeometry = new THREE.SphereGeometry(radius, wSegments, hSegments); //new THREE.DodecahedronGeometry(radius); //THREE.BoxGeometry(20, 20, 20, 10, 10, 10);//
     var sphereMaterial = new THREE.MeshLambertMaterial({ color: color, wireframe: true });
-    //sphereMaterial.color.setHex(Math.random() * 0xffffff);
+    sphereMaterial.color.setHex(Math.random() * 0xffffff);
 
     var sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
     sphere.position.x = x;
@@ -139,7 +138,7 @@ function createSphere(radius, wSegments, hSegments, color = 0x56a0d3, x, y, z) {
     return sphere;
 }
 
-function makeTextSprite(message, parameters, textColor="rgba(255, 255, 255, 1.0)") {
+function makeTextSprite(message, parameters, textColor = "rgba(255, 255, 255, 1.0)") {
     if (parameters === undefined) parameters = {};
 
     var fontface = parameters.hasOwnProperty("fontface") ?
@@ -177,13 +176,13 @@ function makeTextSprite(message, parameters, textColor="rgba(255, 255, 255, 1.0)
     // 1.4 is extra height factor for text below baseline: g,j,p,q.
 
     // text color
-    context.fillStyle = textColor;//"rgba(100, 100, 100, 1.0)";
+    context.fillStyle = textColor; //"rgba(100, 100, 100, 1.0)";
     context.fillText(message, borderThickness, fontsize + borderThickness);
 
     // canvas contents will be used for a texture
     var texture = new THREE.Texture(canvas)
     texture.needsUpdate = true;
-    var spriteMaterial = new THREE.SpriteMaterial({ map: texture, useScreenCoordinates: false});//, alignment: spriteAlignment });
+    var spriteMaterial = new THREE.SpriteMaterial({ map: texture, useScreenCoordinates: false }); //, alignment: spriteAlignment });
     var sprite = new THREE.Sprite(spriteMaterial);
     sprite.scale.set(100, 50, 1.0);
     return sprite;
