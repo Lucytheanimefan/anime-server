@@ -21,7 +21,7 @@ var sprites = {};
 
 $(document).ready(function() {
     malList = $("#visual").data("list");
-    console.log(malList);
+    //console.log(malList);
     init3d();
     render(0.000001);
 })
@@ -54,12 +54,12 @@ function init3d() {
     generateSpheresForAnime();
     //parent1.position.set(0, 0, 0);
 
-    console.log("Add to scene");
-    console.log(objects);
+    //console.log("Add to scene");
+    //console.log(objects);
     var dragControls = new THREE.DragControls(objects, camera, renderer.domElement);
     dragControls.addEventListener('dragstart', function(event) { controls.enabled = false; });
     dragControls.addEventListener('dragend', function(event) {
-        console.log(event);
+        //console.log(event);
         controls.enabled = true;
         var anime_object = event.object
         var anime_id = anime_object.userData["anime_id"];
@@ -115,8 +115,8 @@ function generateSpheresForAnime() {
         scene.add(parent1);
     }
 
-    console.log("new parent1");
-    console.log(parent1);
+    //console.log("new parent1");
+    //console.log(parent1);
     //scene.add(parent1);
 
 }
