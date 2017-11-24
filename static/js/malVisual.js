@@ -31,7 +31,8 @@ function init3d() {
     //scene.background = new THREE.Color(0xffffff);
     camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 1000);
     camera.position.y = 500;
-    camera.position.z = 0;
+    camera.position.z = 1;
+    camera.position.x = 1;
     camera.lookAt(scene.position);
     var light = new THREE.HemisphereLight(0xffbf67, 0x15c6ff); //new THREE.PointLight(0xffffff, 1, 100);
     scene.add(light);
