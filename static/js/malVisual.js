@@ -16,6 +16,9 @@ var scene;
 
 var parent1;
 
+var objects = [];
+var sprites = {};
+
 $(document).ready(function() {
     malList = $("#visual").data("list");
     console.log(malList);
@@ -43,10 +46,22 @@ function init3d() {
     controls.zoomSpeed = 1.2;
     controls.panSpeed = 0.8;
 
+
     generateSpheresForAnime();
     //parent1.position.set(0, 0, 0);
 
     console.log("Add to scene");
+    console.log(objects);
+    var dragControls = new THREE.DragControls(objects, camera, renderer.domElement);
+    dragControls.addEventListener('dragstart', function(event) { controls.enabled = false; });
+    dragControls.addEventListener('dragend', function(event) { 
+    	console.log(event);
+    	controls.enabled = true; 
+    	var anime_object = event.object
+    	var anime_id = anime_object.userData["anime_id"];
+    	var sprite = sprites[anime_id];
+    	sprite.position.set(anime_object.position.x, anime_object.position.y, anime_object.position.z);
+    });
 
 
 }
@@ -67,6 +82,7 @@ function render(speed) {
 function generateSpheresForAnime() {
     var finishedColor = new THREE.Color("rgb(255,255,255)");
     parent1 = new THREE.Object3D();
+    var completedCnt = 0;
     for (var i = 0; i < malList.length; i++) {
         var animeData = malList[i];
         // Maybe should base this on if user completed instead of if user has alreadu
@@ -74,45 +90,20 @@ function generateSpheresForAnime() {
             var score = animeData["user_score"];
             var rad = Math.pow(score, 1.5); // * 100;
             var seg = rad;
-            var x = animeData["total_episodes"] + Math.random() * 10;
-            var y = animeData["watched_episodes"] + Math.random() * 10;
-            var z = Math.pow(10-score, 3);
+            var x = animeData["total_episodes"]; // + Math.random() * 10;
+            var y = 10 * completedCnt; // + Math.random() * 10;
+            var z = Math.pow(10 - score, 3);
 
             var sprite = makeTextSprite(animeData["title"], { fontsize: 20, borderThickness: 0.5, borderColor: { r: 255, g: 0, b: 0, a: 1.0 }, backgroundColor: { r: 255, g: 100, b: 100, a: 0.8 } });
             sprite.position.set(x, y, z);
+            sprites[animeData["anime_id"]] = sprite;
             var sphere = createSphere(rad, seg, seg, finishedColor, x, y, z);
-            //sphere.material.color = finishedColor;
-            //sphere.material.color = new THREE.Color( 'skyblue' );
-            //.material.color.set(genreColor);
-            //
-
-            // Set sphere on orbit - let's not do this for now
-            // var speed = 10;
-            // var tilt = Math.PI / 2;
-
-            // var orbitContainer = new THREE.Object3D();
-            // orbitContainer.rotation.z = tilt;
-
-            // var orbit = new THREE.Object3D();
-
-            // orbit.add(sphere);
-
-            // var tween = new TWEEN.Tween(orbit.rotation).to({ z: '+' + (Math.PI * 2) }, 10000 / speed);
-            // tween.onComplete(function() {
-            // 	console.log("Tween on complete called");
-            //     orbit.rotation.y = 0;
-            //     tween.start();
-            // });
-            // tween.start();
-
-            // //console.log("Start tween");
-            // orbitContainer.add(orbit);
-            //scene.add(orbitContainer);
-            //parent1.add(orbitContainer);
+            sphere.userData["anime_id"] = animeData["anime_id"];
+            objects.push(sphere);
             parent1.add(sphere);
             parent1.add(sprite);
-        } else if (animeData["user_status"] == WATCHING) {
-         } //else if (animeData["airing_status"] == NOTAIRED) {
+            completedCnt += 1;
+        } else if (animeData["user_status"] == WATCHING) {} //else if (animeData["airing_status"] == NOTAIRED) {
 
         // }
         //var geometry = new THREE.SphereGeometry(150, 5, 5); //.BoxGeometry(200, 200, 200, 10, 10, 10);
