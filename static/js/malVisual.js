@@ -30,8 +30,8 @@ function init3d() {
     scene = new THREE.Scene();
     //scene.background = new THREE.Color(0xffffff);
     camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 1000);
-    camera.position.y = 150;
-    camera.position.z = 500;
+    camera.position.y = 500;
+    camera.position.z = 0;
     camera.lookAt(scene.position);
     var light = new THREE.HemisphereLight(0xffbf67, 0x15c6ff); //new THREE.PointLight(0xffffff, 1, 100);
     scene.add(light);
@@ -47,6 +47,7 @@ function init3d() {
     controls.panSpeed = 0.8;
     controls.noZoom = false;
     controls.noPan = false;
+
 
 
     generateSpheresForAnime();
@@ -84,17 +85,18 @@ function render(speed) {
 function generateSpheresForAnime() {
     var finishedColor = new THREE.Color("rgb(255,255,255)");
     parent1 = new THREE.Object3D();
+    parent1.position.set(-1*($("#malVisual").width()/8),-1*($("#malVisual").height()/4),0);
     var completedCnt = 0;
     for (var i = 0; i < malList.length; i++) {
         var animeData = malList[i];
         // Maybe should base this on if user completed instead of if user has alreadu
         if (animeData["user_status"] == COMPLETED) {
             var score = animeData["user_score"];
-            var rad = Math.pow(score, 1.5); // * 100;
+            var rad = Math.pow(score, 1.7); // * 100;
             var seg = rad;
-            var x = animeData["total_episodes"]; // + Math.random() * 10;
-            var y = 5 * completedCnt; // + Math.random() * 10;
-            var z = Math.pow(10 - score, 3); // higher score = cloesr to center
+            var z = animeData["total_episodes"]; // + Math.random() * 10;
+            var y = 20 * completedCnt; // + Math.random() * 10;
+            var x = 50*(10 - score); // higher score = closer to center
 
             var sprite = makeTextSprite(animeData["title"], { fontsize: 20, borderThickness: 0.5, borderColor: { r: 255, g: 0, b: 0, a: 1.0 }, backgroundColor: { r: 255, g: 100, b: 100, a: 0.8 } });
             sprite.position.set(x, y, z);
