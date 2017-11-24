@@ -41,10 +41,12 @@ function init3d() {
     container.appendChild(renderer.domElement);
     geometry = new THREE.SphereGeometry(150, 5, 5); //.BoxGeometry(200, 200, 200, 10, 10, 10);
 
-    controls = new THREE.OrbitControls(camera);
+    controls = new THREE.TrackballControls(camera);
     controls.rotateSpeed = 1.0;
     controls.zoomSpeed = 1.2;
     controls.panSpeed = 0.8;
+    controls.noZoom = false;
+    controls.noPan = false;
 
 
     generateSpheresForAnime();
@@ -54,13 +56,13 @@ function init3d() {
     console.log(objects);
     var dragControls = new THREE.DragControls(objects, camera, renderer.domElement);
     dragControls.addEventListener('dragstart', function(event) { controls.enabled = false; });
-    dragControls.addEventListener('dragend', function(event) { 
-    	console.log(event);
-    	controls.enabled = true; 
-    	var anime_object = event.object
-    	var anime_id = anime_object.userData["anime_id"];
-    	var sprite = sprites[anime_id];
-    	sprite.position.set(anime_object.position.x, anime_object.position.y, anime_object.position.z);
+    dragControls.addEventListener('dragend', function(event) {
+        console.log(event);
+        controls.enabled = true;
+        var anime_object = event.object
+        var anime_id = anime_object.userData["anime_id"];
+        var sprite = sprites[anime_id];
+        sprite.position.set(anime_object.position.x, anime_object.position.y, anime_object.position.z);
     });
 
 
