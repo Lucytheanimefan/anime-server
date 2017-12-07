@@ -27,7 +27,7 @@ ok_tags = ["Action","Drama","Fantasy","Shounen"]
 good_tags = ["Psychological","Seinen","Horror","Mystery","Thriller","Supernatural"]
 
 
-def findSeasonRecs(season, year):
+def findSeasonRecs(season, year, output_format = 'html'):
 	season_anime = {}
 	scores = {}
 	url = aniChartUrl + season+"-"+year+"/tv"
@@ -89,15 +89,25 @@ def findSeasonRecs(season, year):
 		#	scores[title]+=(-5*sentence.sentiment.polarity)
 	
 	#print season_anime
+	anime_string = ''
 	sorted_anime = sorted(scores.items(), key=operator.itemgetter(1))
 	i=0
-	anime_string = "Anime of " + season +" " + year + "<ol>" 
-	for anime in reversed(sorted_anime):
-		i+=1
-		anime_string = anime_string + "<li>" + anime[0]+", "+str(anime[1]) + "</li>"
-	print("-------------")
-	#print(season_anime)
-	anime_string = anime_string + "</ol>"
+	if output_format =='html':
+		anime_string = "Anime of " + season +" " + year + "<ol>" 
+		for anime in reversed(sorted_anime):
+			i+=1
+			anime_string = anime_string + "<li>" + anime[0]+", "+str(anime[1]) + "</li>"
+		print("-------------")
+		#print(season_anime)
+		anime_string = anime_string + "</ol>"
+	else if output_format == 'text':
+		anime_string = "Anime of " + season + " " + year
+		for anime in reversed(sorted_anime):
+			i+=1
+			anime_string = anime_string + "\n" + anime[0]+", "+str(anime[1])
+		print("-------------")
+		#print(season_anime)
+		#anime_string = anime_string + "</ol>"
 	return anime_string
 
 
