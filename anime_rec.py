@@ -100,7 +100,7 @@ def findSeasonRecs(season, year, output_format = 'html'):
 		print("-------------")
 		#print(season_anime)
 		anime_string = anime_string + "</ol>"
-	else if output_format == 'text':
+	elif output_format == 'text':
 		anime_string = "Anime of " + season + " " + year
 		for anime in reversed(sorted_anime):
 			i+=1
