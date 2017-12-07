@@ -54,11 +54,7 @@ def animerec():
 def anime_recommendations():
 	season = request.args.get('season')
 	year = request.args.get('year')
-	#seasons = ["fall","winter","summer","spring"]
-	#today = datetime.today()
-	#year = str(random.randint(2007,int(today.year)))
-	#season = random.choice(seasons)
-	return findSeasonRecs(season,year,'text')
+	return render_template('recommendations.html', recommendations = findSeasonRecs(season,year))
 
 
 @app.route("/getNews", methods=["GET"])

@@ -15,6 +15,7 @@ import requests
 #from textblob import TextBlob
 import operator
 import random
+import json
 
 
 reload(sys)  
@@ -43,7 +44,7 @@ def findSeasonRecs(season, year, output_format = 'html'):
 	animez = soup.find_all("div", {"class": "anime-card"})
 	for anime in animez:
 		titlez = anime.find_all("h3",{"class":"main-title"})[0]
-		title = (titlez.text).encode('utf-8').strip()
+		title = (titlez.text).encode('utf-8').strip().replace('"', "'") 
 		#print title
 		scores[title] = 0 #each show starts off with 0
 
@@ -93,25 +94,22 @@ def findSeasonRecs(season, year, output_format = 'html'):
 		#	scores[title]+=(-5*sentence.sentiment.polarity)
 	
 	#print season_anime
-	anime_string = ''
+	anime_return = None
 	sorted_anime = sorted(scores.items(), key=operator.itemgetter(1))
 	i=0
 	if output_format =='html':
-		anime_string = "Anime of " + season +" " + year + "<ol>" 
+		anime_return = "Anime of " + season +" " + year + "<ol>" 
 		for anime in reversed(sorted_anime):
 			i+=1
-			anime_string = anime_string + "<li>" + anime[0]+", "+str(anime[1]) + "</li>"
+			anime_return = anime_return + "<li>" + anime[0]+", "+str(anime[1]) + "</li>"
 		print("-------------")
 		#print(season_anime)
-		anime_string = anime_string + "</ol>"
+		anime_return = anime_return + "</ol>"
 	elif output_format == 'text':
-		anime_string = "Anime of " + season + " " + year + ": "
-		for anime in reversed(sorted_anime):
-			i+=1
-			anime_string = anime_string + "\n" + anime[0] + "=" + str(anime[1]) + ";"
+		anime_return = scores#sorted_anime#json.dumps(reversed(sorted_anime))
 		print("-------------")
-		#print(season_anime)
-		#anime_string = anime_string + "</ol>"
-	return anime_string
+		#print(sorted_anime)
+		#anime_return = anime_return + "</ol>"
+	return anime_return
 
 
