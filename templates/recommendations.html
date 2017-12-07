@@ -1,0 +1,25 @@
+{% extends "layout.html" %} 
+{% block css %} 
+<style type="text/css">
+	body{
+		color: white;
+	}
+</style>
+
+{% endblock %}
+{% block body %}
+
+<div id="recs" data-recs= {{ recommendations }}></div>
+
+{% endblock %}
+
+{% block scripts %} 
+
+<script type="text/javascript">
+var parsed = JSON.parse('{{recommendations | tojson}}');
+document.write(parsed);
+
+
+</script>
+
+{% endblock %}
