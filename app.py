@@ -20,6 +20,15 @@ funi = Funimation.Funimation()
 def home():
 	return "Hello world"
 	#return render_template("index.html")
+	#
+
+@app.errorhandler(404)
+def page_not_found(e):
+    return "Sorry this page was not found. Why don't you go watch some anime instead?"
+
+@app.errorhandler(500)
+def page_not_found(e):
+    return "Sorry some internal error going on. I don't have enough time to fix this because I'm watching anime."
 
 @app.route("/addNews", methods=["POST"])
 def add_news():
