@@ -16,6 +16,10 @@ import requests
 import operator
 import random
 
+
+reload(sys)  
+sys.setdefaultencoding('utf8')
+
 aniChartUrl="https://www.livechart.me/"
 great_studios = ["MAPPA","A-1 Pictures","Bones","Madhouse"]
 good_studios = ["ufotable","Production I.G","Brains Base", "Shaft","Wit Studio"]

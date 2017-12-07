@@ -10,6 +10,10 @@ import random
 import MalCoordinator
 import CrunchyRoll
 import Funimation
+import sys  
+
+reload(sys)  
+sys.setdefaultencoding('utf8')
 
 app = Flask(__name__)
 app.secret_key = os.urandom(12)
@@ -54,7 +58,7 @@ def anime_recommendations():
 	#today = datetime.today()
 	#year = str(random.randint(2007,int(today.year)))
 	#season = random.choice(seasons)
-	return findSeasonRecs(season,year,'text')
+	return jsonify(findSeasonRecs(season,year,'text'))
 
 
 @app.route("/getNews", methods=["GET"])
