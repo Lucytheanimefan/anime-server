@@ -38,13 +38,13 @@ def add_news():
 	database.titles.insert_one({"title":news["title"],"date":news["date"]})
 	return home()
 
-@app.route("/animerec", methods=["POST"])
+@app.route("/animerec", methods=["POST", "GET"])
 def animerec():
 	seasons = ["fall","winter","summer","spring"]
 	today = datetime.today()
 	year = str(random.randint(2007,int(today.year)))
 	season = random.choice(seasons)
-	return jsonify({"message_format":"html","message":findSeasonRecs(season,year)})
+	return jsonify({"message_format":"html","year": year, "season":season,"message":findSeasonRecs(season,year)})
 
 
 @app.route("/getNews", methods=["GET"])
