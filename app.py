@@ -58,7 +58,7 @@ def anime_recommendations():
 	#today = datetime.today()
 	#year = str(random.randint(2007,int(today.year)))
 	#season = random.choice(seasons)
-	return jsonify(findSeasonRecs(season,year,'text'))
+	return findSeasonRecs(season,year,'text')
 
 
 @app.route("/getNews", methods=["GET"])
