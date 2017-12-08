@@ -51,14 +51,22 @@ class MalCoordinator(object):
         Authenticates username and password with MAL (PS MAL authentication security is fucking terrible wow)
         
         :returns 'user:password' encoded as base64 string (because this is the only way to save authentication without throwing the poor user's password around thanks to MAL auth scheme lol. Not that this is any safer, but it makes my conscience feel better
+        :returns null if authentication fails
+        :throws exception if server communication failed
 
         """
         #TODO: Figure out how not to get banned by MAL for too many incorrect logins??
         from base64 import b64encode
         url = 'https://myanimelist.net/api/account/verify_credentials.xml'
-        encoded_credentials = base64.b64encode(('%s:%s' % (username, password)).encode('utf-8'))
+        encoded_credentials = b64encode(('%s:%s' % (username, password)).encode('utf-8'))
         r = requests.get(url, headers = {'Authorization': 'Basic %s' % encoded_credentials.decode('utf-8')})
-        return r.status_code, encoded_credentials
+        if r.status_code == 204:
+            return None
+        elif r.status_code == 200:
+            return encoded_credentials
+        else:
+            raise ConnectionRefusedError("MAL Refused Connection, Error Code %s:\tMessage: %s" % (r.status_code. r.text)
+        return encoded_credentials
 
 if __name__ == '__main__':
     coordinator = MalCoordinator()
