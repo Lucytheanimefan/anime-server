@@ -46,6 +46,20 @@ class MalCoordinator(object):
         return entries
 
 
+    def authenticate(username, password):
+        """
+        Authenticates username and password with MAL (PS MAL authentication security is fucking terrible wow)
+        
+        :returns 'user:password' encoded as base64 string (because this is the only way to save authentication without throwing the poor user's password around thanks to MAL auth scheme lol. Not that this is any safer, but it makes my conscience feel better
+
+        """
+        #TODO: Figure out how not to get banned by MAL for too many incorrect logins??
+        from base64 import b64encode
+        url = 'https://myanimelist.net/api/account/verify_credentials.xml'
+        encoded_credentials = base64.b64encode(('%s:%s' % (username, password)).encode('utf-8'))
+        r = requests.get(url, headers = {'Authorization': 'Basic %s' % encoded_credentials.decode('utf-8')})
+        return r.status_code, encoded_credentials
+
 if __name__ == '__main__':
     coordinator = MalCoordinator()
     for entry in coordinator.fetch_animelist("Silent_Muse"):
