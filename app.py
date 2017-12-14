@@ -52,6 +52,8 @@ def add_review():
 @app.route("/updateReview", methods=["PUT"])
 def update_review():
 	review = dict(request.form)
+	print 'REVIEW PARAMS: '
+	print review
 	review_query['title'] = review['title']
 	review_query['anime_id'] = review['anime_id']
 	database.reviews.update_one(review_query, {"$set": review}, upsert=True)
