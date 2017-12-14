@@ -11,25 +11,34 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/css/materialize.min.css">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
     <!--<link rel="stylesheet" href="css/main.css"> -->
+    <style>
+    body{
+        background-color: white !important;
+    }
+    </style>
 </head>
 
 <body>
     <div class="row">
-        <form method="POST" class="col s12" action="/addNews">
+        <form method="POST" class="col s12" action="/addReview">
             <div class="row">
                 <div class="input-field col s12">
                     <input id="title" type="text" name="title" class="validate">
                     <label for="title">Title</label>
                 </div>
+                <div class="input-field col s12">
+                    <input id="anime_id" type="text" name="anime_id" class="validate">
+                    <label for="anime_id">Anime id</label>
+                </div>
             </div>
             <div class="row">
                 <div class="input-field col s12">
-                    <textarea id="article" name="article" type="text" class="materialize-textarea"></textarea>
-                    <label for="article">Article</label>
+                    <textarea id="review" name="review" type="text" class="materialize-textarea"></textarea>
+                    <label for="review">Review</label>
                 </div>
             </div>
             <button class="btn waves-effect waves-light" type="submit">Submit
-                <i class="material-icons right">send</i>
+                <i class="material-icons right"></i>
             </button>
         </form>
     </div>

@@ -22,9 +22,9 @@ funi = Funimation.Funimation()
 
 @app.route("/")
 def home():
-	return "Hello world"
-	#return render_template("index.html")
-	#
+	#return "Hello world"
+	return render_template("index.html")
+	
 
 @app.errorhandler(404)
 def page_not_found(e):
@@ -41,6 +41,21 @@ def add_news():
 	database.articles.insert_one(news)
 	database.titles.insert_one({"title":news["title"],"date":news["date"]})
 	return home()
+
+@app.route("/addReview", methods=["POST"])
+def add_review():
+	news = dict(request.form)
+	news["date"] = time.strftime("%m/%d/%Y") 
+	database.reviews.insert_one(news)
+	return "Success"
+
+@app.route("/updateReview", methods=["PUT"])
+def update_review():
+	review = dict(request.form)
+	review_query['title'] = review['title']
+	review_query['anime_id'] = review['anime_id']
+	database.reviews.update_one(review_query, {"$set": review}, upsert=True)
+	return "Success"
 
 @app.route("/animerec", methods=["POST", "GET"])
 def animerec():
