@@ -53,9 +53,9 @@ def add_review():
 def update_review():
 	review = dict(request.form)
 	print 'REVIEW PARAMS: '
-	print review
-	review_query['title'] = review['title']
-	review_query['anime_id'] = review['anime_id']
+	print request.form
+	review_query['title'] = request.form['title']
+	review_query['anime_id'] = request.form['anime_id']
 	database.reviews.update_one(review_query, {"$set": review}, upsert=True)
 	return "Success"
 
