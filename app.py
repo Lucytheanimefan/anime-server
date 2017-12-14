@@ -49,14 +49,17 @@ def add_review():
 	database.reviews.insert_one(news)
 	return "Success"
 
-@app.route("/updateReview", methods=["PUT"])
+@app.route("/updateReview", methods=["POST"])
 def update_review():
 	review = dict(request.form)
+	review_query = {}
 	print 'REVIEW PARAMS: '
 	print request.form
 	review_query['title'] = request.form['title']
 	review_query['anime_id'] = request.form['anime_id']
-	database.reviews.update_one(review_query, {"$set": review}, upsert=True)
+	print 'REVIEW QUERY: '
+	print review_query
+	database.reviews.update_one(review_query, {"$set": {"review":request.form["review"]}}, upsert=True)
 	return "Success"
 
 @app.route("/animerec", methods=["POST", "GET"])
