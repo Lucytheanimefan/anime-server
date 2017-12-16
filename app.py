@@ -67,7 +67,7 @@ def update_review():
 @app.route("/reviews", methods=["GET"])
 def get_reviews():
 	reviews = database.reviews.find(request.get_json())
-	return reviews
+	return jsonify(reviews)
 
 @app.route("/animerec", methods=["POST", "GET"])
 def animerec():
