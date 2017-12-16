@@ -10,6 +10,6 @@ from os import environ
 def get_db():
     client = MongoClient(environ.get('MONGODB_URI'))
     '''environ.get('MONGODB_URI')'''
-    db = client[environ.get('CLIENT_MONGODB')] 
+    db = client[environ.get('CLIENT_MONGODB')]
     '''environ.get('CLIENT_MONGODB')'''
     return db

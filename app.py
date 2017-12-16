@@ -1,3 +1,6 @@
+import sys  
+if 'threading' in sys.modules:
+    del sys.modules['threading']
 import os
 from flask import Flask, render_template,send_from_directory, jsonify, request, session, json
 import requests
@@ -10,7 +13,6 @@ import random
 import MalCoordinator
 import CrunchyRoll
 import Funimation
-import sys  
 
 reload(sys)  
 sys.setdefaultencoding('utf8')
