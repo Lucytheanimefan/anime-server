@@ -13,6 +13,7 @@ import random
 import MalCoordinator
 import CrunchyRoll
 import Funimation
+from bson.json_util import dumps
 
 reload(sys)  
 sys.setdefaultencoding('utf8')
@@ -66,8 +67,16 @@ def update_review():
 
 @app.route("/reviews", methods=["GET"])
 def get_reviews():
-	reviews = database.reviews.find(request.get_json())
-	return jsonify(reviews)
+	query = {}
+	anime_id = request.args.get('anime_id')
+	if anime_id is None:
+		query = {}
+	else:
+		query = {'anime_id':anime_id}
+	reviews = dumps(database.reviews.find(query))
+	print '----------Get review: '
+	print reviews
+	return jsonify(json.dumps(reviews))
 
 @app.route("/animerec", methods=["POST", "GET"])
 def animerec():
