@@ -1,0 +1,17 @@
+{% extends "layout.html" %} 
+{% block css %} 
+
+
+{% endblock %}
+
+{% block body %}
+<div id="data" data-list = '{{ data }}' ></div>
+
+<div class="anime_chart" id="height_weight"></div>
+
+{% endblock %}
+
+{% block scripts %} 
+<script language="javascript" type="text/javascript" src="{{ url_for('static', filename='plugins/jquery.flot.min.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='js/anime_character_biostats.js') }}"></script>
+{% endblock %}

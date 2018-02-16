@@ -14,6 +14,7 @@ import MalCoordinator
 import CrunchyRoll
 import Funimation
 from bson.json_util import dumps
+import ast
 
 reload(sys)  
 sys.setdefaultencoding('utf8')
@@ -25,17 +26,16 @@ funi = Funimation.Funimation()
 
 @app.route("/")
 def home():
-	#return "Hello world"
 	return render_template("index.html")
 	
 
 @app.errorhandler(404)
 def page_not_found(e):
-    return "Sorry this page was not found. Why don't you go watch some anime instead?"
+    return render_template('error.html', error = "Sorry this page was not found. Why don't you go watch some anime instead?")
 
 @app.errorhandler(500)
 def page_not_found(e):
-    return "Sorry some internal error going on. I don't have enough time to fix this because I'm watching anime."
+	return render_template('error.html', error = "Sorry some internal error going on. Life is short. Go checkout Crunchyroll instead.")
 
 @app.route("/addNews", methods=["POST"])
 def add_news():
@@ -92,6 +92,14 @@ def anime_recommendations():
 	year = request.args.get('year')
 	return render_template('recommendations.html', recommendations = findSeasonRecs(season,year))
 
+
+@app.route("/character_biometrics", methods=["GET"])
+def character_biometrics():
+	with open('data/cleaned_data.json') as file:
+		text = file.read().replace('\n', '')
+		info = ast.literal_eval(text)
+		return render_template('anime_character_biostats.html', data = json.dumps(info))
+	return page_not_found('No data found for anime character biometrics')
 
 @app.route("/getNews", methods=["GET"])
 def get_news():

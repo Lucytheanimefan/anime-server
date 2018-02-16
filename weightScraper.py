@@ -77,7 +77,8 @@ def write_to_file(data, filename):
 
 
 if __name__ == '__main__':
-	scrape_data = False
+	scrape_data = True
+	clean_data = True
 	filename = "data/anime_character_stats.json"
 	if scrape_data is True:
 		data = []
@@ -88,18 +89,19 @@ if __name__ == '__main__':
 				data.append(scrape_weight(url))
 		write_to_file(data, filename)
 		print 'Done'
-	else:
+	if clean_data:
+		print 'Cleaning data'
 		with open(filename) as file:
 			new_data = []
 			text = file.read().replace('\n', '')
 			info = ast.literal_eval(text)
 			for character in info:
 				if "weight" in character:
-					character["weight"] = super_clean_string(character["weight"].split("kg",1)[0])
+					character["weight"] = clean_data_string(character["weight"].split("kg",1)[0].split("lb",1)[0])
 				if "height" in character:
-					character["height"] = super_clean_string(character["height"].split("cm",1)[0])
+					character["height"] = clean_data_string(character["height"].split("cm",1)[0])
 				if "age" in character:
-					character["age"] = re.split('(?<=[-\s]) +',character["age"])[0]#character["age"].split(" ", 1)[0]
+					character["age"] = super_clean_string(character["age"].split(" ")[0].split("-")[0])#character["age"].split(" ", 1)[0]
 				#print character
 				new_data.append(character)
 			write_to_file(new_data, "data/cleaned_data.json")
