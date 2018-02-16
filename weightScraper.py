@@ -3,11 +3,11 @@ import requests
 import re
 import json
 import urllib
-
+import ast
 
 characters = ['Shiki Ryougi', 'Haruhi Fujioka', 'Nanami Momozono', 'Saber', 'Rei Kiriyama', 'Mikasa Ackerman', 'Hori Kyouko', 'Miyamura_Izumi', 'Yuuki Asuna', 'Yukino_Yukinoshita', 'Misaki_Ayuzawa', 'Touka_Kirishima', 'Akatsuki no Yona Yona', 'Inori_Yuzuriha', 'Misa Amane', 'Historia Reiss', 'Chise Hatori', 'Izaya Orihara', 'Celty Sturluson', 'Rin Tousaka', 'Lawliet death note','Light Yagami', 'Lelouch', 'Mitsuha','Ciel Phantomhive', 'Yuna Gasai', 'Nana osaki', 'Hiyori noragami', 'Holo spice and wolf','Kaori Miyazono', 'Lisa Mishima', 'Rintaro Okabe', 'Levi Attack on Titan', 'Hachmian Hikigaya', 'Sasuke Uchiha', 'Kirito', 'Rem Rezero', 'Yato Noragami', 'Sebastian Black butler', 'Heiwajima Shizuo', 'Usui Takumi', 'Hisoka Hunter', 'Haruhi Suzumiya', 'Oreki Houtarou', 'Lucy Elfen Lied', 'Asuka Evangelion', 'Emiya Kiritsugu', 'Ryuuko Matoi', 'Chitoge Kirisaki', 'Suou Tamaki', 'Kaname Kuran', 'Yuuki Kuran', 'Kiryuu Zero', 'Hyuga Hinata', 'Shinji Ikari', 'Natsume Takashi', 'Gilgamesh Fate', ' Ulquiorra', 'Kougami Shinya', 'Makishima Shougo', 'Dazai bungou', 'Juuzou Suzuya','Tsunayoshi Sawada','Aomine Daiki', 'Tomoe kamisama', 'Kuroki Tomoko', 'Hinata Shouyou', 'Kurapika', 'Sagara Sousuke', 'Inuyasha', 'Nishimiya Shouko', 'Kuriyama Mirai', 'Misaki Mei','Iwakura Lain', 'Sawako', 'Madoka', 'Ikuto Shugo chara', 'Akashi Kuroko', 'Rena Higurashi', 'Sesshoumaru', 'Shiro Deadman', 'Saeko Busujima', 'Mogami Kyouko', 'Nakano Azusa', 'Chitanda', 'Honma Anohana','Makoto Tachibana', 'Katou Megumi']
 
-#characters = ['Rintaro Okabe']
+#characters = ['Rintaro Okabe','Shiki Ryougi']
 
 def find_anime_character_url(character_name):
 	url = 'https://www.google.com/search?q=' + urllib.quote(character_name)
@@ -23,9 +23,19 @@ def find_anime_character_url(character_name):
 	
 	return ''
 
+def shorten(s, subs):
+    i = s.index(subs)
+    return s[:i+len(subs)]
+
 def clean_data_string(data):
-	regex = re.compile(".*?\((.*?)\)")
-	return re.sub(r'\[.*\]', '', data).strip('\n').rstrip().lstrip()
+	#string = data.sub(r"\(.*\)", "")  #get rid of anything in parentheses
+	return re.sub(r'\[(.*\])', '', data).strip('\n').rstrip().lstrip()
+	
+def remove_special_chars(string):
+	return ''.join(e for e in string if e.isalnum())
+
+def super_clean_string(string):
+	return remove_special_chars(clean_data_string(string))
 
 def scrape_weight(url):
 	return_data = {}
@@ -46,8 +56,9 @@ def scrape_weight(url):
 	values = soup.find("div", {"class" : "pi-data-value"})
 	relevant_values = ["weight", "height", "gender", "age"]
 	for i, label in enumerate(labels):
-		if label.text.lower() in relevant_values:
-			return_data[label.text.lower()] = clean_data_string(label.findNext('div').text)
+		key = remove_special_chars(clean_data_string(label.text.lower()))
+		if key in relevant_values:
+			return_data[key] = clean_data_string(label.findNext('div').text)
 
 
 	if "weight" not in return_data or "height" not in return_data:
@@ -61,16 +72,36 @@ def scrape_weight(url):
 	return return_data
 
 def write_to_file(data, filename):
-	with open(filename + '.txt', 'w') as outfile:
+	with open(filename, 'w') as outfile:
 		json.dump(data, outfile)
 
 
 if __name__ == '__main__':
-	data = []
-	for character in characters:
-		url = find_anime_character_url(character)
-		print url
-		if url:
-			data.append(scrape_weight(url))
-	write_to_file(data, "data/anime_character_stats")
+	scrape_data = False
+	filename = "data/anime_character_stats.json"
+	if scrape_data is True:
+		data = []
+		for character in characters:
+			url = find_anime_character_url(character)
+			#print url
+			if url:
+				data.append(scrape_weight(url))
+		write_to_file(data, filename)
+		print 'Done'
+	else:
+		with open(filename) as file:
+			new_data = []
+			text = file.read().replace('\n', '')
+			info = ast.literal_eval(text)
+			for character in info:
+				if "weight" in character:
+					character["weight"] = super_clean_string(character["weight"].split("kg",1)[0])
+				if "height" in character:
+					character["height"] = super_clean_string(character["height"].split("cm",1)[0])
+				if "age" in character:
+					character["age"] = re.split('(?<=[-\s]) +',character["age"])[0]#character["age"].split(" ", 1)[0]
+				#print character
+				new_data.append(character)
+			write_to_file(new_data, "data/cleaned_data.json")
+
 

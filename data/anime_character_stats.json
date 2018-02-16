@@ -1,0 +1,661 @@
+[
+{
+  "url": "http://typemoon.wikia.com/wiki/Shiki_Ryougi",
+  "name": "Shiki Ryougi",
+  "title": "TYPE-MOON Wiki"
+},
+{
+  "name": "Haruhi Fujioka",
+  "title": "Ouran High School Host Club Wiki",
+  "url": "http://ouran.wikia.com/wiki/Haruhi_Fujioka",
+  "gender": "Female",
+  "age": "15 (Anime)16 (Manga)",
+  "height": "5'1\" (155 cm)"
+},
+{
+  "name": "Nanami_Momozono",
+  "title": "Kamisama Hajimemashita Wiki",
+  "url": "http://kamisamahajimemashita.wikia.com/wiki/Nanami_Momozono",
+  "gender": "Female",
+  "age": "16 (manga)\n17 (anime)",
+  "height": "162 cm (5'4\")"
+},
+{
+  "url": "http://typemoon.wikia.com/wiki/Saber_(Fate/stay_night)",
+  "name": "Saber",
+  "title": "TYPE-MOON Wiki"
+},
+{
+  "name": "Rei_Kiriyama",
+  "weight": "52 kg",
+  "title": "Sangatsu no Lion Wikia",
+  "url": "http://sangatsu-no-lion.wikia.com/wiki/Rei_Kiriyama",
+  "gender": "Male",
+  "age": "18",
+  "height": "170 cm"
+},
+{
+  "name": "Mikasa Ackerman",
+  "weight": "68 kg",
+  "title": "Attack on Titan Wiki",
+  "url": "http://attackontitan.wikia.com/wiki/Mikasa_Ackerman",
+  "gender": "Female",
+  "age": "15 (850)",
+  "height": "170 cm"
+},
+{
+  "name": "Hori_Kyouko",
+  "weight": "48kg",
+  "title": "Horimiya Wiki",
+  "url": "http://horimiya.wikia.com/wiki/Hori_Kyouko",
+  "gender": "Female",
+  "age": "17",
+  "height": "163cm"
+},
+{
+  "name": "Miyamura_Izumi",
+  "weight": "< 48kg",
+  "title": "Horimiya Wiki",
+  "url": "http://horimiya.wikia.com/wiki/Miyamura_Izumi",
+  "gender": "Male",
+  "age": "18",
+  "height": "169cm"
+},
+{
+  "name": "Yuuki Asuna",
+  "weight": "55 kg",
+  "title": "Sword Art Online Wiki",
+  "url": "http://swordartonline.wikia.com/wiki/Yuuki_Asuna",
+  "gender": "Female",
+  "age": "15 (Beginning of Aincrad Arc)  17 (End of Aincrad Arc, Fairy Dance Arc)  18 (Phantom Bullet Arc, Alicization Arc)",
+  "height": "168 cm"
+},
+{
+  "name": "Yukino_Yukinoshita",
+  "title": "Yahari Ore no Seishun Love Come wa Machigatteiru W",
+  "url": "http://yahari.wikia.com/wiki/Yukino_Yukinoshita",
+  "gender": "Female",
+  "age": "16-17",
+  "height": "5'5"
+},
+{
+  "name": "Misaki Ayuzawa",
+  "weight": "49 kg. / 108 lbs.",
+  "title": "Kaichou Wa Maid-Sama! Wiki",
+  "url": "http://kaichouwamaidsama.wikia.com/wiki/Misaki_Ayuzawa",
+  "gender": "Female",
+  "age": "16171828 (10 years later) 40 (12 years later)",
+  "height": "165 cm"
+},
+{
+  "name": "Touka_Kirishima",
+  "weight": "45 kg",
+  "title": "Tokyo Ghoul Wiki",
+  "url": "http://tokyoghoul.wikia.com/wiki/Touka_Kirishima",
+  "gender": "Female",
+  "age": "17 (Tokyo Ghoul)",
+  "height": "156 cm"
+},
+{
+  "name": "Yona",
+  "title": "Akatsuki No Yona Wiki",
+  "url": "http://akatsukinoyona.wikia.com/wiki/Yona",
+  "gender": "Female",
+  "age": "16",
+  "height": "157 cm"
+},
+{
+  "name": "Inori Yuzuriha",
+  "weight": "45 kg (100 lbs.)",
+  "title": "Guilty Crown Wiki",
+  "url": "http://guiltycrown.wikia.com/wiki/Inori_Yuzuriha",
+  "gender": "Female",
+  "age": "16",
+  "height": "166 cm (5'5\")"
+},
+{
+  "name": "Misa Amane",
+  "weight": "36 kg (79 lbs.)",
+  "title": "Death Note Wiki",
+  "url": "http://deathnote.wikia.com/wiki/Misa_Amane",
+  "gender": "Female",
+  "age": "19 (pre-timeskip)24 (post-timeskip)19-29 (film series)about 17 (2017 film)",
+  "height": "152 cm (4' 11\u00be\")"
+},
+{
+  "name": "Historia Reiss",
+  "weight": "42 kg",
+  "title": "Attack on Titan Wiki",
+  "url": "http://attackontitan.wikia.com/wiki/Historia_Reiss",
+  "gender": "Female",
+  "age": "15 (850)",
+  "height": "145 cm"
+},
+{
+  "url": "http://ancientmagusbride.wikia.com/wiki/Chise_Hatori",
+  "gender": "Female",
+  "age": "16",
+  "name": "Chise Hatori",
+  "title": "The Ancient Magus Bride Wiki"
+},
+{
+  "name": "Izaya Orihara",
+  "weight": "58 kg (128 lbs)",
+  "title": "Durarara!! Wiki",
+  "url": "http://durarara.wikia.com/wiki/Izaya_Orihara",
+  "age": "23 (at introduction)24 (Daily Life Arc)25 (Dragon Zombie Arc)27 (SH)",
+  "height": "175 cm (5'9\")"
+},
+{
+  "url": "http://durarara.wikia.com/wiki/Celty_Sturluson",
+  "height": "174 cm (5'8.5\") (with helmet)",
+  "name": "Celty Sturluson",
+  "title": "Durarara!! Wiki"
+},
+{
+  "url": "http://typemoon.wikia.com/wiki/Rin_Tohsaka",
+  "name": "Rin Tohsaka",
+  "title": "TYPE-MOON Wiki"
+},
+{
+  "name": "L",
+  "weight": "50 kg (110 lbs.) (estimated)",
+  "title": "Death Note Wiki",
+  "url": "http://deathnote.wikia.com/wiki/L_(character)",
+  "gender": "Male",
+  "age": "22 (in Death Note: Another Note)24-25",
+  "height": "179 cm (5' 10\u00bd\") (estimated)"
+},
+{
+  "name": "Light Yagami",
+  "weight": "54 kg (119 lbs)",
+  "title": "Death Note Wiki",
+  "url": "http://deathnote.wikia.com/wiki/Light_Yagami",
+  "gender": "Male",
+  "age": "17-18 (pre-timeskip)23 (post-timeskip)20 (TV drama)",
+  "height": "179 cm (5' 10\u00bd\")"
+},
+{
+  "url": "http://codegeass.wikia.com/wiki/Lelouch_vi_Britannia",
+  "name": "Lelouch_vi_Britannia",
+  "title": "Code Geass Wiki"
+},
+{
+  "url": "http://kiminonawa.wikia.com/wiki/Mitsuha_Miyamizu",
+  "gender": "Female",
+  "age": "17 (When the comet struck)25 (End of movie; 8 years after the comet)",
+  "name": "Mitsuha_Miyamizu",
+  "title": "Kimi no Na wa. Wikia"
+},
+{
+  "name": "Ciel_Phantomhive",
+  "title": "Kuroshitsuji Wiki",
+  "url": "http://kuroshitsuji.wikia.com/wiki/Ciel_Phantomhive",
+  "gender": "Male",
+  "age": "13 (12, Chapters 1 - 14)",
+  "height": "152 cm (5'0\")"
+},
+{
+  "name": "Yuno Gasai",
+  "weight": "49 kg (108 lbs.)",
+  "title": "Future Diary Wiki",
+  "url": "http://futurediary.wikia.com/wiki/Yuno_Gasai",
+  "gender": "Female",
+  "age": "14 (14-16 First Yuno)",
+  "height": "159 cm (5'3\")"
+},
+{
+  "url": "http://nana.wikia.com/wiki/Nana_Osaki",
+  "gender": "Female",
+  "name": "Nana Osaki",
+  "title": "Nana Wiki"
+},
+{
+  "url": "http://noragami.wikia.com/wiki/Iki_Hiyori",
+  "gender": "Female",
+  "age": "16",
+  "name": "Iki_Hiyori",
+  "title": "Noragami Wiki"
+},
+{
+  "url": "http://spiceandwolf.wikia.com/wiki/Holo",
+  "gender": "Female",
+  "name": "Holo",
+  "title": "Spice & Wolf Wiki"
+},
+{
+  "url": "http://shigatsu-wa-kimi-no-uso.wikia.com/wiki/Kaori_Miyazono",
+  "gender": "Female",
+  "age": "14",
+  "name": "Kaori_Miyazono",
+  "title": "SHIGATSU WA KIMI NO USO WIKI"
+},
+{
+  "url": "http://zankyou-no-terror.wikia.com/wiki/Lisa_Mishima",
+  "gender": "Female",
+  "age": "16",
+  "name": "Lisa_Mishima",
+  "title": "Zankyou no Terror Wiki"
+},
+{
+  "name": "Rintaro_Okabe",
+  "weight": "59 kg",
+  "title": "Steins;gate Wiki",
+  "url": "http://steins-gate.wikia.com/wiki/Rintaro_Okabe",
+  "gender": "Male",
+  "age": "18 years old",
+  "height": "177 cm"
+},
+{
+  "name": "Levi Ackerman",
+  "weight": "65 kg",
+  "title": "Attack on Titan Wiki",
+  "url": "http://attackontitan.wikia.com/wiki/Levi_Ackerman",
+  "gender": "Male",
+  "age": "Early 30s (850)",
+  "height": "160 cm"
+},
+{
+  "name": "Hachiman_Hikigaya",
+  "title": "Yahari Ore no Seishun Love Come wa Machigatteiru W",
+  "url": "http://yahari.wikia.com/wiki/Hachiman_Hikigaya",
+  "gender": "Male",
+  "age": "16-17",
+  "height": "1.72"
+},
+{
+  "url": "http://naruto.wikia.com/wiki/Sasuke_Uchiha",
+  "name": "Sasuke_Uchiha",
+  "title": "Narutopedia"
+},
+{
+  "name": "Kirigaya Kazuto",
+  "weight": "59 kg (End of web Aincrad arc)",
+  "title": "Sword Art Online Wiki",
+  "url": "http://swordartonline.wikia.com/wiki/Kirigaya_Kazuto",
+  "gender": "Male",
+  "age": "14 (Beginning of Aincrad Arc)  16 (End of Aincrad arc, Fairy Dance Arc) 17 (Phantom Bullet Arc, Alicization Arc)",
+  "height": "172 cm (End of web Aincrad arc)"
+},
+{
+  "name": "Rem",
+  "title": "Re:Zero Wiki",
+  "url": "http://rezero.wikia.com/wiki/Rem",
+  "gender": "Female",
+  "age": "17",
+  "height": "154 cm (5'1\")"
+},
+{
+  "url": "http://noragami.wikia.com/wiki/Yato",
+  "gender": "Male",
+  "age": "1000+",
+  "name": "Yato",
+  "title": "Noragami Wiki"
+},
+{
+  "url": "http://kuroshitsuji.wikia.com/wiki/Sebastian_Michaelis",
+  "gender": "Male",
+  "height": "186 cm (6'1\")",
+  "name": "Sebastian_Michaelis",
+  "title": "Kuroshitsuji Wiki"
+},
+{
+  "name": "Shizuo Heiwajima",
+  "weight": "70 kg (154 lbs)",
+  "title": "Durarara!! Wiki",
+  "url": "http://durarara.wikia.com/wiki/Shizuo_Heiwajima",
+  "age": "23 (at introduction)24 (Daily Life Arc)25 (Dragon Zombie Arc)27 (SH)",
+  "height": "185 cm (6'1\")"
+},
+{
+  "name": "Takumi Usui",
+  "title": "Kaichou Wa Maid-Sama! Wiki",
+  "url": "http://kaichouwamaidsama.wikia.com/wiki/Takumi_Usui",
+  "gender": "Male",
+  "age": "171828 (10 years later) 40 (12 year later)",
+  "height": "186 cm"
+},
+{
+  "name": "Hisoka_Morow",
+  "weight": "91 kg (200.2 lbs)",
+  "title": "Hunterpedia",
+  "url": "http://hunterxhunter.wikia.com/wiki/Hisoka_Morow",
+  "gender": "Male",
+  "age": "Unknown",
+  "height": "187 cm (6'1.5\")"
+},
+{
+  "name": "Haruhi_Suzumiya",
+  "title": "Haruhi Suzumiya Wiki",
+  "url": "http://haruhi.wikia.com/wiki/Haruhi_Suzumiya",
+  "gender": "Female",
+  "age": "16",
+  "height": "157 cm (5'2\")"
+},
+{
+  "name": "Houtarou Oreki",
+  "weight": "62 kg (137 lbs)",
+  "title": "Hyouka Wiki",
+  "url": "http://hyouka.wikia.com/wiki/Houtarou_Oreki",
+  "gender": "Male",
+  "age": "16",
+  "height": "176 cm (5'9\")"
+},
+{
+  "url": "http://elfen-lied.wikia.com/wiki/Lucy/Nyu",
+  "gender": "Female",
+  "age": "Unclear, but assumed to be 15 by Kouta (manga)18 (anime)",
+  "name": "Lucy (Kaede) / Nyu(u)",
+  "title": "Elfen Lied Wiki"
+},
+{
+  "url": "http://evangelion.wikia.com/wiki/Asuka_Langley_Sohryu",
+  "age": "14 (born December 4, 2001 (Sagittarius)",
+  "name": "Asuka_Langley_Sohryu",
+  "title": "Evangelion"
+},
+{
+  "url": "http://typemoon.wikia.com/wiki/Kiritsugu_Emiya",
+  "name": "Kiritsugu Emiya",
+  "title": "TYPE-MOON Wiki"
+},
+{
+  "url": "http://kill-la-kill.wikia.com/wiki/Ry%25C5%25ABko_Matoi",
+  "name": "Ry%25C5%25ABko_Matoi",
+  "title": "Kill la Kill Wiki"
+},
+{
+  "name": "Chitoge_Kirisaki",
+  "weight": "46 kg",
+  "title": "Nisekoi Wiki",
+  "url": "http://nisekoi.wikia.com/wiki/Chitoge_Kirisaki",
+  "gender": "Female",
+  "age": "15 - 16 (Season 1)\n16 (Season 2)\n18 (As Of The Manga)",
+  "height": "160 cm(1st Year Arc))162 cm(2nd Year Arc)"
+},
+{
+  "name": "Tamaki Suoh",
+  "title": "Ouran High School Host Club Wiki",
+  "url": "http://ouran.wikia.com/wiki/Tamaki_Suoh",
+  "gender": "Male",
+  "age": "16",
+  "height": "6'0\" (183 cm)"
+},
+{
+  "name": "Kaname Kuran",
+  "title": "Vampire Knight Wiki",
+  "url": "http://vampireknight.wikia.com/wiki/Kaname_Kuran",
+  "gender": "Male",
+  "age": "10,000 +",
+  "height": "184 cm (6'0\")"
+},
+{
+  "name": "Yuki Kuran",
+  "title": "Vampire Knight Wiki",
+  "url": "http://vampireknight.wikia.com/wiki/Yuki_Kuran",
+  "gender": "Female",
+  "age": "16-17 (1,000+ at death)",
+  "height": "152 cm (5'0\")"
+},
+{
+  "name": "Zero Kiryu",
+  "title": "Vampire Knight Wiki",
+  "url": "http://vampireknight.wikia.com/wiki/Zero_Kiryu",
+  "gender": "Male",
+  "age": "17-18 (1,000+  at death)",
+  "height": "181 cm (5'11\")"
+},
+{
+  "url": "http://naruto.wikia.com/wiki/Hinata_Hy%25C5%25ABga",
+  "name": "Hinata_Hy%25C5%25ABga",
+  "title": "Narutopedia"
+},
+{
+  "url": "http://evangelion.wikia.com/wiki/Shinji_Ikari",
+  "age": "14 (born June 6, 2001 (Gemini)",
+  "name": "Shinji_Ikari",
+  "title": "Evangelion"
+},
+{
+  "name": "Takashi_Natsume",
+  "title": "Natsume Yuujinchou Wiki",
+  "url": "http://natsumeyuujinchou.wikia.com/wiki/Takashi_Natsume",
+  "gender": "Male",
+  "age": "15-16",
+  "height": "167cm"
+},
+{
+  "url": "http://typemoon.wikia.com/wiki/Gilgamesh",
+  "name": "Gilgamesh",
+  "title": "TYPE-MOON Wiki"
+},
+{
+  "name": "Ulquiorra_Cifer",
+  "weight": "55 kg (121 lbs.)",
+  "title": "Bleach Wiki",
+  "url": "http://bleach.wikia.com/wiki/Ulquiorra_Cifer",
+  "gender": "Male",
+  "height": "169 cm (5'6\u00bd\")"
+},
+{
+  "name": "Shinya_Kogami",
+  "weight": "145 lbs (66 kg)",
+  "title": "Psycho-Pass Wiki",
+  "url": "http://psychopass.wikia.com/wiki/Shinya_Kogami",
+  "gender": "Male",
+  "height": "5'11\" (180 cm)"
+},
+{
+  "name": "Shogo_Makishima",
+  "weight": "143 lbs (65 kg)",
+  "title": "Psycho-Pass Wiki",
+  "url": "http://psychopass.wikia.com/wiki/Shogo_Makishima",
+  "gender": "Male",
+  "height": "5'11\" (180 cm)"
+},
+{
+  "name": "Osamu_Dazai",
+  "weight": "54 kg (Dark Era), 67 kg (present)",
+  "title": "Bungo Stray Dogs Wiki",
+  "url": "http://bungostraydogs.wikia.com/wiki/Osamu_Dazai",
+  "gender": "Male",
+  "age": "18 (Dark Era), 22 (present)",
+  "height": "174 cm (Dark Era), 181 cm (5'11\")"
+},
+{
+  "name": "Juuzou_Suzuya",
+  "weight": "47 kg (Tokyo Ghoul)",
+  "title": "Tokyo Ghoul Wiki",
+  "url": "http://tokyoghoul.wikia.com/wiki/Juuzou_Suzuya",
+  "gender": "Male",
+  "age": "19 (Tokyo Ghoul)",
+  "height": "160 cm"
+},
+{
+  "name": "Tsunayoshi_Sawada",
+  "weight": "46.5 kg (102 lbs)",
+  "title": "Reborn Wiki",
+  "url": "http://reborn.wikia.com/wiki/Tsunayoshi_Sawada",
+  "gender": "Male",
+  "age": "14 (Present) \n 24 (Future)",
+  "height": "157 cm (5'1\")"
+},
+{
+  "name": "Daiki_Aomine",
+  "weight": "85 kg (187 lbs)",
+  "title": "Kuroko no Basuke Wiki",
+  "url": "http://kurokonobasuke.wikia.com/wiki/Daiki_Aomine",
+  "gender": "Male",
+  "age": "16",
+  "height": "Teik\u014d: 175 cm (5' 9\")T\u014d\u014d: 192 cm (6' 4\")"
+},
+{
+  "name": "Tomoe",
+  "title": "Kamisama Hajimemashita Wiki",
+  "url": "http://kamisamahajimemashita.wikia.com/wiki/Tomoe",
+  "gender": "Male",
+  "age": "600+",
+  "height": "190 cm"
+},
+{
+  "url": "http://watamote.wikia.com/wiki/Tomoko_Kuroki",
+  "gender": "Female",
+  "name": "Tomoko_Kuroki",
+  "title": "WataMote Wiki"
+},
+{
+  "url": "http://haikyuu.wikia.com/wiki/Sh%25C5%258Dy%25C5%258D_Hinata",
+  "name": "Sh%25C5%258Dy%25C5%258D_Hinata",
+  "title": "Haikyuu!! Wiki"
+},
+{
+  "name": "Kurapika",
+  "weight": "59 kg (129.8 lbs)",
+  "title": "Hunterpedia",
+  "url": "http://hunterxhunter.wikia.com/wiki/Kurapika",
+  "gender": "Male",
+  "age": "17",
+  "height": "171 cm (5'7\")"
+},
+{
+  "name": "Sousuke Sagara",
+  "weight": "66 kg",
+  "title": "Full Metal Panic! Wiki",
+  "url": "http://fullmetalpanic.wikia.com/wiki/Sousuke_Sagara",
+  "age": "17",
+  "height": "174 cm"
+},
+{
+  "url": "http://inuyasha.wikia.com/wiki/Inuyasha",
+  "name": "Inuyasha",
+  "title": "InuYasha"
+},
+{
+  "url": "http://koenokatachi.wikia.com/wiki/Nishimiya_Shouko",
+  "gender": "Female",
+  "age": "18",
+  "name": "Nishimiya_Shouko",
+  "title": "Koe no Katachi Wiki"
+},
+{
+  "name": "Mirai_Kuriyama",
+  "title": "Kyoukai no Kanata Wiki",
+  "url": "http://kyoukainokanata.wikia.com/wiki/Mirai_Kuriyama",
+  "gender": "Female",
+  "age": "1415(Kyoukai no Kanata\u00a0: Mirai-hen)",
+  "height": "152.4 cm (5'0)"
+},
+{
+  "name": "Mei_Misaki",
+  "title": "Another Wiki",
+  "url": "http://another.wikia.com/wiki/Mei_Misaki",
+  "gender": "Female",
+  "age": "15",
+  "height": "5'0(152 cm)"
+},
+{
+  "url": "http://vsbattles.wikia.com/wiki/Iwakura_Lain",
+  "name": "Iwakura_Lain",
+  "title": "VS Battles Wiki"
+},
+{
+  "name": "Sawako_Kuronuma",
+  "weight": "44 kg (97 lbs)",
+  "title": "Kimi ni Todoke Wiki",
+  "url": "http://kiminitodoke.wikia.com/wiki/Sawako_Kuronuma",
+  "age": "15-18",
+  "height": "158 cm (5'2)"
+},
+{
+  "name": "Madoka_Kaname",
+  "title": "The Puella Magi Wiki",
+  "url": "http://madoka.wikia.com/wiki/Madoka_Kaname",
+  "gender": "Female",
+  "age": "14",
+  "height": "152cm"
+},
+{
+  "name": "Ikuto_Tsukiyomi",
+  "weight": "64kg (140 lbs)",
+  "title": "Shugo Chara Wiki",
+  "url": "http://shugochara.wikia.com/wiki/Ikuto_Tsukiyomi",
+  "age": "17 (in chapter 28 he told Amu he was a senior in high school)",
+  "height": "180cm (5 feet, 11 inches)"
+},
+{
+  "url": "http://kurokonobasuke.wikia.com/wiki/Seij%25C5%25ABr%25C5%258D_Akashi",
+  "name": "Seij%25C5%25ABr%25C5%258D_Akashi",
+  "title": "Kuroko no Basuke Wiki"
+},
+{
+  "url": "http://whentheycry.wikia.com/wiki/Ry%25C5%25ABg%25C5%25AB_Rena",
+  "name": "Ry%25C5%25ABg%25C5%25AB_Rena",
+  "title": "Higurashi no Naku Koro ni Wiki"
+},
+{
+  "url": "http://inuyasha.wikia.com/wiki/Sessh%25C5%258Dmaru",
+  "name": "Sessh%25C5%258Dmaru",
+  "title": "InuYasha"
+},
+{
+  "url": "http://deadmanwonderland.wikia.com/wiki/Shiro",
+  "gender": "Female",
+  "age": "15-17",
+  "name": "Shiro",
+  "title": "Deadman Wonderland Wiki"
+},
+{
+  "name": "Saeko_Busujima",
+  "weight": "56 kg (123 lbs)",
+  "title": "Highschool of the Dead Wiki",
+  "url": "http://highschool-of-the-dead.wikia.com/wiki/Saeko_Busujima",
+  "gender": "Female",
+  "age": "18",
+  "height": "174 cm (5' 8.5\")"
+},
+{
+  "url": "http://skip-beat.wikia.com/wiki/Kyoko_Mogami",
+  "gender": "Female",
+  "age": "16 (Start of Year 1)",
+  "name": "Kyoko_Mogami",
+  "title": "Skip Beat Wiki"
+},
+{
+  "name": "Azusa_Nakano",
+  "weight": "46 kg",
+  "title": "K-ON! Wiki",
+  "url": "http://k-on.wikia.com/wiki/Azusa_Nakano",
+  "gender": "Female",
+  "age": "15-17",
+  "height": "150 cm"
+},
+{
+  "name": "Eru Chitanda",
+  "weight": "54 kg (119 lbs)",
+  "title": "Hyouka Wiki",
+  "url": "http://hyouka.wikia.com/wiki/Eru_Chitanda",
+  "gender": "Female",
+  "height": "160 cm (5'3\")"
+},
+{
+  "url": "http://anohana.wikia.com/wiki/Meiko_%2522Menma%2522_Honma",
+  "name": "Meiko_%2522Menma%2522_Honma",
+  "title": "Anohana Wiki"
+},
+{
+  "name": "Makoto_Tachibana",
+  "weight": "42 kg (93 lb) (High\u2606Speed!)73 kg (161 lb) (Free!)",
+  "title": "Free! Wiki",
+  "url": "http://free-anime.wikia.com/wiki/Makoto_Tachibana",
+  "gender": "Male",
+  "age": "12 (High\u2606Speed!)17-18 (Free!)",
+  "height": "151 cm (4'11\") (High\u2606Speed!)183 cm (6'0\") (Free!)"
+},
+{
+  "name": "Megumi Kato",
+  "title": "Saenai Heroine no Sodatekata Wiki",
+  "url": "http://saekano.wikia.com/wiki/Megumi_Kato",
+  "gender": "Female",
+  "age": "16 (beginning of series)",
+  "height": "160 cm"
+}]

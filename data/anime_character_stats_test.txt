@@ -1,0 +1,1 @@
+[{"name": "Rintaro_Okabe", "weight": "59kg", "title": "Steins;gate Wiki", "url": "http://steins-gate.wikia.com/wiki/Rintaro_Okabe", "gender": "Male", "age": "18yearsold", "height": "177cm"}, {"name": "Shiki Ryougi", "weight": "47kg", "title": "TYPE-MOON Wiki", "url": "http://typemoon.wikia.com/wiki/Shiki_Ryougi", "gender": "Female", "height": "160cm"}]
