@@ -34,7 +34,7 @@ $(document).ready(function() {
         heightWeightPoints.push([height, weight]);
         imperialHeightWeightPoints.push([cmToIn(height), kgTolb(weight)]);
         chart_data.push(data);
-        bmi_data.push([parseInt(computeMetricBMI(height, weight))]);
+        bmi_data.push([parseFloat(computeMetricBMI(height, weight))]);
         character_name_labels.push([parseInt(count), data["name"]]);
         count++;
       }
@@ -59,9 +59,11 @@ $("#switchUnits").click(function() {
   if (isMetric) {
     isMetric = false;
     plotHeightWeight({ data: imperialHeightWeightPoints }, "Height (in)", "Weight (lb)");
+    $(this).html('Switch to metric units');
   } else {
     isMetric = true;
-    plotHeightWeight({ data: heightWeightPoints }, "Height (cm)", "Weight (cm)");
+    plotHeightWeight({ data: heightWeightPoints }, "Height (cm)", "Weight (kg)");
+    $(this).html('Switch to imperial units');
   }
 })
 
@@ -195,18 +197,21 @@ function setupToolTip(element) {
       let index = indices[item.dataIndex];
       let data = chart_data[index];
       var heightWeight;
+      var units;
       if (isMetric) {
         heightWeight = heightWeightPoints[index];
+        units = ['cm', 'kg'];
       } else {
         heightWeight = imperialHeightWeightPoints[index];
+        units = ['in', 'lb'];
       }
       //console.log(pos);
       $("#tooltip").html("Character: " + data["name"] +
           "<br>Gender: " + data["gender"] +
           "<br>Age: " + ((data["age"]) ? data["age"] : "Not found") +
           "<br>Source: " + data["title"] +
-          "<br>Height: " + heightWeight[0] +
-          "<br>Weight: " + heightWeight[1] +
+          "<br>Height: " + heightWeight[0] + " " + units[0] +
+          "<br>Weight: " + heightWeight[1] + " " +  units[1] +
           "<br>BMI: " + bmi_data[index][1])
         .css({ top: item.pageY + 5, left: item.pageX + 5 })
         .fadeIn(200);
