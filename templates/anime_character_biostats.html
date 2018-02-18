@@ -7,11 +7,21 @@
 {% block body %}
 <div id="data" data-list = '{{ data }}' ></div>
 
+<button id="switchUnits">Switch to imperial units </button>
+
+<h1>Character height and weights</h1>
 <div class="anime_chart" id="height_weight"></div>
+
+<h1>Character BMIs</h1>
+<div class="anime_chart" id="bmi_chart"></button>
+
+{# <button id="bmi">BMI chart</button>
+<button id="imperial">Imperial units</button> #}
 
 {% endblock %}
 
 {% block scripts %} 
 <script language="javascript" type="text/javascript" src="{{ url_for('static', filename='plugins/jquery.flot.min.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='plugins/jquery.flot.axislabels.js') }}"></script>
 <script type="text/javascript" src="{{ url_for('static', filename='js/anime_character_biostats.js') }}"></script>
 {% endblock %}
