@@ -37,6 +37,9 @@ def remove_special_chars(string):
 def super_clean_string(string):
 	return remove_special_chars(clean_data_string(string))
 
+def calculate_bmi(height, weight):
+	return weight/(height*height * 0.0001)
+
 def scrape_weight(url):
 	return_data = {}
 	return_data['url'] = url
@@ -68,7 +71,6 @@ def scrape_weight(url):
 			if label in relevant_values:
 				return_data[label] = clean_data_string(td.findNext('td').text)
 
-
 	return return_data
 
 def write_to_file(data, filename):
@@ -79,7 +81,7 @@ def write_to_file(data, filename):
 if __name__ == '__main__':
 	scrape_data = True
 	clean_data = True
-	filename = "data/anime_character_stats.json"
+	filename = "data/anime_character_stats_new.json"
 	if scrape_data is True:
 		data = []
 		for character in characters:
@@ -104,6 +106,6 @@ if __name__ == '__main__':
 					character["age"] = super_clean_string(character["age"].split(" ")[0].split("-")[0])#character["age"].split(" ", 1)[0]
 				#print character
 				new_data.append(character)
-			write_to_file(new_data, "data/cleaned_data.json")
+			write_to_file(new_data, "data/cleaned_data_new.json")
 
 

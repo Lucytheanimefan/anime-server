@@ -17,11 +17,21 @@ var isMetric = true;
 $(document).ready(function() {
   character_data = $("#data").data("list");
 
+  character_data = character_data.filter(function(character_data) {
+    return (character_data["weight"] != null && character_data["height"] != null);
+  }).map(function(current, index) {
+    current["bmi"] = computeMetricBMI(parseInt(current["height"]), parseInt(current["weight"]));
+    return current;
+  })
 
+  character_data = character_data.sort(function(a, b) {
+    if (a["bmi"] != null && b["bmi"] != null) {
+      return a["bmi"] - b["bmi"];
+    }
+    return 0;
+  })
 
   console.log(character_data);
-
-
 
   var count = 0;
   for (i in character_data) {
@@ -34,21 +44,18 @@ $(document).ready(function() {
         heightWeightPoints.push([height, weight]);
         imperialHeightWeightPoints.push([cmToIn(height), kgTolb(weight)]);
         chart_data.push(data);
-        bmi_data.push([parseFloat(computeMetricBMI(height, weight))]);
-        character_name_labels.push([parseInt(count), data["name"]]);
+        bmi_data.push([count, data['bmi']]);
+        //character_name_labels.push([parseInt(count), data["name"]]);
         count++;
       }
     }
   }
 
+
+
   plotHeightWeight({ data: heightWeightPoints }, "Height (cm)", "Weight (cm)");
   setupToolTip("#height_weight");
 
-  // Sort the bmi data
-  bmi_data.sort(function(a, b) { return a - b });
-  bmi_data = bmi_data.map(function(current, index, arr) {
-    return [index, current];
-  })
   console.log(bmi_data);
   plotBMI(bmi_data);
 
@@ -211,7 +218,7 @@ function setupToolTip(element) {
           "<br>Age: " + ((data["age"]) ? data["age"] : "Not found") +
           "<br>Source: " + data["title"] +
           "<br>Height: " + heightWeight[0] + " " + units[0] +
-          "<br>Weight: " + heightWeight[1] + " " +  units[1] +
+          "<br>Weight: " + heightWeight[1] + " " + units[1] +
           "<br>BMI: " + bmi_data[index][1])
         .css({ top: item.pageY + 5, left: item.pageX + 5 })
         .fadeIn(200);
