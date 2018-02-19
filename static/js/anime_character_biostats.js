@@ -1,16 +1,33 @@
-var character_data, female_character_data, male_character_data;
-
+var character_data;
+var chart_dataF = [];
+var chart_dataM = []; //, female_character_data, male_character_data;
 var chart_data = [];
+var chart_dataA = [];
 
 var bmi_data = [];
+var bmi_dataF = [];
+var bmi_dataM = [];
+var bmi_dataA = [];
 
 var currently_selected_data = [];
 
 var character_name_labels = [];
 
 var indices = [];
+var indicesF = [];
+var indicesM = [];
+var indicesA = [];
+
+
 var heightWeightPoints = [];
+var heightWeightPointsF = [];
+var heightWeightPointsM = [];
+var heightWeightPointsA = [];
+
 var imperialHeightWeightPoints = [];
+var imperialHeightWeightPointsF = [];
+var imperialHeightWeightPointsM = [];
+var imperialHeightWeightPointsA = [];
 
 var isMetric = true;
 
@@ -31,54 +48,108 @@ $(document).ready(function() {
     return 0;
   })
 
-  female_character_data = character_data.filter(function(character) {
-    if (character["gender"] != null) {
-      return (character["gender"].toLowerCase() == "female")
-    }
-    return false
-  })
-  male_character_data = character_data.filter(function(character) {
-    if (character["gender"] != null) {
-      return (character["gender"].toLowerCase() == "male")
-    }
-    return false;
-  })
+  // female_character_data = character_data.filter(function(character) {
+  //   if (character["gender"] != null) {
+  //     return (character["gender"].toLowerCase() == "female")
+  //   }
+  //   return false
+  // })
+  // male_character_data = character_data.filter(function(character) {
+  //   if (character["gender"] != null) {
+  //     return (character["gender"].toLowerCase() == "male")
+  //   }
+  //   return false;
+  // })
 
+  var femaleCount = 0;
+  var maleCount = 0;
   var count = 0;
+  var allCount = 0;
   for (i in character_data) {
     var data = character_data[i];
     var height = parseInt(data['height']);
     var weight = parseInt(data['weight']);
+    var gender = data['gender'];
     if (!isNaN(height) && !isNaN(weight)) {
-      indices.push(parseInt(count));
-      heightWeightPoints.push([height, weight]);
-      imperialHeightWeightPoints.push([cmToIn(height), kgTolb(weight)]);
-      chart_data.push(data);
-      bmi_data.push([count, data['bmi']]);
-      //character_name_labels.push([parseInt(count), data["name"]]);
-      count++;
+      var toInclude = false;
+      if (gender == null) {
+        indices.push(parseInt(count));
+        heightWeightPoints.push([height, weight]);
+        imperialHeightWeightPoints.push([cmToIn(height), kgTolb(weight)]);
+        chart_data.push(data);
+        bmi_data.push([count, data['bmi']]);
+        //character_name_labels.push([parseInt(count), data["name"]]);
+        count++;
+        toInclude = true;
+      } else if (gender.toLowerCase() == "female") {
+        indicesF.push(parseInt(count));
+        heightWeightPointsF.push([height, weight]);
+        imperialHeightWeightPointsF.push([cmToIn(height), kgTolb(weight)]);
+        chart_dataF.push(data);
+        bmi_dataF.push([count, data['bmi']]);
+        //character_name_labels.push([parseInt(count), data["name"]]);
+        femaleCount++;
+        toInclude = true;
+      } else if (gender.toLowerCase() == "male") {
+        indicesM.push(parseInt(count));
+        heightWeightPointsM.push([height, weight]);
+        imperialHeightWeightPointsM.push([cmToIn(height), kgTolb(weight)]);
+        chart_dataM.push(data);
+        bmi_dataM.push([count, data['bmi']]);
+        //character_name_labels.push([parseInt(count), data["name"]]);
+        maleCount++;
+        toInclude = true;
+      }
+
+      if (toInclude) {
+        indicesA.push(parseInt(allCount));
+        // heightWeightPointsA.push([height, weight]);
+        // imperialHeightWeightPointsA.push([cmToIn(height), kgTolb(weight)]);
+        // chart_dataA.push(data);
+        bmi_dataA.push([allCount, data['bmi']]);
+        //character_name_labels.push([parseInt(count), data["name"]]);
+        allCount++;
+      }
     }
   }
 
+  chart_dataA = chart_data.concat(chart_dataF, chart_dataM);
+  heightWeightPointsA = heightWeightPoints.concat(heightWeightPointsF, heightWeightPointsM);
+  imperialHeightWeightPointsA = imperialHeightWeightPoints.concat(imperialHeightWeightPointsF, imperialHeightWeightPointsM);
 
+  plotHeightWeight([{ data: heightWeightPoints, color: 'yellow' },
+    { data: heightWeightPointsF, color: 'red' },
+    { data: heightWeightPointsM, color: 'blue' }
+  ], "Height (cm)", "Weight (cm)");
 
-  plotHeightWeight({ data: heightWeightPoints }, "Height (cm)", "Weight (cm)");
   setupToolTip("#height_weight");
 
   console.log(bmi_data);
-  plotBMI(bmi_data);
+
+  plotBMI([{ data: bmi_data, color: 'yellow' },
+    { data: bmi_dataF, color: 'red' },
+    { data: bmi_dataM, color: 'blue' }
+  ]);
 
 });
+
+
 
 
 $("#switchUnits").click(function() {
   if (isMetric) {
     isMetric = false;
-    plotHeightWeight({ data: imperialHeightWeightPoints }, "Height (in)", "Weight (lb)");
+    plotHeightWeight([{ data: imperialHeightWeightPoints, color: 'yellow' },
+      { data: imperialHeightWeightPointsF, color: 'red' },
+      { data: imperialHeightWeightPointsM, color: 'blue' }
+    ], "Height (in)", "Weight (lb)");
     $(this).html('Switch to metric units');
   } else {
     isMetric = true;
-    plotHeightWeight({ data: heightWeightPoints }, "Height (cm)", "Weight (kg)");
+    plotHeightWeight([{ data: heightWeightPoints, color: 'yellow' },
+      { data: heightWeightPointsF, color: 'red' },
+      { data: heightWeightPointsM, color: 'blue' }
+    ], "Height (cm)", "Weight (kg)");
     $(this).html('Switch to imperial units');
   }
 })
@@ -145,13 +216,13 @@ function plotBMI(data) {
       borderWidth: 2,
     }
   };
-  $.plot($("#bmi_chart"), [data], options);
+  $.plot($("#bmi_chart"), data, options);
   setupToolTip("#bmi_chart");
 }
 
 
 function plotHeightWeight(data, xlabel, ylabel) {
-  $.plot($("#height_weight"), [data], {
+  $.plot($("#height_weight"), data, {
     series: {
       points: {
         radius: 3,
@@ -210,44 +281,68 @@ function setupToolTip(element) {
   $(element).bind("plothover", function(event, pos, item) {
     //console.log("hover!");
     if (item) {
-      let index = indices[item.dataIndex];
-      let data = chart_data[index];
+      //console.log(item);
+      // var index = indices[item.dataIndex];
+      // var data;
+      // var heightWeight;
+      //console.log(item.series.color);
+      // if (item.series.color == 'blue') { // male
+      //   var index = indicesM[item.dataIndex];
+      //   data = chart_dataM[index];
+      //   if (isMetric) {
+      //     heightWeight = heightWeightPointsM[index];
+      //   } else {
+      //     heightWeight = imperialHeightWeightPointsM[index];
+      //   }
+      // } else if (item.series.color == 'red') {
+      //   var index = indicesF[item.dataIndex];
+      //   data = chart_dataF[index];
+      //   if (isMetric) {
+      //     heightWeight = heightWeightPointsF[index];
+      //   } else {
+      //     heightWeight = imperialHeightWeightPointsF[index];
+      //   }
+      // } else {
+      //   var index = indices[item.dataIndex];
+      //   console.log(chart_dataM[index]);
+      //   data = chart_data[index];
+      //   if (isMetric) {
+      //     heightWeight = heightWeightPoints[index];
+      //   } else {
+      //     heightWeight = imperialHeightWeightPoints[index];
+      //   }
+      // }
+      // console.log(index);
+      // console.log(data);
+      // console.log(chart_dataA[index]);
+      // //let data = chart_data[index];
+
+      let index = indicesA[item.dataIndex];
+      var data = chart_dataA[index];
       var heightWeight;
       var units;
       if (isMetric) {
-        heightWeight = heightWeightPoints[index];
+        heightWeight = heightWeightPointsA[index];
         units = ['cm', 'kg'];
       } else {
-        heightWeight = imperialHeightWeightPoints[index];
+        heightWeight = imperialHeightWeightPointsA[index];
         units = ['in', 'lb'];
       }
-      //console.log(pos);
+      console.log(index);
+      console.log(data);
+      console.log(item);
       $("#tooltip").html("Character: " + data["name"] +
           "<br>Gender: " + data["gender"] +
           "<br>Age: " + ((data["age"]) ? data["age"] : "Not found") +
           "<br>Source: " + data["title"] +
           "<br>Height: " + heightWeight[0] + " " + units[0] +
           "<br>Weight: " + heightWeight[1] + " " + units[1] +
-          "<br>BMI: " + bmi_data[index][1])
+          "<br>BMI: " + data["bmi"])
         .css({ top: item.pageY + 5, left: item.pageX + 5 })
         .fadeIn(200);
 
     }
-    // if ($("#enablePosition:checked").length > 0) {
-    //   var str = "(" + pos.x.toFixed(2) + ", " + pos.y.toFixed(2) + ")";
-    //   $("#hoverdata").text(str);
-    // }
-    // if ($("#enableTooltip:checked").length > 0) {
-    //   if (item) {
-    //     var x = item.datapoint[0].toFixed(2),
-    //       y = item.datapoint[1].toFixed(2);
-    //     $("#tooltip").html(item.series.label + " of " + x + " = " + y)
-    //       .css({ top: item.pageY + 5, left: item.pageX + 5 })
-    //       .fadeIn(200);
-    //   } else {
-    //     $("#tooltip").hide();
-    //   }
-    // }
+
   });
   $("#placeholder").bind("plotclick", function(event, pos, item) {
     if (item) {
