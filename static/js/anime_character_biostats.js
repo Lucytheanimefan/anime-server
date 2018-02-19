@@ -1,4 +1,4 @@
-var character_data;
+var character_data, female_character_data, male_character_data;
 
 var chart_data = [];
 
@@ -31,23 +31,32 @@ $(document).ready(function() {
     return 0;
   })
 
-  console.log(character_data);
+  female_character_data = character_data.filter(function(character) {
+    if (character["gender"] != null) {
+      return (character["gender"].toLowerCase() == "female")
+    }
+    return false
+  })
+  male_character_data = character_data.filter(function(character) {
+    if (character["gender"] != null) {
+      return (character["gender"].toLowerCase() == "male")
+    }
+    return false;
+  })
 
   var count = 0;
   for (i in character_data) {
     var data = character_data[i];
-    if (data["height"] != null && data["weight"] != null) {
-      var height = parseInt(data['height']);
-      var weight = parseInt(data['weight']);
-      if (!isNaN(height) && !isNaN(weight)) {
-        indices.push(parseInt(count));
-        heightWeightPoints.push([height, weight]);
-        imperialHeightWeightPoints.push([cmToIn(height), kgTolb(weight)]);
-        chart_data.push(data);
-        bmi_data.push([count, data['bmi']]);
-        //character_name_labels.push([parseInt(count), data["name"]]);
-        count++;
-      }
+    var height = parseInt(data['height']);
+    var weight = parseInt(data['weight']);
+    if (!isNaN(height) && !isNaN(weight)) {
+      indices.push(parseInt(count));
+      heightWeightPoints.push([height, weight]);
+      imperialHeightWeightPoints.push([cmToIn(height), kgTolb(weight)]);
+      chart_data.push(data);
+      bmi_data.push([count, data['bmi']]);
+      //character_name_labels.push([parseInt(count), data["name"]]);
+      count++;
     }
   }
 
