@@ -88,7 +88,8 @@ $(document).ready(function() {
         chart_dataF.push(data);
         bmi_dataF.push([count, data['bmi']]);
         //character_name_labels.push([parseInt(count), data["name"]]);
-        femaleCount++;
+        //femaleCount++;
+        count++;
         toInclude = true;
       } else if (gender.toLowerCase() == "male") {
         indicesM.push(parseInt(count));
@@ -97,38 +98,41 @@ $(document).ready(function() {
         chart_dataM.push(data);
         bmi_dataM.push([count, data['bmi']]);
         //character_name_labels.push([parseInt(count), data["name"]]);
-        maleCount++;
+        count++;
         toInclude = true;
       }
 
-      if (toInclude) {
-        indicesA.push(parseInt(allCount));
-        // heightWeightPointsA.push([height, weight]);
-        // imperialHeightWeightPointsA.push([cmToIn(height), kgTolb(weight)]);
-        // chart_dataA.push(data);
-        bmi_dataA.push([allCount, data['bmi']]);
-        //character_name_labels.push([parseInt(count), data["name"]]);
-        allCount++;
-      }
+      // if (toInclude) {
+      //   indicesA.push(parseInt(allCount));
+      //   heightWeightPointsA.push([height, weight]);
+      //   imperialHeightWeightPointsA.push([cmToIn(height), kgTolb(weight)]);
+      //   chart_dataA.push(data);
+      //   bmi_dataA.push([allCount, data['bmi']]);
+      //   //character_name_labels.push([parseInt(count), data["name"]]);
+      //   allCount++;
+      // }
     }
   }
 
+
+  indicesA = indices.concat(indicesF, indicesM);
   chart_dataA = chart_data.concat(chart_dataF, chart_dataM);
+  console.log(chart_dataA);
   heightWeightPointsA = heightWeightPoints.concat(heightWeightPointsF, heightWeightPointsM);
   imperialHeightWeightPointsA = imperialHeightWeightPoints.concat(imperialHeightWeightPointsF, imperialHeightWeightPointsM);
 
-  plotHeightWeight([{ data: heightWeightPoints, color: 'yellow' },
-    { data: heightWeightPointsF, color: 'red' },
-    { data: heightWeightPointsM, color: 'blue' }
+  plotHeightWeight([{ data: heightWeightPoints, color: 'yellow', label: 'undefined' },
+    { data: heightWeightPointsF, color: 'red', label: 'female' },
+    { data: heightWeightPointsM, color: 'blue', label: 'male' }
   ], "Height (cm)", "Weight (cm)");
 
   setupToolTip("#height_weight");
 
   console.log(bmi_data);
 
-  plotBMI([{ data: bmi_data, color: 'yellow' },
-    { data: bmi_dataF, color: 'red' },
-    { data: bmi_dataM, color: 'blue' }
+  plotBMI([{ data: bmi_data, color: 'yellow', label: 'undefined' },
+    { data: bmi_dataF, color: 'red', label: 'female' },
+    { data: bmi_dataM, color: 'blue', label: 'male' }
   ]);
 
 });
@@ -139,16 +143,16 @@ $(document).ready(function() {
 $("#switchUnits").click(function() {
   if (isMetric) {
     isMetric = false;
-    plotHeightWeight([{ data: imperialHeightWeightPoints, color: 'yellow' },
-      { data: imperialHeightWeightPointsF, color: 'red' },
-      { data: imperialHeightWeightPointsM, color: 'blue' }
+    plotHeightWeight([{ data: imperialHeightWeightPoints, color: 'yellow', label: 'undefined' },
+      { data: imperialHeightWeightPointsF, color: 'red', label: 'female' },
+      { data: imperialHeightWeightPointsM, color: 'blue', label: 'male' }
     ], "Height (in)", "Weight (lb)");
     $(this).html('Switch to metric units');
   } else {
     isMetric = true;
-    plotHeightWeight([{ data: heightWeightPoints, color: 'yellow' },
-      { data: heightWeightPointsF, color: 'red' },
-      { data: heightWeightPointsM, color: 'blue' }
+    plotHeightWeight([{ data: heightWeightPoints, color: 'yellow', label: 'undefined' },
+      { data: heightWeightPointsF, color: 'red', label: 'female' },
+      { data: heightWeightPointsM, color: 'blue', label: 'male' }
     ], "Height (cm)", "Weight (kg)");
     $(this).html('Switch to imperial units');
   }
@@ -216,7 +220,9 @@ function plotBMI(data) {
       borderWidth: 2,
     }
   };
-  $.plot($("#bmi_chart"), data, options);
+  let plot = $.plot($("#bmi_chart"), data, options);
+  console.log(plot);
+
   setupToolTip("#bmi_chart");
 }
 
@@ -249,19 +255,14 @@ function plotHeightWeight(data, xlabel, ylabel) {
       axisLabel: ylabel,
     }],
     xaxis: {
-
       axisLabelUseCanvas: true,
       axisLabelFontSizePixels: 12,
       axisLabelPadding: 5,
-      //color: "#058DC7"
     },
     yaxis: {
-
       axisLabelUseCanvas: true,
       axisLabelFontSizePixels: 12,
       axisLabelPadding: 5,
-      //color: "#058DC7",
-
     }
   });
   $('.yaxisLabel').css('color', 'red');
@@ -282,55 +283,56 @@ function setupToolTip(element) {
     //console.log("hover!");
     if (item) {
       //console.log(item);
-      // var index = indices[item.dataIndex];
-      // var data;
-      // var heightWeight;
-      //console.log(item.series.color);
-      // if (item.series.color == 'blue') { // male
-      //   var index = indicesM[item.dataIndex];
-      //   data = chart_dataM[index];
-      //   if (isMetric) {
-      //     heightWeight = heightWeightPointsM[index];
-      //   } else {
-      //     heightWeight = imperialHeightWeightPointsM[index];
-      //   }
-      // } else if (item.series.color == 'red') {
-      //   var index = indicesF[item.dataIndex];
-      //   data = chart_dataF[index];
-      //   if (isMetric) {
-      //     heightWeight = heightWeightPointsF[index];
-      //   } else {
-      //     heightWeight = imperialHeightWeightPointsF[index];
-      //   }
-      // } else {
-      //   var index = indices[item.dataIndex];
-      //   console.log(chart_dataM[index]);
-      //   data = chart_data[index];
-      //   if (isMetric) {
-      //     heightWeight = heightWeightPoints[index];
-      //   } else {
-      //     heightWeight = imperialHeightWeightPoints[index];
-      //   }
-      // }
-      // console.log(index);
-      // console.log(data);
-      // console.log(chart_dataA[index]);
-      // //let data = chart_data[index];
-
-      let index = indicesA[item.dataIndex];
-      var data = chart_dataA[index];
+      var index = item.dataIndex;
+      var data;
       var heightWeight;
-      var units;
-      if (isMetric) {
-        heightWeight = heightWeightPointsA[index];
-        units = ['cm', 'kg'];
+      console.log(item.series.color);
+      if (item.series.color == 'blue') { // male
+        //var index = indicesM[item.dataIndex];
+        data = chart_dataM[index];
+        if (isMetric) {
+          heightWeight = heightWeightPointsM[index];
+        } else {
+          heightWeight = imperialHeightWeightPointsM[index];
+        }
+      } else if (item.series.color == 'red') {
+        //var index = indicesF[item.dataIndex];
+        data = chart_dataF[index];
+        if (isMetric) {
+          heightWeight = heightWeightPointsF[index];
+        } else {
+          heightWeight = imperialHeightWeightPointsF[index];
+        }
       } else {
-        heightWeight = imperialHeightWeightPointsA[index];
-        units = ['in', 'lb'];
+        //var index = indices[item.dataIndex];
+        console.log(chart_dataM[index]);
+        data = chart_data[index];
+        if (isMetric) {
+          heightWeight = heightWeightPoints[index];
+        } else {
+          heightWeight = imperialHeightWeightPoints[index];
+        }
       }
       console.log(index);
       console.log(data);
-      console.log(item);
+      //console.log(chart_dataA[index]);
+      //let data = chart_data[index];
+
+      // var index = indicesA[item.dataIndex];
+      // var data = chart_dataA[index];
+      // var heightWeight;
+      // var units;
+      if (isMetric) {
+        //heightWeight = heightWeightPointsA[index];
+        units = ['cm', 'kg'];
+      } else {
+        //heightWeight = imperialHeightWeightPointsA[index];
+        units = ['in', 'lb'];
+      }
+      // console.log(index);
+      // console.log(data);
+      //console.log(item);
+
       $("#tooltip").html("Character: " + data["name"] +
           "<br>Gender: " + data["gender"] +
           "<br>Age: " + ((data["age"]) ? data["age"] : "Not found") +
