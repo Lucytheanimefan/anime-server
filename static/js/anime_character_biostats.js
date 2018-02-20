@@ -31,6 +31,8 @@ var imperialHeightWeightPointsA = [];
 
 var isMetric = true;
 
+var white = "rgba(255,255,255,0.5)";
+
 $(document).ready(function() {
   character_data = $("#data").data("list");
 
@@ -170,6 +172,10 @@ function cmToIn(cm) {
   return Math.round(cm * 0.393701);
 }
 
+function nearestTenth(number) {
+  return number.toFixed(2);
+}
+
 function plotBMI(data) {
   let ticks = character_name_labels;
   console.log(ticks);
@@ -188,11 +194,11 @@ function plotBMI(data) {
       show: true
     },
     xaxes: [{
-      axisLabelColour: "#058DC7",
+      axisLabelColour: white,
       axisLabel: "Character",
     }],
     yaxes: [{
-      axisLabelColour: "#058DC7",
+      axisLabelColour: white,
       position: 'left',
       axisLabel: "BMI",
     }],
@@ -233,10 +239,8 @@ function plotHeightWeight(data, xlabel, ylabel) {
       points: {
         radius: 3,
         show: true,
-        fill: true,
-        fillColor: "#058DC7"
-      },
-      color: "#058DC7"
+        fill: false
+      }
     },
     grid: {
       hoverable: true,
@@ -246,12 +250,11 @@ function plotHeightWeight(data, xlabel, ylabel) {
       show: true
     },
     xaxes: [{
-      axisLabelColour: "#058DC7",
+      axisLabelColour: white,
       axisLabel: xlabel,
     }],
     yaxes: [{
-      axisLabelColour: "#058DC7",
-      position: 'left',
+      axisLabelColour: white,
       axisLabel: ylabel,
     }],
     xaxis: {
@@ -274,7 +277,7 @@ function setupToolTip(element) {
     position: "absolute",
     display: "none",
     border: "1px solid #fdd",
-    padding: "2px",
+    padding: "3px",
     "background-color": "#fee",
     opacity: 0.80
   }).appendTo("body");
@@ -282,13 +285,11 @@ function setupToolTip(element) {
   $(element).bind("plothover", function(event, pos, item) {
     //console.log("hover!");
     if (item) {
-      //console.log(item);
       var index = item.dataIndex;
       var data;
       var heightWeight;
       console.log(item.series.color);
       if (item.series.color == 'blue') { // male
-        //var index = indicesM[item.dataIndex];
         data = chart_dataM[index];
         if (isMetric) {
           heightWeight = heightWeightPointsM[index];
@@ -296,7 +297,6 @@ function setupToolTip(element) {
           heightWeight = imperialHeightWeightPointsM[index];
         }
       } else if (item.series.color == 'red') {
-        //var index = indicesF[item.dataIndex];
         data = chart_dataF[index];
         if (isMetric) {
           heightWeight = heightWeightPointsF[index];
@@ -304,7 +304,6 @@ function setupToolTip(element) {
           heightWeight = imperialHeightWeightPointsF[index];
         }
       } else {
-        //var index = indices[item.dataIndex];
         console.log(chart_dataM[index]);
         data = chart_data[index];
         if (isMetric) {
@@ -313,34 +312,20 @@ function setupToolTip(element) {
           heightWeight = imperialHeightWeightPoints[index];
         }
       }
-      console.log(index);
-      console.log(data);
-      //console.log(chart_dataA[index]);
-      //let data = chart_data[index];
-
-      // var index = indicesA[item.dataIndex];
-      // var data = chart_dataA[index];
-      // var heightWeight;
-      // var units;
       if (isMetric) {
-        //heightWeight = heightWeightPointsA[index];
         units = ['cm', 'kg'];
       } else {
-        //heightWeight = imperialHeightWeightPointsA[index];
         units = ['in', 'lb'];
       }
-      // console.log(index);
-      // console.log(data);
-      //console.log(item);
 
-      $("#tooltip").html("Character: " + data["name"] +
+      $("#tooltip").html("Character: " + data["name"].replace("_", " ") +
           "<br>Gender: " + data["gender"] +
           "<br>Age: " + ((data["age"]) ? data["age"] : "Not found") +
           "<br>Source: " + data["title"] +
           "<br>Height: " + heightWeight[0] + " " + units[0] +
           "<br>Weight: " + heightWeight[1] + " " + units[1] +
-          "<br>BMI: " + data["bmi"])
-        .css({ top: item.pageY + 5, left: item.pageX + 5 })
+          "<br>BMI: " + nearestTenth(data["bmi"]))
+        .css({ top: item.pageY + 5, left: item.pageX-50 })
         .fadeIn(200);
 
     }

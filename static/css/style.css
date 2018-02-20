@@ -1,19 +1,26 @@
-body{
-	background-color: black;
+body {
+  background-color: black !important;
+
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
-h1{
-	color: white;
+h1 {
+  color: white !important;
 }
 
-form{
-	z-index: 100;
+form {
+  z-index: 100;
 }
 
-#malVisual{
-	margin-top: 20px;
+#malVisual {
+  margin-top: 20px;
 }
 
-.anime_chart{
-	height: 400px;
+.container{
+	padding: 20px;
+}
+
+.anime_chart {
+  height: 400px;
+  margin: 20px !important;
 }
