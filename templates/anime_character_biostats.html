@@ -1,16 +1,29 @@
 {% extends "layout.html" %} {% block css %} {% endblock %} {% block body %}
 <div class="container">
   <div id="data" data-list='{{ data }}'></div>
-  <button type="btn" id="switchUnits">Switch to imperial units </button>
+  <div class="row">
+    <h1>Anime character biometrics</h1>
+    <button type="button" class="btn btn-outline-dark" id="switchUnits">Switch to imperial units </button>
+  </div>
+  <div class="row">
+    <h2>Averages</h2>
+    <div class="col-md-6">
+      <h3>Female</h3>
+      <h4>Height: </h4> <span class="height">158.96</span>
+      <h4>Weight: </h4> <span class="weight">47.86</span>
+      <h4>BMI: </h4> <span class="bmi">18.89</span>
+    </div>
+    <div class="col-md-6">
+      <h3>Male</h3>
+      <h4>Height: </h4> <span class="height">173.08</span>
+      <h4>Weight: </h4> <span class="weight">60.33</span>
+      <h4>BMI: </h4> <span class="bmi">20.06</span>
+    </div>
+  </div>
   <h1>Character height and weights</h1>
   <div class="anime_chart" id="height_weight"></div>
   <h1>Character BMIs</h1>
-  <div class="anime_chart" id="bmi_chart">
-    </button>
-    {#
-    <button id="bmi">BMI chart</button>
-    <button id="imperial">Imperial units</button> #}
-  </div>
+  <div class="anime_chart" id="bmi_chart"></div>
   {% endblock %} {% block scripts %}
   <script language="javascript" type="text/javascript" src="{{ url_for('static', filename='plugins/jquery.flot.min.js') }}"></script>
   <script type="text/javascript" src="{{ url_for('static', filename='plugins/jquery.flot.axislabels.js') }}"></script>

@@ -150,6 +150,17 @@ $("#switchUnits").click(function() {
       { data: imperialHeightWeightPointsF, color: 'red', label: 'female' },
       { data: imperialHeightWeightPointsM, color: 'blue', label: 'male' }
     ], "Height (in)", "Weight (lb)");
+    $(".weight").each(function(i, element){
+    	let weight = parseFloat($(element).text());
+    	console.log(weight);
+    	$(this).text(kgTolb(weight) + " lb");
+    })
+
+    $(".height").each(function(i, element){
+    	let height = parseFloat($(element).text());
+    	$(this).text(cmToIn(height) + " in");
+    })
+
     $(this).html('Switch to metric units');
   } else {
     isMetric = true;
@@ -157,6 +168,18 @@ $("#switchUnits").click(function() {
       { data: heightWeightPointsF, color: 'red', label: 'female' },
       { data: heightWeightPointsM, color: 'blue', label: 'male' }
     ], "Height (cm)", "Weight (kg)");
+
+    $(".weight").each(function(i, element){
+    	let weight = parseFloat($(element).text());
+    	console.log(weight);
+    	$(this).text(lbTokg(weight) + " kg");
+    })
+
+    $(".height").each(function(i, element){
+    	let height = parseFloat($(element).text());
+    	$(this).text(inTocm(height) + " cm");
+    })
+
     $(this).html('Switch to imperial units');
   }
 })
@@ -169,8 +192,16 @@ function kgTolb(kg) {
   return Math.round(kg * 2.20462);
 }
 
+function lbTokg(lb) {
+  return Math.round(lb / 2.20462);
+}
+
 function cmToIn(cm) {
   return Math.round(cm * 0.393701);
+}
+
+function inTocm(inches) {
+  return Math.round(inches / 0.393701);
 }
 
 function nearestTenth(number) {

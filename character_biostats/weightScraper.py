@@ -80,9 +80,9 @@ def write_to_file(data, filename):
 
 
 if __name__ == '__main__':
-	scrape_data = True
+	scrape_data = False
 	clean_data = True
-	filename = "data/anime_character_stats2.json"
+	filename = "../data/anime_character_stats2.json"
 	if scrape_data is True:
 		data = []
 		for character in characters:
@@ -107,6 +107,6 @@ if __name__ == '__main__':
 					character["age"] = super_clean_string(character["age"].split(" ")[0].split("-")[0])#character["age"].split(" ", 1)[0]
 				#print character
 				new_data.append(character)
-			write_to_file(new_data, "data/cleaned_data2.json")
+			write_to_file(new_data, "../data/cleaned_data3.json")
 
 
