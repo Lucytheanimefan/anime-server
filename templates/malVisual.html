@@ -3,12 +3,12 @@
     <input type="text" name="username">
     <input class="btn btn-default" type="submit" value="Go">
 </form>-->
-
-<div id="visual" data-list = '{{ malList }}' ></div>
-<div id="malVisual"></div>
-{% endblock %}
-
-{% block scripts %} 
+<div class="container">
+  <p>Takes in your MyAnimeList username as url argument, ie. /mal?username=Silent_Muse</p>
+  <div id="visual" data-list='{{ malList }}'></div>
+  <div id="malVisual"></div>
+</div>
+{% endblock %} {% block scripts %}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/tween.js/16.3.5/Tween.min.js"></script>
 <script type="text/javascript" src="{{ url_for('static', filename='plugins/DragControls.js') }}"></script>
 <script type="text/javascript" src="{{ url_for('static', filename='plugins/TrackballControls.js') }}"></script>

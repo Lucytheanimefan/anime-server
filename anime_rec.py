@@ -35,7 +35,7 @@ good_tags = ["Psychological","Seinen","Horror","Mystery","Thriller","Supernatura
 def findSeasonRecs(season, year, output_format = 'html'):
 	season_anime = {}
 	scores = {}
-	url = aniChartUrl + season+"-"+year+"/tv"
+	url = aniChartUrl + str(season)+"-"+str(year)+"/tv"
 	print(url)
 	r = requests.get(url)
 	data = r.text
@@ -98,7 +98,7 @@ def findSeasonRecs(season, year, output_format = 'html'):
 	sorted_anime = sorted(scores.items(), key=operator.itemgetter(1))
 	i=0
 	if output_format =='html':
-		anime_return = "Anime of " + season +" " + year + "<ol>" 
+		anime_return = "Anime of " + season +" " + str(year) + "<ol>" 
 		for anime in reversed(sorted_anime):
 			i+=1
 			anime_return = anime_return + "<li>" + anime[0]+", "+str(anime[1]) + "</li>"

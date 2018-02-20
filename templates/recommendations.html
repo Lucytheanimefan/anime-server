@@ -1,25 +1,20 @@
-{% extends "layout.html" %} 
-{% block css %} 
+{% extends "layout.html" %} {% block css %}
 <style type="text/css">
-	body{
-		color: white;
-	}
+body {
+  color: white;
+}
 </style>
-
-{% endblock %}
-{% block body %}
-
-<div id="recs" data-recs= {{ recommendations }}></div>
-
-{% endblock %}
-
-{% block scripts %} 
-
+{% endblock %} {% block body %}
+<div class="container">
+  <h1>Recommendations</h1>
+  <h3>Takes in the following arguments in url: season, year. ie. /recommendations?season=winter&year=2018</h3>
+  <div id="recs" data-recs={ { recommendations }}></div>
+  <div id="results"></div>
+</div>
+{% endblock %} {% block scripts %}
 <script type="text/javascript">
 var parsed = JSON.parse('{{recommendations | tojson}}');
-document.write(parsed);
-
-
+$("#results").html(parsed);
+//document.write(parsed);
 </script>
-
 {% endblock %}

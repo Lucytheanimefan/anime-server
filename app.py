@@ -27,6 +27,10 @@ funi = Funimation.Funimation()
 @app.route("/")
 def home():
 	return render_template("index.html")
+
+@app.route("/form")
+def form():
+	return render_template("form.html")
 	
 
 @app.errorhandler(404)
@@ -90,6 +94,9 @@ def animerec():
 def anime_recommendations():
 	season = request.args.get('season')
 	year = request.args.get('year')
+	if season is None or year is None:
+		season = "winter"
+		year = 2018
 	return render_template('recommendations.html', recommendations = findSeasonRecs(season,year))
 
 

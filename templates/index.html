@@ -1,51 +1,15 @@
-<!doctype html>
-<html class="no-js" lang="">
+{% extends "layout.html" %} {% block css %} {% endblock %} {% block body %}
+<div class="container">
 
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title></title>
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- Compiled and minified CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/css/materialize.min.css">
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
-    <!--<link rel="stylesheet" href="css/main.css"> -->
-    <style>
-    body{
-        background-color: white !important;
-    }
-    </style>
-</head>
+<h1>Things to see: </h1>
+<ul>
+  <li><a href="/recommendations">Auto generated anime recommendations (based on Lucy's taste)</a></li>
+  <li><a href="/character_biometrics">A study in anime/manga character biometrics</a></li>
+  <li><a href="/mal">Visualize your MyAnimeList</a></li>
+</ul>
 
-<body>
-    <div class="row">
-        <form method="POST" class="col s12" action="/updateReview">
-            <div class="row">
-                <div class="input-field col s12">
-                    <input id="title" type="text" name="title" class="validate">
-                    <label for="title">Title</label>
-                </div>
-                <div class="input-field col s12">
-                    <input id="anime_id" type="text" name="anime_id" class="validate">
-                    <label for="anime_id">Anime id</label>
-                </div>
-            </div>
-            <div class="row">
-                <div class="input-field col s12">
-                    <textarea id="review" name="review" type="text" class="materialize-textarea"></textarea>
-                    <label for="review">Review</label>
-                </div>
-            </div>
-            <button class="btn waves-effect waves-light" type="submit">Submit
-                <i class="material-icons right"></i>
-            </button>
-        </form>
-    </div>
-    <script src="http://code.jquery.com/jquery-1.12.4.min.js"></script>
-    <!-- Compiled and minified JavaScript -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/js/materialize.min.js"></script>
-    <script type="text/javascript" src="{{ url_for('static', filename='js/script.js') }}"></script>
-</body>
 
-</html>
+</div>
+{% endblock %} {% block scripts %}
+
+{% endblock %}

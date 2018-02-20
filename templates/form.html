@@ -1,0 +1,30 @@
+{% extends "layout.html" %} {% block css %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/css/materialize.min.css"> {% endblock %} {% block body %}
+<div class="row">
+  <form method="POST" class="col s12" action="/updateReview">
+    <div class="row">
+      <div class="input-field col s12">
+        <input id="title" type="text" name="title" class="validate">
+        <label for="title">Title</label>
+      </div>
+      <div class="input-field col s12">
+        <input id="anime_id" type="text" name="anime_id" class="validate">
+        <label for="anime_id">Anime id</label>
+      </div>
+    </div>
+    <div class="row">
+      <div class="input-field col s12">
+        <textarea id="review" name="review" type="text" class="materialize-textarea"></textarea>
+        <label for="review">Review</label>
+      </div>
+    </div>
+    <button class="btn waves-effect waves-light" type="submit">Submit
+      <i class="material-icons right"></i>
+    </button>
+  </form>
+</div>
+{% endblock %} {% block scripts %}
+<script language="javascript" type="text/javascript" src="{{ url_for('static', filename='plugins/jquery.flot.min.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='plugins/jquery.flot.axislabels.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='js/anime_character_biostats.js') }}"></script>
+{% endblock %}
