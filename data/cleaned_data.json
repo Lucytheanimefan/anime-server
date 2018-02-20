@@ -188,7 +188,11 @@
 {
   "url": "http://codegeass.wikia.com/wiki/Lelouch_vi_Britannia",
   "name": "Lelouch_vi_Britannia",
-  "title": "Code Geass Wiki"
+  "title": "Code Geass Wiki",
+  "gender": "Male",
+  "age": "17",
+  "height": "178",
+  "weight":"56"
 },
 {
   "url": "http://kiminonawa.wikia.com/wiki/Mitsuha_Miyamizu",
@@ -741,7 +745,7 @@
 },
 {
   "url": "http://shokugekinosoma.wikia.com/wiki/S%25C5%258Dma_Yukihira",
-  "name": "S%25C5%258Dma_Yukihira",
+  "name": "Soma_Yukihira",
   "title": "Shokugeki no SOMA Wiki",
   "gender": "male",
   "weight": "57",
