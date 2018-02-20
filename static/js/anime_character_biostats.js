@@ -32,6 +32,7 @@ var imperialHeightWeightPointsA = [];
 var isMetric = true;
 
 var white = "rgba(255,255,255,0.5)";
+var highlightWhite = "rgba(255, 255, 255, 0.3)";
 
 $(document).ready(function() {
   character_data = $("#data").data("list");
@@ -132,9 +133,9 @@ $(document).ready(function() {
 
   console.log(bmi_data);
 
-  plotBMI([{ data: bmi_data, color: 'yellow', label: 'undefined' },
-    { data: bmi_dataF, color: 'red', label: 'female' },
-    { data: bmi_dataM, color: 'blue', label: 'male' }
+  plotBMI([{ data: bmi_data, color: 'yellow', label: 'undefined', highlightColor: highlightWhite },
+    { data: bmi_dataF, color: 'red', label: 'female', highlightColor: highlightWhite },
+    { data: bmi_dataM, color: 'blue', label: 'male', highlightColor: highlightWhite }
   ]);
 
 });
@@ -188,7 +189,7 @@ function plotBMI(data) {
     },
     bars: {
       align: "center",
-      barWidth: 0.1
+      barWidth: 0.5
     },
     axisLabels: {
       show: true
@@ -217,13 +218,12 @@ function plotBMI(data) {
       axisLabelPadding: 3
     },
     legend: {
-      noColumns: 0,
-      labelBoxBorderColor: "#000000",
       position: "nw"
     },
     grid: {
       hoverable: true,
       borderWidth: 2,
+      autoHighlight: true
     }
   };
   let plot = $.plot($("#bmi_chart"), data, options);
@@ -241,6 +241,9 @@ function plotHeightWeight(data, xlabel, ylabel) {
         show: true,
         fill: false
       }
+    },
+    legend: {
+      position: "nw"
     },
     grid: {
       hoverable: true,
@@ -276,8 +279,9 @@ function setupToolTip(element) {
   $("<div id='tooltip'></div>").css({
     position: "absolute",
     display: "none",
-    border: "1px solid #fdd",
-    padding: "3px",
+    border: "1px solid #00F",
+    "border-radius": "2px",
+    padding: "10px",
     "background-color": "#fee",
     opacity: 0.80
   }).appendTo("body");
@@ -325,7 +329,7 @@ function setupToolTip(element) {
           "<br>Height: " + heightWeight[0] + " " + units[0] +
           "<br>Weight: " + heightWeight[1] + " " + units[1] +
           "<br>BMI: " + nearestTenth(data["bmi"]))
-        .css({ top: item.pageY + 5, left: item.pageX-50 })
+        .css({ top: item.pageY + 20, left: item.pageX - 50 })
         .fadeIn(200);
 
     }
