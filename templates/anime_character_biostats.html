@@ -3,6 +3,7 @@
   <div id="data" data-list='{{ data }}'></div>
   <div class="row">
     <h1>Anime character biometrics</h1>
+    <p>There are a couple APIs out there to find data on anime/manga characters–notably the anilist API. However, I noticed that they don't have data on characters from "older" shows (pre 2010). The next most reliable way to find the height and weight stats of characters was from their respective show's wikia pages. I used beautiful soup to scrape the html to 1) Find the wikia fandom site that corresponded to the character and 2) Find the weight and height of the character. The characters themselves were chosen arbitrarily. After adding some of my favorite characters, I realized there wasn't quite enough data and went through MyAnimeList's top characters, picking some by random (and by random, I mean–characters I either knew, faintly knew, or knew-by-friend-of-friend's-waifu/husbando). Very scientific. Eventually I'll do something interesting with the data, but for now this is all I have.</p>
     <button type="button" class="btn btn-outline-dark" id="switchUnits">Switch to imperial units </button>
   </div>
   <div class="row">
