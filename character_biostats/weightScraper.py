@@ -8,6 +8,8 @@ import json
 import urllib
 import ast
 import multiprocessing as mp
+import thread, threading
+import itertools, time
 
 characters = ['Shiki Ryougi', 'Haruhi Fujioka', 'Nanami Momozono', 'Saber', 'Rei Kiriyama', 'Mikasa Ackerman', 'Hori Kyouko', 'Miyamura_Izumi', 'Yuuki Asuna', 'Yukino_Yukinoshita', 'Misaki_Ayuzawa', 'Touka_Kirishima', 'Akatsuki no Yona Yona', 'Inori_Yuzuriha', 'Misa Amane', 'Historia Reiss', 'Chise Hatori', 'Izaya Orihara', 'Celty Sturluson', 'Rin Tousaka', 'Lawliet death note','Light Yagami', 'Lelouch', 'Mitsuha','Ciel Phantomhive', 'Yuna Gasai', 'Nana osaki', 'Hiyori noragami', 'Holo spice and wolf','Kaori Miyazono', 'Lisa Mishima', 'Rintaro Okabe', 'Levi Attack on Titan', 'Hachmian Hikigaya', 'Sasuke Uchiha', 'Kirito', 'Rem Rezero', 'Yato Noragami', 'Sebastian Black butler', 'Heiwajima Shizuo', 'Usui Takumi', 'Hisoka Hunter', 'Haruhi Suzumiya', 'Oreki Houtarou', 'Lucy Elfen Lied', 'Asuka Evangelion', 'Emiya Kiritsugu', 'Ryuuko Matoi', 'Chitoge Kirisaki', 'Suou Tamaki', 'Kaname Kuran', 'Yuuki Kuran', 'Kiryuu Zero', 'Hyuga Hinata', 'Shinji Ikari', 'Natsume Takashi', 'Gilgamesh Fate', ' Ulquiorra', 'Kougami Shinya', 'Makishima Shougo', 'Dazai bungou', 'Juuzou Suzuya','Tsunayoshi Sawada','Aomine Daiki', 'Tomoe kamisama', 'Kuroki Tomoko', 'Hinata Shouyou', 'Kurapika', 'Sagara Sousuke', 'Inuyasha', 'Nishimiya Shouko', 'Kuriyama Mirai', 'Misaki Mei','Iwakura Lain', 'Sawako', 'Madoka', 'Ikuto Shugo chara', 'Akashi Kuroko', 'Rena Higurashi', 'Sesshoumaru', 'Shiro Deadman', 'Saeko Busujima', 'Mogami Kyouko', 'Nakano Azusa', 'Chitanda', 'Honma Anohana','Makoto Tachibana', 'Katou Megumi','naruto uzumaki', 'kakashi hatake', 'sakata gintoki', 'Kaneki Ken', 'vegeta','Tomoya Okazaki', 'Okumura Rin', 'Walker Allen', 'Yukihira Souma', 'Takanashi Rikka', 'Kyon Haruhi', 'Gremory Rias', 'Death the Kid', 'Kurumi Tokisaki', 'Akiyama Mio', 'Ayanami Rei', 'Hirasawa Yui', 'furukawa nagisa', 'nagato yuki','Natsu fairy tail', 'son goku', 'edward elric','roy mustang','Keima Katsuragi', 'Kae Serinuma','Hei darker than black','Tatsuya Shiba','Alucard','Guts Berserk','Spike Spiegel','Kyoya Hibari','Edward Newgate','Mugen samurai champloo', 'akame akame ga kill', 'Motoko Kusanagi','Clare claymore','Seras Victoria','Minene Uryu', 'Shana Shakugan no shana', 'Mikoto Misaka','kaga kouko','orihime','yukari paradise kiss','Senjougahara hitagi','kallen code geass','kaname chidori','Kotonoha Katsura', 'ai enma', 'rika furude','Rena Ryuuguu','Miyako hidamari sketch', 'Poplar Taneshima', 'Chiri Kitsu','Tomoko Kuroki','Kino Kino journey', 'Ayu Tsukimiya','Fuuko Ibuki','Konata Izumi','Himeko Inaba','Rakka haibane', 'Rei Ayanami','Yuuko Ichihara', 'Nanami Aoyama', 'kagura gintama', 'akane tsunemori', 'revy black lagoon', 'ezra scarlet']
 
@@ -40,22 +42,11 @@ def find_anime_characters_single(pos, limit, output):
 	data = r.text
 	soup = BeautifulSoup(data,  "html.parser")
 	characters = soup.find_all('a', {'class':'fs14'})
-	text = text + [character.text for character in characters]
-	output.put(text)
-
-def begin_parallel():
-	processes = [mp.Process(target=find_anime_characters_single, args=(x, 50*x, output)) for x in range(1)]
-	for p in processes:
-		p.start()
-	for p in processes:
-		p.join()
-	results = [output.get() for p in processes]
-	print(results)
-	print('LENGTH')
-	print(len(results))
+	text = [character.text for character in characters]
+	#output.put(text)
+	return text
 
 def find_anime_character_url(character_name):
-	print character_name
 	name = urllib.quote(character_name.encode('utf8', errors = 'ignore'))
 	#print name
 	if len(name) > 0:
@@ -140,19 +131,54 @@ def write_to_file(data, filename):
 		json.dump(data, outfile)
 
 
+def scrape_weight_for_character(character):
+	url = find_anime_character_url(character)
+	if len(url) > 0:
+		return scrape_weight(url)
+	return None
+
+def batch_character_weight_process(pos, limit, output):
+	characters = find_anime_characters_single(pos, limit, output) #output not needed in here anymore
+	data = []
+	#threads = []
+	for character in characters:
+		print character
+		#thread.start_new_thread( print_time, ("Thread-1", 2, ) ) TODO: use threads
+		character_data = scrape_weight_for_character(character)
+		if character_data:
+			data.append(character_data)
+	output.put(data)
+	return data
+
+def begin_parallel():
+	start_time = time.time()
+	processes = [mp.Process(target=batch_character_weight_process, args=(x, 50*x, output)) for x in range(3)]
+	for p in processes:
+		p.start()
+	for p in processes:
+		p.join()
+	results = [output.get() for p in processes]
+	final_results = list(itertools.chain.from_iterable(results))
+	elapsed_time = time.time() - start_time
+	print('-----Parallel elapsed time: ' + str(elapsed_time))
+	print('LENGTH')
+	print(len(final_results))
+	print(final_results)
+
 if __name__ == '__main__':
-	do_parallel = True
+	do_parallel = False
 	find_characters = True
 	scrape_data = True
-	clean_data = True
-	write_file = True
+	clean_data = False
+	write_file = False
 	filename = "../data/anime_character_stats3.json"
 
 	if do_parallel is True:
 		begin_parallel()
 	else:
+		start_time = time.time()
 		if find_characters is True:
-			characters = find_anime_characters(250)
+			characters = find_anime_characters(100)
 		if scrape_data is True:
 			data = []
 			for character in characters:
@@ -164,6 +190,10 @@ if __name__ == '__main__':
 				write_to_file(data, filename)
 			else:
 				print data
+				print('Length: ')
+				print(len(data))
+			elapsed_time = time.time() - start_time
+			print('-----Sequential elapsed time: ' + str(elapsed_time))
 			print 'Done'
 		if clean_data:
 			print 'Cleaning data'
@@ -179,6 +209,7 @@ if __name__ == '__main__':
 					if "age" in character:
 						character["age"] = super_clean_string(character["age"].split(" ")[0].split("-")[0])
 					new_data.append(character)
-				write_to_file(new_data, "../data/cleaned_data3.json")
+				if write_file is True:
+					write_to_file(new_data, "../data/cleaned_data3.json")
 
 
