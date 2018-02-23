@@ -66,12 +66,26 @@ def shorten(s, subs):
 	i = s.index(subs)
 	return s[:i+len(subs)]
 
+def clean_string(string):
+	return string.replace('\n', '').rstrip().lstrip()
+
 def clean_data_string(data):
 	#string = data.sub(r"\(.*\)", "")  #get rid of anything in parentheses
-	return re.sub(r'\[(.*\])', '', data).strip('\n').rstrip().lstrip()
+	return re.sub(r'\[(.*\])', '', data)#.strip('\n').rstrip().lstrip()
+	#return rid_unit(re.sub(r'\[(.*\])', '', data).strip('\n').rstrip().lstrip())
 	
 def remove_special_chars(string):
+	# only include the numbers, get rid of letters
 	return ''.join(e for e in string if e.isalnum())
+
+def rid_unit(string):
+	i = 0
+	numeric = '0123456789'
+	for j,c in enumerate(string):
+		i += 1
+		if not c.isdigit():
+			break
+	return string[:i]
 
 def super_clean_string(string):
 	return remove_special_chars(clean_data_string(string))
@@ -100,13 +114,14 @@ def scrape_weight(url):
 	values = soup.find("div", {"class" : "pi-data-value"})
 	relevant_values = ["weight", "height", "gender", "age", "status", "date of death", "date of birth", "occupation"]
 
+	data_values = ["weight", "height","age"]
 	for i, label in enumerate(labels):
 		key = remove_special_chars(clean_data_string(label.text.lower()))
 		if key in relevant_values:
-			if label=='weight' or label=='height' or label=='age':
+			if label in data_values:
 				value = clean_data_string(label.findNext('div').text)
 			else:
-				value = label.findNext('div').text
+				value = clean_string(label.findNext('div').text)
 			return_data[key] = value
 
 
@@ -116,16 +131,17 @@ def scrape_weight(url):
 		for td in td_labels:
 			label = super_clean_string(td.get_text().lower())
 			if label in relevant_values:
-				value = td.findNext('td').text
-				if label=='weight' or label=='height' or label=='age':
+				value = clean_string(td.findNext('td').text)
+				if label in data_values:
 					value = clean_data_string(value).split('\n')[-1]
 				return_data[label] = value
 		for th in th_labels:
 			label = super_clean_string(th.get_text().lower())
 			if label in relevant_values:
 				value = th.findNext('td').text
-				if label=='weight' or label=='height' or label=='age':
+				if label in data_values:
 					value = clean_data_string(value).split('\n')[-1]
+				value = clean_string(value)
 				return_data[label] = value
 
 	return return_data
@@ -154,7 +170,7 @@ def batch_character_weight_process(pos, limit, output):
 	output.put(data)
 	return data
 
-def begin_parallel():
+def begin_parallel(filename):
 	limit = 3 #3*50 = 150 characters
 	start_time = time.time()
 	processes = [mp.Process(target=batch_character_weight_process, args=(x, 50*x, output)) for x in range(limit)]
@@ -168,23 +184,23 @@ def begin_parallel():
 	print('-----Parallel elapsed time: ' + str(elapsed_time))
 	print('LENGTH')
 	print(len(final_results))
-	print(final_results)
-	write_to_file(final_results, '../data/parallel_character.json')
+	write_to_file(final_results, filename)
 
 if __name__ == '__main__':
 	debug = False
 	do_parallel = True
+	do_sequential = False;
 	find_characters = True
 	scrape_data = True
-	clean_data = False
-	write_file = False
-	filename = "../data/anime_character_stats3.json"
+	clean_data = True
+	write_file = True
+	filename = "../data/parallel_character.json"#"../data/anime_character_stats3.json"
 
 	if debug is True:
 		print scrape_weight_for_character("gaara")
 	elif do_parallel is True:
-		begin_parallel()
-	else:
+		begin_parallel(filename)
+	elif do_sequential is True:
 		start_time = time.time()
 		if find_characters is True:
 			characters = find_anime_characters(100)
@@ -204,21 +220,21 @@ if __name__ == '__main__':
 			elapsed_time = time.time() - start_time
 			print('-----Sequential elapsed time: ' + str(elapsed_time))
 			print 'Done'
-		if clean_data:
-			print 'Cleaning data'
-			with open(filename) as file:
-				new_data = []
-				text = file.read().replace('\n', '')
-				info = ast.literal_eval(text)
-				for character in info:
-					if "weight" in character:
-						character["weight"] = clean_data_string(character["weight"].split("kg",1)[0].split("lb",1)[0])
-					if "height" in character:
-						character["height"] = clean_data_string(character["height"].split("cm",1)[0])
-					if "age" in character:
-						character["age"] = super_clean_string(character["age"].split(" ")[0].split("-")[0])
-					new_data.append(character)
-				if write_file is True:
-					write_to_file(new_data, "../data/cleaned_data3.json")
+	if clean_data:
+		print 'Cleaning data'
+		with open(filename) as file:
+			new_data = []
+			text = file.read().replace('\n', '')
+			info = ast.literal_eval(text)
+			for character in info:
+				if "weight" in character:
+					character["weight"] = clean_data_string(character["weight"].split("kg",1)[0].split("lb",1)[0])
+				if "height" in character:
+					character["height"] = clean_data_string(character["height"].split("cm",1)[0])
+				if "age" in character:
+					character["age"] = super_clean_string(character["age"].split(" ")[0].split("-")[0])
+				new_data.append(character)
+			if write_file is True:
+				write_to_file(new_data, "../data/cleaned_data"+str(time.time())+".json")
 
 
