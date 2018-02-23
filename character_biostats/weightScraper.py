@@ -11,10 +11,7 @@ import multiprocessing as mp
 import thread, threading
 import itertools, time
 
-characters = ['Shiki Ryougi', 'Haruhi Fujioka', 'Nanami Momozono', 'Saber', 'Rei Kiriyama', 'Mikasa Ackerman', 'Hori Kyouko', 'Miyamura_Izumi', 'Yuuki Asuna', 'Yukino_Yukinoshita', 'Misaki_Ayuzawa', 'Touka_Kirishima', 'Akatsuki no Yona Yona', 'Inori_Yuzuriha', 'Misa Amane', 'Historia Reiss', 'Chise Hatori', 'Izaya Orihara', 'Celty Sturluson', 'Rin Tousaka', 'Lawliet death note','Light Yagami', 'Lelouch', 'Mitsuha','Ciel Phantomhive', 'Yuna Gasai', 'Nana osaki', 'Hiyori noragami', 'Holo spice and wolf','Kaori Miyazono', 'Lisa Mishima', 'Rintaro Okabe', 'Levi Attack on Titan', 'Hachmian Hikigaya', 'Sasuke Uchiha', 'Kirito', 'Rem Rezero', 'Yato Noragami', 'Sebastian Black butler', 'Heiwajima Shizuo', 'Usui Takumi', 'Hisoka Hunter', 'Haruhi Suzumiya', 'Oreki Houtarou', 'Lucy Elfen Lied', 'Asuka Evangelion', 'Emiya Kiritsugu', 'Ryuuko Matoi', 'Chitoge Kirisaki', 'Suou Tamaki', 'Kaname Kuran', 'Yuuki Kuran', 'Kiryuu Zero', 'Hyuga Hinata', 'Shinji Ikari', 'Natsume Takashi', 'Gilgamesh Fate', ' Ulquiorra', 'Kougami Shinya', 'Makishima Shougo', 'Dazai bungou', 'Juuzou Suzuya','Tsunayoshi Sawada','Aomine Daiki', 'Tomoe kamisama', 'Kuroki Tomoko', 'Hinata Shouyou', 'Kurapika', 'Sagara Sousuke', 'Inuyasha', 'Nishimiya Shouko', 'Kuriyama Mirai', 'Misaki Mei','Iwakura Lain', 'Sawako', 'Madoka', 'Ikuto Shugo chara', 'Akashi Kuroko', 'Rena Higurashi', 'Sesshoumaru', 'Shiro Deadman', 'Saeko Busujima', 'Mogami Kyouko', 'Nakano Azusa', 'Chitanda', 'Honma Anohana','Makoto Tachibana', 'Katou Megumi','naruto uzumaki', 'kakashi hatake', 'sakata gintoki', 'Kaneki Ken', 'vegeta','Tomoya Okazaki', 'Okumura Rin', 'Walker Allen', 'Yukihira Souma', 'Takanashi Rikka', 'Kyon Haruhi', 'Gremory Rias', 'Death the Kid', 'Kurumi Tokisaki', 'Akiyama Mio', 'Ayanami Rei', 'Hirasawa Yui', 'furukawa nagisa', 'nagato yuki','Natsu fairy tail', 'son goku', 'edward elric','roy mustang','Keima Katsuragi', 'Kae Serinuma','Hei darker than black','Tatsuya Shiba','Alucard','Guts Berserk','Spike Spiegel','Kyoya Hibari','Edward Newgate','Mugen samurai champloo', 'akame akame ga kill', 'Motoko Kusanagi','Clare claymore','Seras Victoria','Minene Uryu', 'Shana Shakugan no shana', 'Mikoto Misaka','kaga kouko','orihime','yukari paradise kiss','Senjougahara hitagi','kallen code geass','kaname chidori','Kotonoha Katsura', 'ai enma', 'rika furude','Rena Ryuuguu','Miyako hidamari sketch', 'Poplar Taneshima', 'Chiri Kitsu','Tomoko Kuroki','Kino Kino journey', 'Ayu Tsukimiya','Fuuko Ibuki','Konata Izumi','Himeko Inaba','Rakka haibane', 'Rei Ayanami','Yuuko Ichihara', 'Nanami Aoyama', 'kagura gintama', 'akane tsunemori', 'revy black lagoon', 'ezra scarlet']
-
-
-#characters = ['naruto uzumaki', 'kakashi hatake', 'sakata gintoki', 'Kaneki Ken', 'vegeta','Tomoya Okazaki', 'Okumura Rin', 'Walker Allen', 'Yukihira Souma', 'Takanashi Rikka', 'Kyon Haruhi', 'Gremory Rias', 'Death the Kid', 'Kurumi Tokisaki', 'Akiyama Mio', 'Ayanami Rei', 'Hirasawa Yui', 'furukawa nagisa', 'nagato yuki','Natsu fairy tail', 'son goku', 'edward elric','roy mustang','Keima Katsuragi', 'Kae Serinuma','Hei darker than black','Tatsuya Shiba','Alucard','Guts Berserk','Spike Spiegel','Kyoya Hibari','Edward Newgate','Mugen samurai champloo', 'akame akame ga kill', 'Motoko Kusanagi','Clare claymore','Seras Victoria','Minene Uryu', 'Shana Shakugan no shana', 'Mikoto Misaka','kaga kouko','orihime','yukari paradise kiss','Senjougahara hitagi','kallen code geass','kaname chidori','Kotonoha Katsura', 'ai enma', 'rika furude','Rena Ryuuguu','Miyako hidamari sketch', 'Poplar Taneshima', 'Chiri Kitsu','Tomoko Kuroki','Kino Kino journey', 'Ayu Tsukimiya','Fuuko Ibuki','Konata Izumi','Himeko Inaba','Rakka haibane', 'Rei Ayanami','Yuuko Ichihara', 'Nanami Aoyama', 'kagura gintama', 'akane tsunemori', 'revy black lagoon', 'ezra scarlet']
+# characters = ['Shiki Ryougi', 'Haruhi Fujioka', 'Nanami Momozono', 'Saber', 'Rei Kiriyama', 'Mikasa Ackerman', 'Hori Kyouko', 'Miyamura_Izumi', 'Yuuki Asuna', 'Yukino_Yukinoshita', 'Misaki_Ayuzawa', 'Touka_Kirishima', 'Akatsuki no Yona Yona', 'Inori_Yuzuriha', 'Misa Amane', 'Historia Reiss', 'Chise Hatori', 'Izaya Orihara', 'Celty Sturluson', 'Rin Tousaka', 'Lawliet death note','Light Yagami', 'Lelouch', 'Mitsuha','Ciel Phantomhive', 'Yuna Gasai', 'Nana osaki', 'Hiyori noragami', 'Holo spice and wolf','Kaori Miyazono', 'Lisa Mishima', 'Rintaro Okabe', 'Levi Attack on Titan', 'Hachmian Hikigaya', 'Sasuke Uchiha', 'Kirito', 'Rem Rezero', 'Yato Noragami', 'Sebastian Black butler', 'Heiwajima Shizuo', 'Usui Takumi', 'Hisoka Hunter', 'Haruhi Suzumiya', 'Oreki Houtarou', 'Lucy Elfen Lied', 'Asuka Evangelion', 'Emiya Kiritsugu', 'Ryuuko Matoi', 'Chitoge Kirisaki', 'Suou Tamaki', 'Kaname Kuran', 'Yuuki Kuran', 'Kiryuu Zero', 'Hyuga Hinata', 'Shinji Ikari', 'Natsume Takashi', 'Gilgamesh Fate', ' Ulquiorra', 'Kougami Shinya', 'Makishima Shougo', 'Dazai bungou', 'Juuzou Suzuya','Tsunayoshi Sawada','Aomine Daiki', 'Tomoe kamisama', 'Kuroki Tomoko', 'Hinata Shouyou', 'Kurapika', 'Sagara Sousuke', 'Inuyasha', 'Nishimiya Shouko', 'Kuriyama Mirai', 'Misaki Mei','Iwakura Lain', 'Sawako', 'Madoka', 'Ikuto Shugo chara', 'Akashi Kuroko', 'Rena Higurashi', 'Sesshoumaru', 'Shiro Deadman', 'Saeko Busujima', 'Mogami Kyouko', 'Nakano Azusa', 'Chitanda', 'Honma Anohana','Makoto Tachibana', 'Katou Megumi','naruto uzumaki', 'kakashi hatake', 'sakata gintoki', 'Kaneki Ken', 'vegeta','Tomoya Okazaki', 'Okumura Rin', 'Walker Allen', 'Yukihira Souma', 'Takanashi Rikka', 'Kyon Haruhi', 'Gremory Rias', 'Death the Kid', 'Kurumi Tokisaki', 'Akiyama Mio', 'Ayanami Rei', 'Hirasawa Yui', 'furukawa nagisa', 'nagato yuki','Natsu fairy tail', 'son goku', 'edward elric','roy mustang','Keima Katsuragi', 'Kae Serinuma','Hei darker than black','Tatsuya Shiba','Alucard','Guts Berserk','Spike Spiegel','Kyoya Hibari','Edward Newgate','Mugen samurai champloo', 'akame akame ga kill', 'Motoko Kusanagi','Clare claymore','Seras Victoria','Minene Uryu', 'Shana Shakugan no shana', 'Mikoto Misaka','kaga kouko','orihime','yukari paradise kiss','Senjougahara hitagi','kallen code geass','kaname chidori','Kotonoha Katsura', 'ai enma', 'rika furude','Rena Ryuuguu','Miyako hidamari sketch', 'Poplar Taneshima', 'Chiri Kitsu','Tomoko Kuroki','Kino Kino journey', 'Ayu Tsukimiya','Fuuko Ibuki','Konata Izumi','Himeko Inaba','Rakka haibane', 'Rei Ayanami','Yuuko Ichihara', 'Nanami Aoyama', 'kagura gintama', 'akane tsunemori', 'revy black lagoon', 'ezra scarlet']
 
 #characters = ['Yukihira Soma']
 
@@ -115,13 +112,20 @@ def scrape_weight(url):
 
 	if "weight" not in return_data or "height" not in return_data:
 		td_labels = soup.find_all("td")
+		th_labels = soup.find_all("th")
 		for td in td_labels:
 			label = super_clean_string(td.get_text().lower())
 			if label in relevant_values:
+				value = td.findNext('td').text
 				if label=='weight' or label=='height' or label=='age':
-					value = clean_data_string(td.findNext('td').text)
-				else:
-					value = td.findNext('td').text
+					value = clean_data_string(value).split('\n')[-1]
+				return_data[label] = value
+		for th in th_labels:
+			label = super_clean_string(th.get_text().lower())
+			if label in relevant_values:
+				value = th.findNext('td').text
+				if label=='weight' or label=='height' or label=='age':
+					value = clean_data_string(value).split('\n')[-1]
 				return_data[label] = value
 
 	return return_data
@@ -151,8 +155,9 @@ def batch_character_weight_process(pos, limit, output):
 	return data
 
 def begin_parallel():
+	limit = 3 #3*50 = 150 characters
 	start_time = time.time()
-	processes = [mp.Process(target=batch_character_weight_process, args=(x, 50*x, output)) for x in range(3)]
+	processes = [mp.Process(target=batch_character_weight_process, args=(x, 50*x, output)) for x in range(limit)]
 	for p in processes:
 		p.start()
 	for p in processes:
@@ -164,16 +169,20 @@ def begin_parallel():
 	print('LENGTH')
 	print(len(final_results))
 	print(final_results)
+	write_to_file(final_results, '../data/parallel_character.json')
 
 if __name__ == '__main__':
-	do_parallel = False
+	debug = False
+	do_parallel = True
 	find_characters = True
 	scrape_data = True
 	clean_data = False
 	write_file = False
 	filename = "../data/anime_character_stats3.json"
 
-	if do_parallel is True:
+	if debug is True:
+		print scrape_weight_for_character("gaara")
+	elif do_parallel is True:
 		begin_parallel()
 	else:
 		start_time = time.time()
