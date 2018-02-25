@@ -105,13 +105,6 @@
   "occupation": "1.High school student 2.Member of Service Club"
 },
 {
-  "url": "http://bangtanboys.wikia.com/wiki/Jin",
-  "height": "179",
-  "name": "Jin",
-  "weight": "63",
-  "title": "BTS (Bangtan Boys) Wiki"
-},
-{
   "name": "Toa_Tokuchi",
   "title": "One Outs Wiki",
   "url": "http://oneouts.wikia.com/wiki/Toa_Tokuchi",
@@ -227,7 +220,8 @@
   "title": "Clannad Wiki",
   "url": "http://clannad.wikia.com/wiki/Kyou_Fujibayashi",
   "height": "160",
-  "occupation": "Student, Kindergarten Teacher"
+  "occupation": "Student, Kindergarten Teacher",
+  "gender": "Female"
 },
 {
   "status": "Alive",
@@ -285,7 +279,8 @@
   "title": "Owari no Seraph Wiki",
   "height":"150",
   "weight":"43",
-  "age":"15"
+  "age":"15",
+  "gender":"Female"
 },
 {
   "url": "http://souleater.wikia.com/wiki/Maka_Albarn",
@@ -318,7 +313,8 @@
   "title": "Clannad Wiki",
   "url": "http://clannad.wikia.com/wiki/Fuko_Ibuki",
   "height": "150",
-  "occupation": "Student"
+  "occupation": "Student",
+  "gender":"Female"
 },
 {
   "url": "http://you-zitsu.wikia.com/wiki/Kiyotaka_Ayanok%25C5%258Dji",
@@ -481,7 +477,8 @@
   "title": "Clannad Wiki",
   "url": "http://clannad.wikia.com/wiki/Tomoyo_Sakagami",
   "height": "161",
-  "occupation": "Student council president"
+  "occupation": "Student council president",
+  "gender":"Female"
 },
 {
   "url": "http://anohana.wikia.com/wiki/Meiko_%2522Menma%2522_Honma",
@@ -804,6 +801,7 @@
   "gender": "Female",
   "age": "14-15",
   "height": "152.4",
+  "gender":"Female",
   "occupation": "1st year High School Student"
 },
 {
@@ -812,7 +810,8 @@
   "title": "Full Metal Panic! Wiki",
   "url": "http://fullmetalpanic.wikia.com/wiki/Sousuke_Sagara",
   "age": "17",
-  "height": "174"
+  "height": "174",
+  "gender": "Male"
 },
 {
   "name": "Byakuya_Kuchiki",
@@ -909,7 +908,8 @@
   "title": "Kimi ni Todoke Wiki",
   "url": "http://kiminitodoke.wikia.com/wiki/Sawako_Kuronuma",
   "age": "15",
-  "height": "158"
+  "height": "158",
+  "gender":"Female"
 },
 {
   "status": "Alive",
@@ -1014,7 +1014,8 @@
   "title": "Shugo Chara Wiki",
   "url": "http://shugochara.wikia.com/wiki/Ikuto_Tsukiyomi",
   "age": "17",
-  "height": "180"
+  "height": "180",
+  "gender":"Male"
 },
 {
   "status": "Alive",
@@ -1303,7 +1304,8 @@
   "title": "Clannad Wiki",
   "url": "http://clannad.wikia.com/wiki/Tomoya_Okazaki",
   "height": "173",
-  "occupation": "Student, parent, electrician"
+  "occupation": "Student, parent, electrician",
+  "gender":"Male"
 },
 {
   "status": "Alive",
@@ -1474,7 +1476,8 @@
   "title": "Clannad Wiki",
   "url": "http://clannad.wikia.com/wiki/Nagisa_Furukawa",
   "height": "155",
-  "occupation": "Student, parent, waitress"
+  "occupation": "Student, parent, waitress",
+  "gender":"Female"
 },
 {
   "status": "Alive",
@@ -1996,6 +1999,7 @@
   "status": "{{{status}}}",
   "name": "Lelouch_vi_Britannia",
   "weight": "56",
+  "gender":"Male",
   "title": "Code Geass Wiki",
   "url": "http://codegeass.wikia.com/wiki/Lelouch_vi_Britannia",
   "age": "18",
@@ -2228,6 +2232,7 @@
 {
   "name": "Izaya Orihara",
   "weight": "58",
+  "gender":"Male",
   "title": "Durarara!! Wiki",
   "url": "http://durarara.wikia.com/wiki/Izaya_Orihara",
   "age": "23",
@@ -2338,7 +2343,8 @@
   "url": "http://durarara.wikia.com/wiki/Shizuo_Heiwajima",
   "age": "23",
   "height": "185",
-  "occupation": "Bartender (Former)Bodyguard (Current)"
+  "occupation": "Bartender (Former)Bodyguard (Current)",
+  "gender": "Male"
 },
 {
   "name": "Sasuke_Uchiha",
