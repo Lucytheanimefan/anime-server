@@ -7,7 +7,7 @@ def writeToCSV(filename):
 	with open(filename) as file:
 		new_data = []
 		info = ast.literal_eval(file.read())
-		with open("../data/data.csv", "w+") as write_file:
+		with open("../data/data_new.csv", "w+") as write_file:
 			write_file.write("name,gender,height,weight,bmi\n")
 			for data in info:
 				if "weight" in data and "height" in data:
@@ -31,5 +31,5 @@ def analyze(filename='../data/data.csv'):
 
 
 if __name__ == '__main__':
-	#writeToCSV("../data/cleaned_data.json")
-	analyze()
+	#writeToCSV("../data/new_cleaned_data.json")
+	analyze('../data/data_new.csv')
