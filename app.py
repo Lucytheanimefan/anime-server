@@ -102,7 +102,7 @@ def anime_recommendations():
 
 @app.route("/character_biometrics", methods=["GET"])
 def character_biometrics():
-	with open('data/cleaned_data.json') as file:
+	with open('data/new_cleaned_data.json') as file:
 		text = file.read().replace('\n', '')
 		info = ast.literal_eval(text)
 		return render_template('anime_character_biostats.html', data = json.dumps(info))

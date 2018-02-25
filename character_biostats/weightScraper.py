@@ -86,7 +86,7 @@ def clean_string(string):
 
 def clean_data_string(data):
 	#string = data.sub(r"\(.*\)", "")  #get rid of anything in parentheses
-	return re.sub(r'\[(.*\])', '', data)#.strip('\n').rstrip().lstrip()
+	return re.sub(r'\[(.*\])', '', data).rstrip().lstrip()
 	#return rid_unit(re.sub(r'\[(.*\])', '', data).strip('\n').rstrip().lstrip())
 	
 def remove_special_chars(string):
@@ -178,29 +178,29 @@ def batch_character_weight_process(pos, limit, output):
 	data = []
 	#threads = []
 	for i, character in enumerate(characters):
-		#print character
+		print character
 		#thread.start_new_thread( print_time, ("Thread-1", 2, ) ) TODO: use threads
-		thread = CharacterScraperThread(i, character)
-		thread.setDaemon(True)
-		thread.start()
-		threads.append(thread)
-		#character_data = scrape_weight_for_character(character)
-		#if character_data:
-		#	data.append(character_data)
+		# thread = CharacterScraperThread(i, character)
+		# thread.setDaemon(True)
+		# thread.start()
+		# threads.append(thread)
+		character_data = scrape_weight_for_character(character)
+		if character_data:
+			data.append(character_data)
 	
-	for t in threads:
-		t.join()
-		data.append(t.character_data)
-		if not t.isAlive():
-			print(t.name + ' is dead')
-			#break
-	print('----------Exiting main thread')
-	print data
+	# for t in threads:
+	# 	t.join()
+	# 	data.append(t.character_data)
+	# 	if not t.isAlive():
+	# 		print(t.name + ' is dead')
+	# 		break
+	# print('----------Exiting main thread')
+	# print data
 	output.put(data)
 	return data
 
 def begin_parallel(filename):
-	limit = 2 #3*50 = 150 characters
+	limit = 6 #3*50 = 150 characters
 	start_time = time.time()
 	processes = [mp.Process(target=batch_character_weight_process, args=(x, 50*x, output)) for x in range(limit)]
 	for p in processes:
@@ -217,11 +217,11 @@ def begin_parallel(filename):
 
 if __name__ == '__main__':
 	debug = False
-	do_parallel = True
-	do_sequential = False;
+	do_parallel = False
+	do_sequential = False
 	find_characters = True
 	scrape_data = True
-	clean_data = False
+	clean_data = True
 	write_file = False
 	filename = "../data/parallel_character.json"#"../data/anime_character_stats3.json"
 
@@ -249,6 +249,7 @@ if __name__ == '__main__':
 			elapsed_time = time.time() - start_time
 			print('-----Sequential elapsed time: ' + str(elapsed_time))
 			print 'Done'
+
 	if clean_data:
 		print 'Cleaning data'
 		with open(filename) as file:
@@ -263,7 +264,7 @@ if __name__ == '__main__':
 				if "age" in character:
 					character["age"] = super_clean_string(character["age"].split(" ")[0].split("-")[0])
 				new_data.append(character)
-			if write_file is True:
-				write_to_file(new_data, "../data/cleaned_data"+str(time.time())+".json")
+
+			write_to_file(new_data, "../data/cleaned_data"+str(time.time())+".json")
 
 
