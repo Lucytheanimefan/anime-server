@@ -2,6 +2,8 @@ import ast
 import pandas
 import numpy as np
 from statsmodels.formula.api import ols
+import matplotlib.pyplot as plt
+import statsmodels.api as sm
 
 def writeToCSV(filename):
 	with open(filename) as file:
@@ -15,7 +17,7 @@ def writeToCSV(filename):
 						height = float(data["height"])
 						weight = float(data["weight"])
 						bmi = weight/(height * height * 0.0001)
-						status = 0
+						status = 1
 						#-1=dead, 1=alive, 0=undefined
 						if "status" in data:
 							if "alive" in data["status"].lower():
@@ -35,8 +37,15 @@ def analyze(filename='../data/data.csv'):
 	print("---------------------------------")
 	# ordinary least squares
 	#model = ols("height ~ weight", data).fit()
-	model = ols("bmi ~ status", data).fit()
-	print(model.summary())
+	model = ols("status ~ bmi", data).fit()
+	#print(model.summary())
+	print(model.rsquared)
+	# scatter-plot data
+	# 
+	fig, ax = plt.subplots(figsize=(12,8))
+	fig = sm.graphics.influence_plot(model, ax=ax, criterion="cooks")
+	fig.savefig("../data/ols_bmi_status.png")
+	
 	#for gender, value in groupby_gender['bmi']:
 		#print((gender,value))
 

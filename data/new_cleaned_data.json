@@ -1065,6 +1065,15 @@
   "title": "InuYasha"
 },
 {
+  "url": "http://inuyasha.wikia.com/wiki/Kikyō",
+  "name": "Kikyo",
+  "title": "InuYasha",
+  "gender":"Female",
+  "weight":"169",
+  "height":"57",
+  "status":"Deceased"
+},
+{
   "status": "Alive",
   "name": "Saeko_Busujima",
   "weight": "56",
