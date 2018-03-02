@@ -38,7 +38,7 @@
   "occupation": "Graduate Student"
 },
 {
-  "status": "School",
+  "status": "Alive",
   "name": "Nagisa_Shiota",
   "weight": "48",
   "title": "Ansatsu Ky\\u014dshitsu Wiki",
@@ -64,7 +64,8 @@
   "url": "http://k-on.wikia.com/wiki/Tsumugi_Kotobuki",
   "gender": "Female",
   "age": "15",
-  "height": "157"
+  "height": "157",
+  "status": "Alive"
 },
 {
   "name": "Morgiana",
@@ -74,7 +75,8 @@
   "gender": "Female",
   "age": "14",
   "height": "148",
-  "occupation": "Household MemberCaravan Worker (former)Slave (former)"
+  "occupation": "Household MemberCaravan Worker (former)Slave (former)",
+  "status": "Alive",
 },
 {
   "status": "Alive",
@@ -190,7 +192,7 @@
 },
 {
   "url": "http://cowboybebop.wikia.com/wiki/Edward",
-  "height": "",
+  "height": "154",
   "name": "Edward",
   "title": "Bebopedia"
 },
@@ -271,7 +273,8 @@
   "url": "http://deathnote.wikia.com/wiki/Misa_Amane",
   "gender": "Female",
   "age": "19",
-  "height": "152"
+  "height": "152",
+  "status": "Deceased"
 },
 {
   "url": "http://owarinoseraph.wikia.com/wiki/Shinoa_H%25C4%25ABragi",
@@ -335,8 +338,11 @@
 },
 {
   "url": "http://bleach.wikia.com/wiki/S%25C5%258Dsuke_Aizen",
-  "name": "S%25C5%258Dsuke_Aizen",
-  "title": "Bleach Wiki"
+  "name": "Sosuke_Aizen",
+  "title": "Bleach Wiki",
+  "weight":"74",
+  "height":"186",
+  "gender":"Male"
 },
 {
   "name": "Ritsu_Tainaka",
@@ -482,8 +488,12 @@
 },
 {
   "url": "http://anohana.wikia.com/wiki/Meiko_%2522Menma%2522_Honma",
-  "name": "Meiko_%2522Menma%2522_Honma",
-  "title": "Anohana Wiki"
+  "name": "Meiko_Menma_Honma",
+  "title": "Anohana Wiki",
+  "weight":"36",
+  "height":"147",
+  "status": "Deceased",
+  "gender":"Female"
 },
 {
   "status": "Alive",
@@ -1032,6 +1042,7 @@
   "url": "http://bleach.wikia.com/wiki/Grimmjow_Jaegerjaquez",
   "gender": "Male",
   "height": "186",
+  "weight":"80",
   "occupation": "None"
 },
 {
@@ -1225,7 +1236,7 @@
   "url": "http://shigatsu-wa-kimi-no-uso.wikia.com/wiki/Kaori_Miyazono",
   "gender": "Female",
   "age": "14",
-  "occupation": "ViolinistStudent"
+  "occupation": "Violinist Student"
 },
 {
   "name": "Houtarou Oreki",
@@ -1429,7 +1440,7 @@
   "weight": "47",
   "title": "TYPE-MOON Wiki",
   "url": "http://typemoon.wikia.com/wiki/Rin_Tohsaka",
-  "gender": "Female[1]",
+  "gender": "Female",
   "height": "159"
 },
 {
@@ -1685,7 +1696,8 @@
   "url": "http://evangelion.wikia.com/wiki/Shinji_Ikari",
   "age": "14",
   "name": "Shinji_Ikari",
-  "title": "Evangelion"
+  "title": "Evangelion",
+  "status": "Alive",
 },
 {
   "name": "Takashi_Natsume",
@@ -1702,14 +1714,16 @@
   "url": "http://fairytail.wikia.com/wiki/Gray_Fullbuster",
   "gender": "Male",
   "age": "18",
-  "occupation": "Mage"
+  "occupation": "Mage",
+  "status": "Alive",
 },
 {
   "name": "Gilgamesh",
+  "status": "Deceased",
   "weight": "68",
   "title": "TYPE-MOON Wiki",
   "url": "http://typemoon.wikia.com/wiki/Gilgamesh",
-  "gender": "Male[1][2][3][4][5]",
+  "gender": "Male",
   "height": "182"
 },
 {
