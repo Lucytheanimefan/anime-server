@@ -35,12 +35,13 @@ good_tags = ["Psychological","Seinen","Horror","Mystery","Thriller","Supernatura
 output = mp.Queue()
 
 def scrape_anime_info(anime_id, user_score, output):
+	print(anime_id)
 	url = 'https://myanimelist.net/anime/' + str(anime_id)
 	r = requests.get(url)
 	data = r.text
 	soup = BeautifulSoup(data,  "html.parser")
 	labels = soup.find_all("span",{"class":"dark_text"})
-	return_data = {"genre":None, "studios":None, "public_score":None, "user_score":None}
+	return_data = {"genre":None, "studio":None, "public_score":None, "user_score":None}
 	return_data["user_score"] = user_score
 	for label in labels:
 		label_lower = label.text.lower()
@@ -50,6 +51,7 @@ def scrape_anime_info(anime_id, user_score, output):
 		if 'studios' in label_lower:
 			parent = label.parent
 			return_data["studio"] = [value.text for value in parent.find_all("a")]
+			#print(return_data["studio"])
 		if 'score' in label_lower:
 			if label.parent.find("span",{"itemprop":"ratingValue"}) is not None:
 				return_data["public_score"] = label.parent.find("span",{"itemprop":"ratingValue"}).text
@@ -82,38 +84,21 @@ def analyze_MAL(username):
 					genre_count[genre] += 1
 				else:
 					genre_count[genre] = 1
-		if data["studios"] is not None:
-			for studio in data["studios"]:
+		if data["studio"] is not None:
+			for studio in data["studio"]:
 				if studio in studio_count:
 					studio_count[studio] += 1
 				else:
 					studio_count[studio] = 1
 
-	print genre_count
-	print studio_count
-	# for data in coordinator.fetch_animelist(username):
-	# 	anime_id = data["anime_id"]
-	# 	my_score = data["user_score"]
-
-	# 	# TODO: weight the counts by score
-	# 	info = scrape_anime_info(anime_id)
-	# 	if info["genre"] is not None:
-	# 		for genre in info["genre"]:
-	# 			if genre in genre_count:
-	# 				genre_count[genre] += 1
-	# 			else:
-	# 				genre_count[genre] = 1
-	# 	if info["studios"] is not None:
-	# 		for studio in info["studios"]:
-	# 			if studio in studio_count:
-	# 				studio_count[studio] += 1
-	# 			else:
-	# 				studio_count[studio] = 1
-
-	# print genre_count
-	#print studio_count
-		#genres = [scrape_anime_info(data['anime_id']) for data in coordinator.fetch_animelist(username)]
-
+	print(genre_count)
+	print(studio_count)
+	# sorted_genres = sorted(genre_count.items(), key=operator.itemgetter(1))
+	# sorted_studios = sorted(studio_count.items(), key=operator.itemgetter(1))
+	# print("------")
+	# print(sorted_genres.reverse())
+	# print(sorted_studios.reverse())
+	
 
 def findSeasonRecs(season, year, output_format = 'html'):
 	season_anime = {}
