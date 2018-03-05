@@ -16,7 +16,8 @@ import requests
 import operator
 import random
 import json
-
+import MalCoordinator
+import multiprocessing as mp
 
 reload(sys)  
 sys.setdefaultencoding('utf8')
@@ -30,6 +31,88 @@ bad_tags = ["School", "Harem","Ecchi", "Kids"]
 sort_of_bad_tags = ["Slice of Life", "Comedy","Historical"]
 ok_tags = ["Action","Drama","Fantasy","Shounen"] 
 good_tags = ["Psychological","Seinen","Horror","Mystery","Thriller","Supernatural"]
+
+output = mp.Queue()
+
+def scrape_anime_info(anime_id, user_score, output):
+	url = 'https://myanimelist.net/anime/' + str(anime_id)
+	r = requests.get(url)
+	data = r.text
+	soup = BeautifulSoup(data,  "html.parser")
+	labels = soup.find_all("span",{"class":"dark_text"})
+	return_data = {"genre":None, "studios":None, "public_score":None, "user_score":None}
+	return_data["user_score"] = user_score
+	for label in labels:
+		label_lower = label.text.lower()
+		if 'genre' in label_lower: 
+			parent = label.parent
+			return_data["genre"] = [value.text for value in parent.find_all("a")]
+		if 'studios' in label_lower:
+			parent = label.parent
+			return_data["studio"] = [value.text for value in parent.find_all("a")]
+		if 'score' in label_lower:
+			if label.parent.find("span",{"itemprop":"ratingValue"}) is not None:
+				return_data["public_score"] = label.parent.find("span",{"itemprop":"ratingValue"}).text
+	output.put(return_data)
+	return return_data
+
+def batch_anime_scrape(data_list):
+	processes = [mp.Process(target=scrape_anime_info, args=(data["anime_id"], data["user_score"], output)) for data in data_list]
+	for p in processes:
+		p.start()
+	for p in processes:
+		p.join()
+	results = [output.get() for p in processes]
+	return results
+
+# TODO: make this parallel too           
+def analyze_MAL(username):
+	genre_count = {}
+	studio_count = {}
+	coordinator = MalCoordinator.MalCoordinator()
+	data_list = coordinator.fetch_animelist(username)
+	#print(data_list)
+	#anime_ids = [data["anime_id"] for data in data_list]
+	#print(anime_ids)
+	anime_data = batch_anime_scrape(data_list)
+	for data in anime_data:
+		if data["genre"] is not None:
+			for genre in data["genre"]:
+				if genre in genre_count:
+					genre_count[genre] += 1
+				else:
+					genre_count[genre] = 1
+		if data["studios"] is not None:
+			for studio in data["studios"]:
+				if studio in studio_count:
+					studio_count[studio] += 1
+				else:
+					studio_count[studio] = 1
+
+	print genre_count
+	print studio_count
+	# for data in coordinator.fetch_animelist(username):
+	# 	anime_id = data["anime_id"]
+	# 	my_score = data["user_score"]
+
+	# 	# TODO: weight the counts by score
+	# 	info = scrape_anime_info(anime_id)
+	# 	if info["genre"] is not None:
+	# 		for genre in info["genre"]:
+	# 			if genre in genre_count:
+	# 				genre_count[genre] += 1
+	# 			else:
+	# 				genre_count[genre] = 1
+	# 	if info["studios"] is not None:
+	# 		for studio in info["studios"]:
+	# 			if studio in studio_count:
+	# 				studio_count[studio] += 1
+	# 			else:
+	# 				studio_count[studio] = 1
+
+	# print genre_count
+	#print studio_count
+		#genres = [scrape_anime_info(data['anime_id']) for data in coordinator.fetch_animelist(username)]
 
 
 def findSeasonRecs(season, year, output_format = 'html'):
@@ -113,3 +196,6 @@ def findSeasonRecs(season, year, output_format = 'html'):
 	return anime_return
 
 
+if __name__ == '__main__':
+	analyze_MAL('aznespina')
+	#print scrape_anime_info(35180)

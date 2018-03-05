@@ -24,6 +24,7 @@ class MalCoordinator(object):
 
         url = 'https://myanimelist.net/animelist/{}/load.json'.format(username)
         r = requests.get(url)
+        print(r)
         json_entries = r.json()
 
         if isinstance(json_entries, dict):
@@ -69,6 +70,6 @@ class MalCoordinator(object):
 
 if __name__ == '__main__':
     coordinator = MalCoordinator()
-    for entry in coordinator.fetch_animelist("Silent_Muse"):
+    for entry in coordinator.fetch_animelist("katzenbaer"):
         print entry
         print "\n"

@@ -17,6 +17,7 @@ def writeToCSV(filename):
 						height = float(data["height"])
 						weight = float(data["weight"])
 						bmi = weight/(height * height * 0.0001)
+						print bmi
 						status = 1
 						#-1=dead, 1=alive, 0=undefined
 						if "status" in data:
@@ -33,6 +34,9 @@ def analyze(filename='../data/data.csv'):
 	data = pandas.read_csv(filename, sep=',')
 	groupby_gender = data.groupby('gender')
 	print(groupby_gender.mean())
+
+	groupby_status = data.groupby('status')
+	print(groupby_status.mean())
 
 	print("---------------------------------")
 	# ordinary least squares
