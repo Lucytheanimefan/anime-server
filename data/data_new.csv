@@ -1,0 +1,127 @@
+name,gender,height,weight,bmi,status
+Nagisa_Shiota,Male,159.0,48.0,18.9865907203,1
+Tsumugi_Kotobuki,Female,157.0,53.0,21.5018864863,1
+Morgiana,Female,148.0,51.0,23.2834185537,1
+Decim,Male,175.0,70.0,22.8571428571,1
+Chiaki Nanami,Female,160.0,46.0,17.96875,1
+Mikaela HyakuyaMikaela Shind\u014d (Birth Name),Male,173.0,57.0,19.0450733402,1
+Sakura_Haruno,Female,161.0,45.4,17.5147563751,1
+Misaki_Nakahara,Female,154.0,40.0,16.8662506325,1
+Kirino_Kousaka,Female,165.0,45.0,16.5289256198,1
+Rin_Matsuoka,Male,177.0,68.0,21.7051294328,1
+Kyou_Fujibayashi,Female,160.0,46.0,17.96875,1
+Kaoru Hitachiin,Male,178.0,59.0,18.6213861886,1
+Misa Amane,Female,152.0,36.0,15.5817174515,-1
+Shinoa_Hiragi,Female,150.0,43.0,19.1111111111,1
+Kuroyukihime,Female,159.0,48.0,18.9865907203,1
+Fuko_Ibuki,Female,150.0,41.0,18.2222222222,1
+Sosuke_Aizen,Male,186.0,74.0,21.3897560412,1
+Ritsu_Tainaka,Female,154.0,48.0,20.239500759,1
+Hanamichi_Sakuragi,Male,189.2,85.0,23.7452453638,1
+Azusa_Nakano,Female,150.0,46.0,20.4444444444,1
+Eru Chitanda,Female,160.0,54.0,21.09375,1
+Meliodas,Male,152.0,50.0,21.6412742382,1
+Armin Arlert,Male,163.0,55.0,20.7008167413,1
+Tomoyo_Sakagami,Female,161.0,47.0,18.1320165117,1
+Meiko_Menma_Honma,Female,147.0,36.0,16.6597251145,-1
+Nao Tomori,Female,161.0,46.0,17.7462289264,1
+Okita Sougo,Male,170.0,58.0,20.0692041522,1
+Minene Uryuu,Female,168.0,55.0,19.4869614512,1
+Kyo Sohma,Male,171.3,56.0,19.0841710773,1
+Makoto_Tachibana,Male,151.0,42.0,18.4202447261,1
+Katsura Kotarou,Male,175.0,56.0,18.2857142857,1
+Gohan,Male,176.0,61.0,19.6926652893,1
+Momo_Belia_Deviluke,Female,151.0,45.0,19.7359764923,1
+Kyoko Kirigiri,Female,167.0,48.0,17.2110868084,1
+Tatsuhiro_Satou,Male,176.0,58.0,18.7241735537,1
+Akane_Tsunemori,Female,163.0,49.0,18.4425458241,1
+Yu Kanda,Male,175.0,61.0,19.9183673469,1
+Madara_Uchiha,Male,179.0,71.3,22.2527386786,-1
+Nagito Komaeda,Male,180.0,65.0,20.0617283951,1
+Mayuri_Shiina,Female,152.0,45.0,19.4771468144,1
+Inuyasha,Male,172.0,65.0,21.9713358572,1
+Sousuke Sagara,Male,174.0,66.0,21.799445105,1
+Byakuya_Kuchiki,Male,180.0,64.0,19.7530864198,1
+Misaki Ayuzawa,Female,165.0,49.0,17.9981634527,1
+Kosaki_Onodera,Female,157.0,43.0,17.4449267719,1
+Jiraiya,Male,191.2,87.5,23.9349363632,-1
+Sawako_Kuronuma,Female,158.0,44.0,17.625380548,1
+Arataka_Reigen,Male,179.0,66.1,20.6298180456,1
+Minato_Namikaze,Male,179.2,66.1,20.5837950415,-1
+Hijikata Toushirou,Male,177.0,64.0,20.4283571132,1
+Ban,Male,210.0,70.0,15.873015873,1
+Jotaro Kujo,Male,195.0,82.0,21.5647600263,1
+Ikuto_Tsukiyomi,Male,180.0,64.0,19.7530864198,1
+Grimmjow_Jaegerjaquez,Male,186.0,80.0,23.124060585,1
+Kikyo,Female,169.0,57.0,19.9572844088,-1
+Saeko_Busujima,Female,174.0,56.0,18.496498877,1
+Lavi,Male,177.0,68.0,21.7051294328,1
+Tobio_Kageyama,Male,180.6,66.3,20.3272222897,1
+Vegeta,Male,164.0,56.0,20.8209399167,1
+Joseph Joestar,Male,195.0,97.0,25.5095332018,1
+Revy,Female,167.0,55.0,19.721036968,1
+Houtarou Oreki,Male,176.0,62.0,20.0154958678,1
+Himura_Kenshin,Male,158.0,48.0,19.2276878705,1
+Tomoya_Okazaki,Male,173.0,61.0,20.381569715,1
+Rin_Okumura,Male,173.0,63.0,21.0498179024,1
+Allen Walker,Male,168.0,58.0,20.5498866213,1
+Rikka_Takanashi,Female,150.0,47.0,20.8888888889,1
+Mio_Akiyama,Female,160.0,54.0,21.09375,1
+Rin Tohsaka,Female,159.0,47.0,18.591036747,1
+Yui_Hirasawa,Female,156.0,50.0,20.5456936226,1
+Kiritsugu Emiya,Male,175.0,67.0,21.8775510204,1
+Eren Yeager,Male,170.0,63.0,21.7993079585,1
+Nagisa_Furukawa,Female,155.0,43.0,17.8980228928,1
+Gaara,Male,166.1,50.9,18.4492415694,1
+Tetsuya_Kuroko,Male,168.0,57.0,20.1955782313,1
+Inori Yuzuriha,Female,166.0,45.0,16.330381768,-1
+Chitoge_Kirisaki,Female,160.0,46.0,17.96875,1
+Kenpachi_Zaraki,Male,202.0,90.0,22.0566611117,1
+Shikamaru_Nara,Male,170.0,53.4,18.4775086505,1
+Toshiro Hitsugaya,Male,133.0,28.0,15.8290463,1
+Gon_Freecss,Male,154.0,49.0,20.6611570248,1
+Hinata_Hyuga,Female,160.0,45.0,17.578125,1
+Karma_Akabane,Male,175.0,60.0,19.5918367347,1
+Keima_Katsuragi,Male,174.0,54.0,17.8359096314,1
+Gilgamesh,Male,182.0,68.0,20.5289216278,-1
+Ulquiorra_Cifer,Male,169.0,55.0,19.2570288155,1
+Shogo_Makishima,Male,180.0,65.0,20.0617283951,-1
+Shinya_Kogami,Male,180.0,66.0,20.3703703704,1
+Osamu_Dazai,Male,174.0,54.0,17.8359096314,1
+Juuzou_Suzuya,Male,160.0,47.0,18.359375,1
+Natsuki_Subaru,Male,173.0,70.0,23.3886865582,1
+Kyoya_Hibari,Male,169.0,58.0,20.3074122055,1
+Touka_Kirishima,Female,156.0,45.0,18.4911242604,1
+Shiki Ryougi,Female,160.0,47.0,18.359375,1
+Tsunayoshi_Sawada,Male,157.0,46.5,18.8648626719,1
+Daiki_Aomine,Male,192.0,85.0,23.0577256944,1
+Rukia_Kuchiki,Female,144.0,33.0,15.9143518519,1
+Kisuke_Urahara,Male,183.0,69.0,20.6037803458,1
+Kenji_Harima,Male,180.0,79.0,24.3827160494,1
+Shiba_Tatsuya,Male,180.0,70.0,21.6049382716,1
+Ruri_Gokou,Female,155.0,43.0,17.8980228928,1
+Kurapika,Male,171.0,59.0,20.1771485243,1
+Lelouch_vi_Britannia,Male,178.0,56.0,17.6745360434,1
+L,Male,179.0,50.0,15.605006086,-1
+Light Yagami,Male,179.0,54.0,16.8534065728,-1
+Rintaro_Okabe,Male,177.0,59.0,18.8323917137,1
+Sakata Gintoki,Male,177.0,65.0,20.7475501931,1
+Naruto_Uzumaki,Male,166.0,50.9,18.4714762665,1
+Kirigaya Kazuto,Male,172.0,59.0,19.9432125473,1
+Killua_Zoldyck,Male,158.0,45.0,18.0259573786,1
+Kurisu_Makise,Female,160.0,45.0,17.578125,1
+Itachi_Uchiha,Male,178.0,58.0,18.3057694736,-1
+Yuno Gasai,Female,159.0,49.0,19.3821446936,1
+Taiga_Aisaka,Female,144.5,34.0,16.283329941,1
+Ken_Kaneki,Male,169.0,55.0,19.2570288155,1
+Mikasa Ackerman,Female,170.0,68.0,23.5294117647,1
+Saitama,Male,175.0,70.0,22.8571428571,1
+Izaya Orihara,Male,175.0,58.0,18.9387755102,1
+Saber,Female,154.0,42.0,17.7095631641,1
+Ichigo_Kurosaki,Male,174.0,61.0,20.147971991,1
+Kakashi_Hatake,Male,181.0,67.5,20.6037666738,1
+Eikichi_Onizuka,Male,168.0,55.0,19.4869614512,1
+Yuuki Asuna,Female,168.0,55.0,19.4869614512,1
+Shizuo Heiwajima,Male,185.0,70.0,20.4528853178,1
+Sasuke_Uchiha,Male,168.0,52.2,18.4948979592,1
+Hisoka_Morow,Male,187.0,91.0,26.0230489862,1
