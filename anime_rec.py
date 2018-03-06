@@ -19,6 +19,7 @@ import json
 import MalCoordinator
 import multiprocessing as mp
 import importlib
+import time
 
 importlib.reload(sys)  
 #sys.setdefaultencoding('utf8')
@@ -33,6 +34,12 @@ sort_of_bad_tags = ["Slice of Life", "Comedy","Historical"]
 ok_tags = ["Action","Drama","Fantasy","Shounen"] 
 good_tags = ["Psychological","Seinen","Horror","Mystery","Thriller","Supernatural"]
 
+my_headers={"User-Agent": "Mozilla/5.0 (Windows NT 6.2; WOW64; rv:40.0) Gecko/20100101 Firefox/40.0",
+"Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+"Accept-Language": "en-US,am;q=0.7,zh-HK;q=0.3",
+"Accept-Encoding": "gzip, deflate",
+"Cookie": "PREF=ID=1111111111111111:FF=0:LD=en:TM=1439993585:LM=1444815129:V=1:S=Zjbb3gK_m_n69Hqv; NID=72=F6UyD0Fr18smDLJe1NzTReJn_5pwZz-PtXM4orYW43oRk2D3vjb0Sy6Bs_Do4J_EjeOulugs_x2P1BZneufegpNxzv7rkY9BPHcfdx9vGOHtJqv2r46UuFI2f5nIZ1Cu4RcT9yS5fZ1SUhel5fHTLbyZWhX-yiPXvZCiQoW4FjZd-3Bwxq8yrpdgmPmf4ufvFNlmTd3y; OGP=-5061451:; OGPC=5061713-3:",
+"Connection": "keep-alive"}
 
 
 output = mp.Queue()
@@ -40,14 +47,16 @@ output = mp.Queue()
 def scrape_anime_info(anime_id, user_score, output):
 	#print(anime_id)
 	url = 'https://myanimelist.net/anime/' + str(anime_id)
-	r = requests.get(url)
+	r = requests.get(url, headers=my_headers)
 	data = r.text
 	soup = BeautifulSoup(data,  "html.parser")
 	labels = soup.find_all("span",{"class":"dark_text"})
-	return_data = {"genre":None, "studio":None, "public_score":None, "user_score":None}
+	#print(labels)
+	return_data = {"genre":None, "studio":None, "public_score":None, "user_score":None,"anime_id":anime_id}
 	return_data["user_score"] = user_score
 	for label in labels:
 		label_lower = label.text.lower()
+		#print(label_lower)
 		if 'genre' in label_lower: 
 			parent = label.parent
 			return_data["genre"] = [value.text for value in parent.find_all("a")]
@@ -58,19 +67,49 @@ def scrape_anime_info(anime_id, user_score, output):
 		if 'score' in label_lower:
 			if label.parent.find("span",{"itemprop":"ratingValue"}) is not None:
 				return_data["public_score"] = label.parent.find("span",{"itemprop":"ratingValue"}).text
+	if return_data["genre"] is None and return_data["studio"] is None and return_data["public_score"] is None:
+		# probably too many requests if we're not getting the data, we'll need to stall
+		print("STALL too many requests")
+		time.sleep(30) # I don't actually know what the rate limit for MAL is :/
+
 	if output is not None:
 		output.put(return_data)
 	return return_data
 
+def batch_scrape_anime_info(data_chunk, output):
+	print("BATCH")
+	return_data = []
+	for data in data_chunk:
+		return_data.append(scrape_anime_info(data["anime_id"], data["user_score"], None))
+	print(return_data)
+	print("------------------")
+	output.put(return_data) # an array of dictionaries 
+
 def batch_anime_scrape(data_list, do_parallel=True):
 	results = []
+	# TODO: split into 4 processes ONLY
+	num_cores = mp.cpu_count()*2
+	chunk_size = int(len(data_list)/num_cores) #TODO: don't have a set chunk size, evenly distribute this instead so that one chunk doesn't have a single chunk of data
+	remainder = len(data_list)%num_cores
+	# if (remainder*2 < chunk_size):
+	# 	num_cores+=1
+	# 	chunk_size = int(len(data_list)/num_cores)
+	chunked_data = [data_list[i:i + chunk_size] for i in range(0, len(data_list), chunk_size)]
+	#print("CHUNKED DATA")
+	#print(chunked_data)
+
 	if do_parallel:
-		processes = [mp.Process(target=scrape_anime_info, args=(data["anime_id"], data["user_score"], output)) for data in data_list]
+		start_time = time.time()
+		processes = [mp.Process(target=batch_scrape_anime_info, args=(data, output)) for data in chunked_data]
 		for p in processes:
 			p.start()
 		for p in processes:
 			p.join()
-		results = [output.get() for p in processes]
+		elapsed_time = time.time() - start_time
+		print("Chunk size: "+str(chunk_size)+", Elapsed time: " + str(elapsed_time))
+
+		lists = [output.get() for p in processes]
+		results = [item for sublist in lists for item in sublist] #append the list of lists into 1 list
 		return results
 	else:
 		print('Don\'t do parallel')
@@ -118,6 +157,7 @@ def analyze_MAL(username):
 				else:
 					studio_count[studio] = studio_score
 
+	print("--------------------")
 	print(genre_count)
 	print(studio_count)
 	return (genre_count, studio_count)
@@ -243,5 +283,6 @@ def findSeasonRecs(username, season, year, output_format = 'html'):
 
 
 if __name__ == '__main__':
-	#analyze_MAL('Silent_Muse')
-	print(findSeasonRecs('Silent_Muse','spring', 2018))
+	#print(scrape_anime_info(29803, None, None))
+	analyze_MAL('Silent_Muse')
+	#print(findSeasonRecs('Silent_Muse','spring', 2018))
