@@ -2,12 +2,12 @@ import sys
 if 'threading' in sys.modules:
     del sys.modules['threading']
 import os
-from flask import Flask, render_template,send_from_directory, jsonify, request, session, json
+from flask import Flask, render_template,send_from_directory, jsonify, request, session, json, Response
 import requests
 import server
 import JSONEncoder
 import time
-from anime_rec import findSeasonRecs
+from anime_rec import findSeasonRecs, batch_anime_scrape
 from datetime import datetime
 import random
 import MalCoordinator
@@ -82,13 +82,20 @@ def get_reviews():
 	print reviews
 	return jsonify(json.dumps(reviews))
 
-@app.route("/animerec", methods=["POST", "GET"])
-def animerec():
-	seasons = ["fall","winter","summer","spring"]
-	today = datetime.today()
-	year = str(random.randint(2007,int(today.year)))
-	season = random.choice(seasons)
-	return jsonify({"message_format":"html","year": year, "season":season,"message":findSeasonRecs(season,year)})
+
+@app.route("/mal_anime_stats", methods=["GET"])
+def mal_anime_stats():
+	anime_data = None
+	username = request.args.get('username')
+	if username is None:
+		username = "Silent_Muse"
+	coordinator = MalCoordinator.MalCoordinator()
+	data_list = coordinator.fetch_animelist(username)
+	if "error" in data_list:
+		anime_data = data_list["error"]
+	else:
+		anime_data = batch_anime_scrape(data_list)
+	return jsonify(anime_data)
 
 @app.route("/recommendations", methods=["GET"])
 def anime_recommendations():
