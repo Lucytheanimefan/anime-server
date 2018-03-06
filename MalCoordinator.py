@@ -25,6 +25,8 @@ class MalCoordinator(object):
         url = 'https://myanimelist.net/animelist/{}/load.json'.format(username)
         r = requests.get(url)
         print(r)
+        if r.status_code == 429:
+            return {"error":"You tried accessing MAL too many times, wait a minute or 2"}
         json_entries = r.json()
 
         if isinstance(json_entries, dict):

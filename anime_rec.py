@@ -61,7 +61,7 @@ def scrape_anime_info(anime_id, user_score, output):
 		output.put(return_data)
 	return return_data
 
-def batch_anime_scrape(data_list, do_parallel=False):
+def batch_anime_scrape(data_list, do_parallel=True):
 	results = []
 	if do_parallel:
 		processes = [mp.Process(target=scrape_anime_info, args=(data["anime_id"], data["user_score"], output)) for data in data_list]
@@ -83,6 +83,8 @@ def analyze_MAL(username):
 	studio_count = {}
 	coordinator = MalCoordinator.MalCoordinator()
 	data_list = coordinator.fetch_animelist(username)
+	if "error" in data_list:
+		return "error",data_list["error"]
 	#print(data_list)
 	#anime_ids = [data["anime_id"] for data in data_list]
 	#print(anime_ids)
@@ -130,9 +132,11 @@ def findSeasonRecs(username, season, year, output_format = 'html'):
 	studio_count = {}
 	if username:
 		genre_count, studio_count = analyze_MAL(username)
+		if genre_count == "error":
+			return studio_count #the error message
 	season_anime = {}
 	scores = {}
-	url = aniChartUrl + str(season)+"-"+str(year)+"/tv"
+	url = aniChartUrl + str(season) + "-" + str(year) + "/tv"
 	#print(url)
 	r = requests.get(url)
 	data = r.text
