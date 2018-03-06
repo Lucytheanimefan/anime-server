@@ -32,6 +32,8 @@ sort_of_bad_tags = ["Slice of Life", "Comedy","Historical"]
 ok_tags = ["Action","Drama","Fantasy","Shounen"] 
 good_tags = ["Psychological","Seinen","Horror","Mystery","Thriller","Supernatural"]
 
+
+
 output = mp.Queue()
 
 def scrape_anime_info(anime_id, user_score, output):
@@ -78,21 +80,36 @@ def analyze_MAL(username):
 	#print(anime_ids)
 	anime_data = batch_anime_scrape(data_list)
 	for data in anime_data:
+		# if user's score is below 5, it's negative
+		original_score = data["user_score"]
+		if original_score >= 8:
+			genre_score = original_score * 3
+			studio_score = genre_score#original_score * 3
+		elif original_score <=5:
+			genre_score = original_score * -0.8
+			studio_score = original_score * -0.5
+		else:
+			genre_score = original_score
+			studio_score = original_score * 0.5
+
 		if data["genre"] is not None:
 			for genre in data["genre"]:
 				if genre in genre_count:
-					genre_count[genre] += 1
+					genre_count[genre] += genre_score
 				else:
-					genre_count[genre] = 1
+					genre_count[genre] = genre_score
+
+		# I feel like it's less applicable to studios, so weighted less
 		if data["studio"] is not None:
 			for studio in data["studio"]:
 				if studio in studio_count:
-					studio_count[studio] += 1
+					studio_count[studio] += studio_score
 				else:
-					studio_count[studio] = 1
+					studio_count[studio] = studio_score
 
 	print(genre_count)
 	print(studio_count)
+	return (genre_count, studio_count)
 	# sorted_genres = sorted(genre_count.items(), key=operator.itemgetter(1))
 	# sorted_studios = sorted(studio_count.items(), key=operator.itemgetter(1))
 	# print("------")
@@ -100,11 +117,12 @@ def analyze_MAL(username):
 	# print(sorted_studios.reverse())
 	
 
-def findSeasonRecs(season, year, output_format = 'html'):
+def findSeasonRecs(username, season, year, output_format = 'html'):
+	genre_count, studio_count = analyze_MAL(username)
 	season_anime = {}
 	scores = {}
 	url = aniChartUrl + str(season)+"-"+str(year)+"/tv"
-	print(url)
+	#print(url)
 	r = requests.get(url)
 	data = r.text
 	#print(data)
@@ -113,24 +131,36 @@ def findSeasonRecs(season, year, output_format = 'html'):
 	for anime in animez:
 		titlez = anime.find_all("h3",{"class":"main-title"})[0]
 		title = (titlez.text).encode('utf-8').strip().replace('"', "'") 
-		#print title
+		
+		print_data = (title == "Cutie Honey Universe")
+
 		scores[title] = 0 #each show starts off with 0
 
 		########## check title ###########
 		if "death" in title:
 			scores[title]+=2
 
-		########### check the tag ##########
+		########### check the tag/genre ##########
 		tags = [tag.text for tag in anime.find_all("ol",{"class":"anime-tags"})[0].find_all("li")]
 		for tag in tags:
-			if tag in good_tags:
-				scores[title] += 6
+			value = 0
+			if tag in genre_count:
+				value = int(genre_count[tag])
+			# default to Lucy's tastes
+			elif tag in good_tags:
+				value = 6
 			elif tag in sort_of_bad_tags:
-				scores[title] += -3
+				value = -3
 			elif tag in bad_tags:
-				scores[title] += -10
+				value = -10
 			elif tag in ok_tags:
-				scores[title]+=2
+				value =2
+
+			scores[title]+= value
+
+			if print_data:
+				print('Genre score value increment: ' + str(value) +', '+ tag)
+
 		season_anime[title] = {"tags":tags}
 		studios = anime.find_all("ul",{"class":"anime-studios"})
 
@@ -139,12 +169,20 @@ def findSeasonRecs(season, year, output_format = 'html'):
 		for studio in studios:
 			if studio.find_all("a"):
 				stud = studio.find_all("a")[0].text
-				if stud in great_studios:
-					scores[title] += 6
+				value = 0
+				if stud in studio_count:
+					value = studio_count[stud]
+				# default to Lucy's tastes
+				elif stud in great_studios:
+					value = 6
 				elif stud in good_studios:
-					scores[title] += 3
+					value = 3
 				elif stud in ok_studios:
-					scores[title] += 1
+					value = 1
+				scores[title] += value
+
+				if print_data:
+					print('Studio score value increment: ' + str(value) +', '+ stud)
 				parsed_studios.append(stud)
 			else:
 				parsed_studios.append(studio.find_all("li")[0].text)
@@ -164,12 +202,13 @@ def findSeasonRecs(season, year, output_format = 'html'):
 	#print season_anime
 	anime_return = None
 	sorted_anime = sorted(scores.items(), key=operator.itemgetter(1))
+	print('-------------------------------RECOMMENDATION-------------------------------')
 	i=0
 	if output_format =='html':
 		anime_return = "Anime of " + season +" " + str(year) + "<ol>" 
 		for anime in reversed(sorted_anime):
 			i+=1
-			anime_return = anime_return + "<li>" + anime[0]+", "+str(anime[1]) + "</li>"
+			anime_return = anime_return + "<li>" + anime[0]+", "+str(anime[1]) + "</li>\n"
 		print("-------------")
 		#print(season_anime)
 		anime_return = anime_return + "</ol>"
@@ -182,5 +221,5 @@ def findSeasonRecs(season, year, output_format = 'html'):
 
 
 if __name__ == '__main__':
-	analyze_MAL('aznespina')
-	#print scrape_anime_info(35180)
+	#analyze_MAL('Silent_Muse')
+	print(findSeasonRecs('Silent_Muse','spring', 2018))
