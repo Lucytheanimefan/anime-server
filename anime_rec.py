@@ -61,7 +61,7 @@ def scrape_anime_info(anime_id, user_score, output):
 		output.put(return_data)
 	return return_data
 
-def batch_anime_scrape(data_list, do_parallel=True):
+def batch_anime_scrape(data_list, do_parallel=False):
 	results = []
 	if do_parallel:
 		processes = [mp.Process(target=scrape_anime_info, args=(data["anime_id"], data["user_score"], output)) for data in data_list]
