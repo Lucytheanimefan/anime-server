@@ -18,9 +18,10 @@ import random
 import json
 import MalCoordinator
 import multiprocessing as mp
+import importlib
 
-reload(sys)  
-sys.setdefaultencoding('utf8')
+importlib.reload(sys)  
+#sys.setdefaultencoding('utf8')
 
 aniChartUrl="https://www.livechart.me/"
 great_studios = ["MAPPA","A-1 Pictures","Bones","Madhouse"]

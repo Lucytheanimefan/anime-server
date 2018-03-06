@@ -29,5 +29,5 @@ class CrunchyRoll(object):
 
 if __name__ == '__main__':
 	crunchy = CrunchyRoll("KowaretaSekai")
-	print crunchy.fetch_user_info()
+	print(crunchy.fetch_user_info())
 

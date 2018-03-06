@@ -16,7 +16,7 @@ class Funimation(object):
 		url = base_url + endpoint
 		r = requests.get(url)
 		json_entries = r.json()
-		print json_entries
+		print(json_entries)
 
 	def login(self, username, password):
 		endpoint = "auth/login/"
@@ -25,10 +25,10 @@ class Funimation(object):
             'Territory': 'US'
         }
 		r = requests.post(base_url + endpoint, data = {'username':username,'password':password}, headers = headers, verify=False)
-		print r.headers
-		print "------------------"
+		print(r.headers)
+		print("------------------")
 		self.csrftoken = r.headers['Set-Cookie'].split(';')[0].split('=')[1]
-		return r.json()#["token"]
+		return(r.json())#["token"]
 		#return auth_token
 
 	def get_my_queue(self, auth_token = None):

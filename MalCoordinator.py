@@ -73,5 +73,5 @@ class MalCoordinator(object):
 if __name__ == '__main__':
     coordinator = MalCoordinator()
     for entry in coordinator.fetch_animelist("katzenbaer"):
-        print entry
-        print "\n"
+        print(entry)
+        print("\n")

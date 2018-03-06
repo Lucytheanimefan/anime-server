@@ -15,9 +15,10 @@ import CrunchyRoll
 import Funimation
 from bson.json_util import dumps
 import ast
+import importlib
 
-reload(sys)  
-sys.setdefaultencoding('utf8')
+importlib.reload(sys)  
+#sys.setdefaultencoding('utf8')
 
 app = Flask(__name__)
 app.secret_key = os.urandom(12)
@@ -58,14 +59,10 @@ def add_review():
 
 @app.route("/updateReview", methods=["POST"])
 def update_review():
-	print 'json: '
-	print request.get_json()
 	review = request.get_json()
 	review_query = {}
 	review_query['title'] = review['title']
 	review_query['anime_id'] = review['anime_id']
-	print 'REVIEW QUERY: '
-	print review_query
 	database.reviews.update_one(review_query, {"$set": {"review":review["review"]}}, upsert=True)
 	return "Success"
 
@@ -78,8 +75,6 @@ def get_reviews():
 	else:
 		query = {'anime_id':anime_id}
 	reviews = dumps(database.reviews.find(query))
-	print '----------Get review: '
-	print reviews
 	return jsonify(json.dumps(reviews))
 
 
