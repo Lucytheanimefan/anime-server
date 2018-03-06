@@ -37,7 +37,7 @@ good_tags = ["Psychological","Seinen","Horror","Mystery","Thriller","Supernatura
 output = mp.Queue()
 
 def scrape_anime_info(anime_id, user_score, output):
-	print(anime_id)
+	#print(anime_id)
 	url = 'https://myanimelist.net/anime/' + str(anime_id)
 	r = requests.get(url)
 	data = r.text
@@ -57,17 +57,25 @@ def scrape_anime_info(anime_id, user_score, output):
 		if 'score' in label_lower:
 			if label.parent.find("span",{"itemprop":"ratingValue"}) is not None:
 				return_data["public_score"] = label.parent.find("span",{"itemprop":"ratingValue"}).text
-	output.put(return_data)
+	if output is not None:
+		output.put(return_data)
 	return return_data
 
-def batch_anime_scrape(data_list):
-	processes = [mp.Process(target=scrape_anime_info, args=(data["anime_id"], data["user_score"], output)) for data in data_list]
-	for p in processes:
-		p.start()
-	for p in processes:
-		p.join()
-	results = [output.get() for p in processes]
-	return results
+def batch_anime_scrape(data_list, do_parallel=True):
+	results = []
+	if do_parallel:
+		processes = [mp.Process(target=scrape_anime_info, args=(data["anime_id"], data["user_score"], output)) for data in data_list]
+		for p in processes:
+			p.start()
+		for p in processes:
+			p.join()
+		results = [output.get() for p in processes]
+		return results
+	else:
+		print('Don\'t do parallel')
+		for data in data_list:
+			results.append(scrape_anime_info(data["anime_id"], data["user_score"], None))
+		return results
 
 # TODO: make this parallel too           
 def analyze_MAL(username):
@@ -118,7 +126,10 @@ def analyze_MAL(username):
 	
 
 def findSeasonRecs(username, season, year, output_format = 'html'):
-	genre_count, studio_count = analyze_MAL(username)
+	genre_count = {}
+	studio_count = {}
+	if username:
+		genre_count, studio_count = analyze_MAL(username)
 	season_anime = {}
 	scores = {}
 	url = aniChartUrl + str(season)+"-"+str(year)+"/tv"
@@ -131,7 +142,7 @@ def findSeasonRecs(username, season, year, output_format = 'html'):
 	for anime in animez:
 		titlez = anime.find_all("h3",{"class":"main-title"})[0]
 		title = (titlez.text).encode('utf-8').strip().replace('"', "'") 
-		
+		print(title)
 		print_data = (title == "Cutie Honey Universe")
 
 		scores[title] = 0 #each show starts off with 0
@@ -202,16 +213,22 @@ def findSeasonRecs(username, season, year, output_format = 'html'):
 	#print season_anime
 	anime_return = None
 	sorted_anime = sorted(scores.items(), key=operator.itemgetter(1))
-	print('-------------------------------RECOMMENDATION-------------------------------')
+
+	if username is None:
+		username = "Lucy"
+	print('-------------------RECOMMENDATION-------------------')
 	i=0
-	if output_format =='html':
-		anime_return = "Anime of " + season +" " + str(year) + "<ol>" 
+	if output_format == 'html':
+		anime_return = "<h1>Anime of " + season +" " + str(year) + " for " + username + "</h1><ol>" 
+		
 		for anime in reversed(sorted_anime):
 			i+=1
-			anime_return = anime_return + "<li>" + anime[0]+", "+str(anime[1]) + "</li>\n"
+			anime_return += "<li>" + anime[0]+", "+str(anime[1]) + "</li>"
+			print(anime_return)
 		print("-------------")
 		#print(season_anime)
-		anime_return = anime_return + "</ol>"
+		anime_return += "</ol>"
+		print(anime_return)
 	elif output_format == 'text':
 		anime_return = scores#sorted_anime#json.dumps(reversed(sorted_anime))
 		print("-------------")

@@ -7,7 +7,24 @@ body {
 {% endblock %} {% block body %}
 <div class="container">
   <h1>Recommendations</h1>
-  <h3>Takes in the following arguments in url: season, year. ie. /recommendations?season=winter&year=2018</h3>
+  <div class="row">
+    <div class="col-md-8">
+      <form method="/recommendations" type="GET">
+        <div class="form-group">
+          <input class="form-control" placeholder="Username" type="text" name="username">
+        </div>
+        <div class="form-group">
+          <input class="form-control" placeholder="Season" type="text" name="season">
+        </div>
+        <div class="form-group">
+          <input class="form-control" placeholder="Year" type="number" name="year">
+        </div>
+        <div class="form-group">
+          <input class="form-control" type="submit" name="">
+        </div>
+      </form>
+    </div>
+  </div>
   <div id="recs" data-recs={ { recommendations }}></div>
   <div id="results"></div>
 </div>

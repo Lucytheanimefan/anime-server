@@ -94,11 +94,16 @@ def animerec():
 def anime_recommendations():
 	season = request.args.get('season')
 	year = request.args.get('year')
+	username = request.args.get('username')
 	if season is None or year is None:
-		season = "winter"
+		season = "spring"
 		year = 2018
-	return render_template('recommendations.html', recommendations = findSeasonRecs(season,year))
 
+	return render_template('recommendations.html', recommendations = findSeasonRecs(username,season,year))
+
+# @app.route("/recommendations", methods=["GET"])
+# def get_anime_recommendations():
+# 	return render_template('recommendations.html', recommendations = findSeasonRecs(None, "Spring", 2018))
 
 @app.route("/character_biometrics", methods=["GET"])
 def character_biometrics():
