@@ -308,7 +308,7 @@ def findSeasonRecs(username, season, year, genre_count = None, studio_count = No
 		
 		########## check sequels ###########
 		for mal_anime in final_mal_list:
-			mal_title = mal_anime["title"].lower().encode('utf-8')#.strip()
+			mal_title = mal_anime["title"].lower()#.encode('utf-8')#.strip()
 			similar_score = similar(title.lower(), mal_title)
 
 			if title.lower() in mal_title or similar_score > 0.75:
