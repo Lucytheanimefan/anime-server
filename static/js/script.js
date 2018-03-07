@@ -9,6 +9,7 @@ function check_job_status(status_url) {
           break;
       case "failed":
           console.log("Job failed: " + data.message);
+          alert("Error loading data");
           break;
       default:
         // queued/started/deferred - every 30 seconds

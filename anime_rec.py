@@ -347,7 +347,7 @@ def findSeasonRecs(username, season, year, genre_count = None, studio_count = No
 			print(anime)
 			i += 1
 			title,score = anime 
-			anime_return += "<li>" + title.decode("utf-8") +", " +str(score)+ "</li>"
+			anime_return += "<li>" + title +", " +str(score)+ "</li>"
 
 		print("-------------")
 		#print(season_anime)
