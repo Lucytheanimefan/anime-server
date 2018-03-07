@@ -18,6 +18,7 @@ from bson.json_util import dumps
 import ast
 import importlib
 from worker import *
+from rq import Queue
 
 #importlib.reload(sys)  
 #sys.setdefaultencoding('utf8')
@@ -80,6 +81,23 @@ def get_reviews():
 	return jsonify(json.dumps(reviews))
 
 
+@app.route('/status/<job_id>', methods=["GET"])
+def job_status(job_id):
+	#q = Queue()
+    job = q.fetch_job(job_id)
+    print("JOB")
+    print(job)
+    if job is None:
+        response = {'status': 'unknown'}
+    else:
+        response = {
+            'status': job.get_status(),
+            'result': job.result,
+        }
+        if job.is_failed:
+            response['message'] = job.exc_info.strip().split('\n')[-1]
+    return jsonify(response)
+
 @app.route("/recommendations", methods=["GET"])
 def anime_recommendations():
 	season = request.args.get('season')
@@ -88,13 +106,12 @@ def anime_recommendations():
 	if season is None or year is None:
 		season = "spring"
 		year = 2018
-	job = q.enqueue(findSeasonRecs, username, season, year, timeout=500)
-	return jsonify({'job_id':job.get_id()})
-	#return render_template('recommendations.html', recommendations = findSeasonRecs(username,season,year))
-
-# @app.route("/recommendations", methods=["GET"])
-# def get_anime_recommendations():
-# 	return render_template('recommendations.html', recommendations = findSeasonRecs(None, "Spring", 2018))
+	if username is not None:
+		job = q.enqueue(findSeasonRecs, username, season, year, timeout=700)
+	#return jsonify({}), 202, {'Location': url_for('main.job_status', job_id=job.get_id())}
+		return render_template('recommendations.html', job_id=job.get_id(), recommendations="")
+	else:
+		return render_template('recommendations.html', job_id="", recommendations="")
 
 @app.route("/character_biometrics", methods=["GET"])
 def character_biometrics():

@@ -106,8 +106,8 @@ def scrape_anime_info(anime_id, user_score, output):
 		print("STALL too many requests")
 		time.sleep(30) # I don't actually know what the rate limit for MAL is :/
 		# Try again, but only once more, else I don't care. No recursion. That could go into dangerous territories.
-		labels = find_anime_labels(anime_id)
-		return_data = parse_relevant_info(labels, return_data)
+		#labels = find_anime_labels(anime_id)
+		#return_data = parse_relevant_info(labels, return_data)
 
 	if output is not None:
 		output.put(return_data)
@@ -223,8 +223,8 @@ def findSeasonRecs(username, season, year, genre_count = None, studio_count = No
 
 	season_anime = {}
 	scores = {}
-	url = aniChartUrl + str(season) + "-" + str(year) + "/tv"
-	#print(url)
+	url = aniChartUrl + str(season.lower()) + "-" + str(year) + "/tv"
+	print(url)
 	r = requests.get(url)
 	data = r.text
 	#print(data)
@@ -232,8 +232,9 @@ def findSeasonRecs(username, season, year, genre_count = None, studio_count = No
 	animez = soup.find_all("div", {"class": "anime-card"})
 	for anime in animez:
 		titlez = anime.find_all("h3",{"class":"main-title"})[0]
-		title = (titlez.text).strip().replace('"', "'") 
-		#print(title)
+		#print(titlez)
+		title = (titlez.text).strip().replace('"', "'")
+		print(title)
 		print_data = (title == "Cutie Honey Universe")
 
 		scores[title] = 0 #each show starts off with 0
@@ -307,10 +308,11 @@ def findSeasonRecs(username, season, year, genre_count = None, studio_count = No
 		
 		########## check sequels ###########
 		for mal_anime in final_mal_list:
-			mal_title = mal_anime["title"].lower()
+			mal_title = mal_anime["title"].lower()#.encode('utf-8').strip()
 			similar_score = similar(title.lower(), mal_title)
+
 			if title.lower() in mal_title or similar_score > 0.75:
-				print("---Sequel: " + title + ", " + mal_title + ", " + str(similar_score))
+				#print(("---Sequel: " + title + ", " + mal_title + ", " + str(similar_score)).encode('utf-8').strip())
 				mal_score = mal_anime["user_score"]
 				if similar_score == 1:
 					# identical, the anime is already on user's MAL list, shoot it to the top
@@ -342,6 +344,7 @@ def findSeasonRecs(username, season, year, genre_count = None, studio_count = No
 		anime_return = "<h1>Anime of " + season +" " + str(year) + " for " + username + "</h1><ol>" 
 		
 		for anime in reversed(sorted_anime):
+			print(anime)
 			i += 1
 			title,score = anime 
 			anime_return += "<li>" + title+", "+str(score) + "</li>"
@@ -363,4 +366,15 @@ def findSeasonRecs(username, season, year, genre_count = None, studio_count = No
 
 
 if __name__ == '__main__':
-	print("Do nothing")
+		# Lucy's data
+	genre_count = {'Action': 645.5, 'Psychological': 183.5, 'Supernatural': 594.5, 'Shounen': 380.0, 'Drama': 621.0, 'Romance': 449.5, 'School': 249.0, 'Fantasy': 367.0, 'Comedy': 552.0, 'Music': 52.5, 'Shoujo': 174.0, 'Slice of Life': 196.0, 'Super Power': 147.5, 'Martial Arts': 73.0, 'Adventure': 245.5, 'Historical': 153.5, 'Mystery': 525.5, 'Game': 67.0, 'Ecchi': 16, 'Sci-Fi': 212.5, 'Military': 104.5, 'Demons': 75.5, 'Seinen': 176.0, 'Harem': 15.0, 'Parody': 13, 'Vampire': 31.5, 'Horror': 145.5, 'Thriller': 208.0, 'Police': 7, 'Magic': 127.5, 'Samurai': 13.0, 'Dementia': 7, 'Mecha': 30.5, 'Shoujo Ai': -4, 'Space': -5, 'Sports': 19.0, 'Josei': 7, 'Kids': 7}
+	studio_count = {'Asread': 10.5, 'Doga Kobo': -1.5, 'P.A. Works': 13.0, 'Madhouse': 124.5, 'Studio Pierrot': 85.0, 'Signal. MD': 3.5, 'Bones': 160.0, 'Studio Chizu': 20, 'TYO Animations': -5, "Brain's Base": 99.0, 'Marvy Jack': 16, 'J.C.Staff': 60.0, 'feel.': 29, 'Wit Studio': 51.5, 'Production I.G': 24.5, 'Lerche': 23.5, 'White Fox': 15.5, 'Passione': 3.0, 'Studio Deen': 2.0, 'A-1 Pictures': 122.0, 'Studio Rikka': 35.5, 'Purple Cow Studio Japan': 16, 'Studio Ghibli': 57.0, 'Triangle Staff': 3.5, 'Daume': 38, 'Bee Train': 3.0, 'Satelight': 6, 'C2C': -5, 'Tatsunoko Production': 10.5, 'Hal Film Maker': 16, 'Gonzo': 3.0, 'AIC': 3.0, 'Zexcs': -5, 'Kyoto Animation': 67.0, 'Shaft': 50, 'Trigger': 7.0, 'Lay-duce': 0, '8bit': -9, 'Diomedea': -6, 'TROYCA': -2.0, 'SANZIGEN': 3.0, 'LIDENFILMS': 6.5, 'Sunrise': 41.0, 'Kinema Citrus': 19.0, 'Orange': 3.0, 'Polygon Pictures': 3.0, 'Manglobe': 3.5, 'Science SARU': 16, 'Shuka': 23.0, 'ufotable': 166, 'Group TAC': 3.5, 'Tokyo Movie Shinsha': 3.5, 'Arms': -4, 'TMS Entertainment': 69.5, 'Radix': 16, 'David Production': 3.5, 'MAPPA': 56.5, 'GoHands': 7.0, 'CoMix Wave Films': 16, 'Silver Link.': 16, 'Xebec': -4, 'Studio Hibari': 3.5, 'NUT': 0, 'Studio Gokumi': 0, 'TNK': 0, 'Lilix': 0, 'Studio 4°C': 0, 'Gainax': 0}
+
+	findSeasonRecs("Silent_Muse", "Spring", "2017", genre_count, studio_count)
+
+	# aznespina = Naijiao
+	# genre_count = {'Action': 208.412, 'Supernatural': 186.304, 'Vampire': 22.2, 'Mystery': 105.703, 'Psychological': 76.5, 'School': 125.506, 'Sci-Fi': 89.001, 'Super Power': 58.3, 'Comedy': 147.81, 'Harem': 32.9, 'Mecha': 15.4, 'Romance': 163.912, 'Horror': 47.66, 'Shounen': 74.9, 'Police': 9.5, 'Thriller': 50.0, 'Game': 10.2001, 'Drama': 164.105, 'Adventure': 84.804, 'Magic': 87.605, 'Fantasy': 137.71, 'Seinen': 29.08, 'Ecchi': 45.8, 'Martial Arts': 5.4, 'Military': 32.8, 'Demons': 19.0, 'Dementia': 4.5, 'Shoujo': 24.5, 'Slice of Life': 61.54, 'Josei': 3.90004, 'Historical': 14.4, 'Space': 5.9, 'Sports': 7.3001, 'Music': 10.9, 'Parody': 5.0}
+	# studio_count = {'Shaft': 74, 'Lerche': 6.5, 'Bones': 162.5, 'AIC Plus+': -5, 'Manglobe': 54.0, 'Madhouse': 168.0, 'Zexcs': 81.5, 'Gonzo': 34.0, "Brain's Base": 78, 'Arms': 51, 'Xebec': 48, 'Satelight': 54.5, 'A-1 Pictures': 177.0, 'ufotable': 67.0, 'feel.': 10.0, 'A.C.G.T.': 24, 'J.C.Staff': 194.0, '8bit': 6.0, 'Production I.G': 105.5, 'White Fox': 73, 'TNK': 3.5, 'Studio Deen': 234.5, 'Trigger': 27, 'Pine Jam': 30, 'Doga Kobo': 84.0, 'Shuka': 3.5, 'Sunrise': 81.5, 'Studio Pierrot': 51.5, 'TROYCA': 7.0, 'AIC': 24, 'P.A. Works': 84.5, 'Silver Link.': 47.0, 'Pierrot Plus': 3.5, 'Asread': 19, 'Toei Animation': 8.5, 'Kinema Citrus': 3.0, 'Orange': 3.0, 'Kyoto Animation': 34.5, 'TMS Entertainment': 3.5, 'Yumeta Company': 3.5, 'AIC Build': 7.0, 'AIC Classic': 3.5, 'Wit Studio': 30.5, 'Diomedea': 3.5, 'Imagin': 27, 'Marvy Jack': 27, 'Telecom Animation Film': 3.5, 'Tatsunoko Production': 27, 'Trans Arts': 3.5, 'Nexus': 3.5, 'Passione': 3.5, 'GoHands': 24, 'Studio Ghibli': 30, 'Daume': 30, 'MAPPA': 48, 'Connect': 3.5, 'LIDENFILMS': 24, 'NUT': 3.5}
+
+#
+	#analyze_MAL('katzenbaer')
