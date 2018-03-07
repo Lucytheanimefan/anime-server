@@ -233,7 +233,7 @@ def findSeasonRecs(username, season, year, genre_count = None, studio_count = No
 	for anime in animez:
 		titlez = anime.find_all("h3",{"class":"main-title"})[0]
 		#print(titlez)
-		title = (titlez.text).strip().replace('"', "'")
+		title = (titlez.text).strip().replace('"', "'").encode('utf-8')
 		print(title)
 		print_data = (title == "Cutie Honey Universe")
 
@@ -308,7 +308,7 @@ def findSeasonRecs(username, season, year, genre_count = None, studio_count = No
 		
 		########## check sequels ###########
 		for mal_anime in final_mal_list:
-			mal_title = mal_anime["title"].lower()#.encode('utf-8').strip()
+			mal_title = mal_anime["title"].lower().encode('utf-8')#.strip()
 			similar_score = similar(title.lower(), mal_title)
 
 			if title.lower() in mal_title or similar_score > 0.75:
@@ -316,19 +316,19 @@ def findSeasonRecs(username, season, year, genre_count = None, studio_count = No
 				mal_score = mal_anime["user_score"]
 				if similar_score == 1:
 					# identical, the anime is already on user's MAL list, shoot it to the top
-					print("******BOOST sequel already on LIST: " + title + ", " + mal_title)
+					#print("******BOOST sequel already on LIST: " + title + ", " + mal_title)
 					scores[title] *= 10
 				elif mal_score == 10:
-					print("******BOOST sequel 10: " + title + ", " + mal_title)
+					#print("******BOOST sequel 10: " + title + ", " + mal_title)
 					scores[title] *= 5 # Sequels are important
 				elif mal_score == 9:
-					print("******BOOST sequel 9: " + title + ", " + mal_title)
+					#print("******BOOST sequel 9: " + title + ", " + mal_title)
 					scores[title] *= 2
 				elif mal_score == 8:
-					print("******BOOST sequel 8: " + title + ", " + mal_title)
+					#print("******BOOST sequel 8: " + title + ", " + mal_title)
 					scores[title] *= 1.5
 				elif mal_score == 7:
-					print("******BOOST sequel 7: " + title + ", " + mal_title)
+					#print("******BOOST sequel 7: " + title + ", " + mal_title)
 					scores[title] *= 1.05
 
 	
@@ -347,18 +347,18 @@ def findSeasonRecs(username, season, year, genre_count = None, studio_count = No
 			print(anime)
 			i += 1
 			title,score = anime 
-			anime_return += "<li>" + title+", "+str(score) + "</li>"
+			anime_return += "<li>" + title.decode("utf-8") +", " +str(score)+ "</li>"
 
 		print("-------------")
 		#print(season_anime)
 		anime_return += "</ol>"
-		print(anime_return)
+		#print(anime_return)
 	elif output_format == 'text':
 		anime_return = ""
 		for anime in reversed(sorted_anime):
 			title,score = anime 
 			i += 1
-			anime_return += str(i) + ": " + title+", "+str(score) + "\n"
+			anime_return += str(i) + ": " + title+", "+ str(score) + "\n"
 	
 		print("-------------")
 		#print(anime_return)

@@ -37,7 +37,7 @@ body {
   {% endblock %} {% block scripts %}
   <script type="text/javascript">
   var job_id = $("#worker").data("job_id");
-  console.log("Job id: " + job_id);
+  //console.log("Job id: " + job_id);
   check_job_status("/status/" + job_id);
 
   var parsed = JSON.parse('{{recommendations | tojson}}');
