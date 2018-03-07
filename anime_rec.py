@@ -231,7 +231,7 @@ def findSeasonRecs(username, season, year, genre_count = None, studio_count = No
 	soup = BeautifulSoup(data,  "html.parser")
 	animez = soup.find_all("div", {"class": "anime-card"})
 	for anime in animez:
-		titlez = anime.find_all("h3",{"class":"main-title"})[0]
+		titlez = anime.find_all("h3",{"class":"main-title"})[0].encode('utf-8')
 		#print(titlez)
 		title = (titlez.text).strip().replace('"', "'")#.encode('utf-8')
 		#print(title)
