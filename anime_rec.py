@@ -233,9 +233,9 @@ def findSeasonRecs(username, season, year, genre_count = None, studio_count = No
 	for anime in animez:
 		titlez = anime.find_all("h3",{"class":"main-title"})[0]
 		#print(titlez)
-		title = (titlez.text.encode('utf-8')).strip().replace('"', "'")#.encode('utf-8')
-		#print(title)
-		print_data = (title == "Cutie Honey Universe")
+		title = (titlez.text).strip().replace('"', "'")#.encode('utf-8')
+		print(title)
+		print_data = False#(title == "Cutie Honey Universe")
 
 		scores[title] = 0 #each show starts off with 0
 
