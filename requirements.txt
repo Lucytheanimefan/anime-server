@@ -11,3 +11,4 @@ gevent
 beautifulsoup4
 bs4
 enum34==1.1.6
+rq

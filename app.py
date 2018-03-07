@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import sys  
 if 'threading' in sys.modules:
     del sys.modules['threading']
@@ -16,8 +17,9 @@ import Funimation
 from bson.json_util import dumps
 import ast
 import importlib
+from worker import *
 
-importlib.reload(sys)  
+#importlib.reload(sys)  
 #sys.setdefaultencoding('utf8')
 
 app = Flask(__name__)
@@ -78,20 +80,6 @@ def get_reviews():
 	return jsonify(json.dumps(reviews))
 
 
-@app.route("/mal_anime_stats", methods=["GET"])
-def mal_anime_stats():
-	anime_data = None
-	username = request.args.get('username')
-	if username is None:
-		username = "Silent_Muse"
-	coordinator = MalCoordinator.MalCoordinator()
-	data_list = coordinator.fetch_animelist(username)
-	if "error" in data_list:
-		anime_data = data_list["error"]
-	else:
-		anime_data = batch_anime_scrape(data_list)
-	return jsonify(anime_data)
-
 @app.route("/recommendations", methods=["GET"])
 def anime_recommendations():
 	season = request.args.get('season')
@@ -100,8 +88,9 @@ def anime_recommendations():
 	if season is None or year is None:
 		season = "spring"
 		year = 2018
-
-	return render_template('recommendations.html', recommendations = findSeasonRecs(username,season,year))
+	job = q.enqueue(findSeasonRecs, username, season, year, timeout=500)
+	return jsonify({'job_id':job.get_id()})
+	#return render_template('recommendations.html', recommendations = findSeasonRecs(username,season,year))
 
 # @app.route("/recommendations", methods=["GET"])
 # def get_anime_recommendations():
