@@ -24,6 +24,7 @@ import importlib
 import time
 import math
 from difflib import SequenceMatcher
+import server
 
 #importlib.reload(sys)  
 #sys.setdefaultencoding('utf8')
@@ -47,6 +48,7 @@ my_headers={"User-Agent": "Mozilla/5.0 (Windows NT 6.2; WOW64; rv:40.0) Gecko/20
 
 
 output = mp.Queue()
+database = server.get_db()
 
 def similar(a, b):
     return SequenceMatcher(None, a, b).ratio()
@@ -210,9 +212,24 @@ def findSeasonRecs(username, season, year, genre_count = None, studio_count = No
 		username = "Silent_Muse"
 	if genre_count is None or studio_count is None:
 		if username:
-			genre_count, studio_count, mal_list = analyze_MAL(username)
-			if genre_count == "error":
-				return studio_count #the error message
+			# Search the database first
+			user_data = database.mal.find_one({"username":username})
+			if user_data:
+				print("Found data from db for this user!")
+				print(user_data)
+				genre_count = user_data["genre_count"]
+				studio_count = user_data["studio_count"]
+				print(genre_count)
+				print(studio_count)
+			else:
+				# Ok gotta do the actual work of scraping
+				genre_count, studio_count, mal_list = analyze_MAL(username)
+				if genre_count == "error":
+					return studio_count #the error message
+				else:
+					db_data = {"username":username, "genre_count":genre_count, "studio_count": studio_count}
+					database.mal.update({'username':username}, {"$set": db_data}, upsert=True)
+					print("Updated database!")
 
 	final_mal_list = []
 	if mal_list is None:
