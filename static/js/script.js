@@ -4,7 +4,7 @@ function check_job_status(status_url) {
   //console.log("Status url: " + status_url)
   $.getJSON(status_url, function(data) {
     startLoadSpinner();
-    console.log(data);
+    $("#results").html("<h2>Loading...this could take a long time so maybe go do something else first</h2>");
     switch (data.status) {
       case "finished":
         stopLoadSpinner();
@@ -17,10 +17,10 @@ function check_job_status(status_url) {
         alert("Error loading data");
         break;
       default:
-        // queued/started/deferred - every 30 seconds
+        // queued/started/deferred - every 5 seconds
         setTimeout(function() {
           check_job_status(status_url);
-        }, 30000);
+        }, 5000);
     }
   });
 }

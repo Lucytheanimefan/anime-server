@@ -25,6 +25,7 @@ import time
 import math
 from difflib import SequenceMatcher
 import server
+import json
 
 #importlib.reload(sys)  
 #sys.setdefaultencoding('utf8')
@@ -57,14 +58,13 @@ def similar(a, b):
 def parse_relevant_info(labels, return_data):
 	for label in labels:
 		label_lower = label.text.lower()
-		#print(label_lower)
 		if 'genre' in label_lower: 
 			parent = label.parent
 			return_data["genre"] = [value.text for value in parent.find_all("a")]
 		if 'studios' in label_lower:
 			parent = label.parent
 			return_data["studio"] = [value.text for value in parent.find_all("a")]
-			#print(return_data["studio"])
+
 		if 'score' in label_lower:
 			if label.parent.find("span",{"itemprop":"ratingValue"}) is not None:
 				return_data["public_score"] = label.parent.find("span",{"itemprop":"ratingValue"}).text
@@ -80,29 +80,13 @@ def find_anime_labels(anime_id):
 	return labels
 
 def scrape_anime_info(anime_id, user_score, output):
-	#print(anime_id)
-	# url = 'https://myanimelist.net/anime/' + str(anime_id)
-	# r = requests.get(url, headers=my_headers)
-	# data = r.text
-	# soup = BeautifulSoup(data,  "html.parser")
+
 	labels = find_anime_labels(anime_id) #soup.find_all("span",{"class":"dark_text"})
 	#print(labels)
 	return_data = {"genre":None, "studio":None, "public_score":None, "user_score":None,"anime_id":anime_id}
 	return_data["user_score"] = user_score
 	return_data = parse_relevant_info(labels, return_data)
-	# for label in labels:
-	# 	label_lower = label.text.lower()
-	# 	#print(label_lower)
-	# 	if 'genre' in label_lower: 
-	# 		parent = label.parent
-	# 		return_data["genre"] = [value.text for value in parent.find_all("a")]
-	# 	if 'studios' in label_lower:
-	# 		parent = label.parent
-	# 		return_data["studio"] = [value.text for value in parent.find_all("a")]
-	# 		#print(return_data["studio"])
-	# 	if 'score' in label_lower:
-	# 		if label.parent.find("span",{"itemprop":"ratingValue"}) is not None:
-	# 			return_data["public_score"] = label.parent.find("span",{"itemprop":"ratingValue"}).text
+
 	if return_data["genre"] is None and return_data["studio"] is None and return_data["public_score"] is None:
 		# probably too many requests if we're not getting the data, we'll need to stall
 		print("STALL too many requests")
@@ -130,13 +114,8 @@ def batch_anime_scrape(data_list, do_parallel=True):
 	num_cores = mp.cpu_count()
 	chunk_size = int(math.ceil(len(data_list)/num_cores)) #TODO: don't have a set chunk size, evenly distribute this instead so that one chunk doesn't have a single chunk of data
 	print("Chunk size: " + str(chunk_size))
-	#remainder = len(data_list)%num_cores
-	# if (remainder*2 < chunk_size):
-	# 	num_cores+=1
-	# 	chunk_size = int(len(data_list)/num_cores)
+
 	chunked_data = [data_list[i:i + chunk_size] for i in range(0, len(data_list), chunk_size)]
-	#print("CHUNKED DATA")
-	#print(chunked_data)
 
 	if do_parallel:
 		start_time = time.time()
@@ -214,20 +193,22 @@ def findSeasonRecs(username, season, year, genre_count = None, studio_count = No
 		if username:
 			# Search the database first
 			user_data = database.mal.find_one({"username":username})
+			print("Found user?")
+			print(user_data)
 			if user_data:
 				print("Found data from db for this user!")
 				print(user_data)
-				genre_count = user_data["genre_count"]
-				studio_count = user_data["studio_count"]
+				genre_count = json.loads(user_data["genre_count"])
+				studio_count = json.loads(user_data["studio_count"])
 				print(genre_count)
 				print(studio_count)
 			else:
-				# Ok gotta do the actual work of scraping
+				print("Ok gotta do the actual work of scraping")
 				genre_count, studio_count, mal_list = analyze_MAL(username)
 				if genre_count == "error":
 					return studio_count #the error message
 				else:
-					db_data = {"username":username, "genre_count":genre_count, "studio_count": studio_count}
+					db_data = {"username":username, "genre_count":json.dumps(genre_count), "studio_count": json.dumps(studio_count)}
 					database.mal.update({'username':username}, {"$set": db_data}, upsert=True)
 					print("Updated database!")
 
@@ -251,7 +232,7 @@ def findSeasonRecs(username, season, year, genre_count = None, studio_count = No
 		titlez = anime.find_all("h3",{"class":"main-title"})[0]
 		#print(titlez)
 		title = (titlez.text).strip().replace('"', "'")#.encode('utf-8')
-		print(title)
+		#print(title)
 		print_data = False#(title == "Cutie Honey Universe")
 
 		scores[title] = 0 #each show starts off with 0
