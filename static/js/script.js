@@ -14,7 +14,8 @@ function check_job_status(status_url) {
       case "failed":
         stopLoadSpinner();
         console.log("Job failed: " + data.message);
-        alert("Error loading data");
+        $("#results").html("<h2>Woops the job failed.</h2>");
+        //alert("Error loading data");
         break;
       default:
         // queued/started/deferred - every 5 seconds
