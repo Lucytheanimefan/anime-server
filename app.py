@@ -19,6 +19,7 @@ import ast
 import importlib
 from worker import *
 from rq import Queue
+import json
 
 #importlib.reload(sys)  
 #sys.setdefaultencoding('utf8')
@@ -103,15 +104,25 @@ def anime_recommendations():
 	season = request.args.get('season')
 	year = request.args.get('year')
 	username = request.args.get('username')
+	recs = ""
+	job_id = ""
 	if season is None or year is None:
 		season = "spring"
 		year = 2018
 	if username is not None:
-		job = q.enqueue(findSeasonRecs, username, season, year, timeout=700)
-	#return jsonify({}), 202, {'Location': url_for('main.job_status', job_id=job.get_id())}
-		return render_template('recommendations.html', job_id=job.get_id(), recommendations="")
-	else:
-		return render_template('recommendations.html', job_id="", recommendations="")
+		user_data = database.mal.find_one({"username":username})
+		print("Found user?")
+		print(user_data)
+		if user_data:
+			print("Found data from db for this user!")
+			genre_count = json.loads(user_data["genre_count"])
+			studio_count = json.loads(user_data["studio_count"])
+			recs = findSeasonRecs(username, season, year, genre_count, studio_count)
+		else:
+			job = q.enqueue(findSeasonRecs, username, season, year, timeout=700)
+			job_id = job.get_id()
+
+	return render_template('recommendations.html', job_id=job_id, recommendations=recs)
 
 @app.route("/character_biometrics", methods=["GET"])
 def character_biometrics():

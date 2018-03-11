@@ -5,7 +5,7 @@ body {
 }
 </style>
 {% endblock %} {% block body %}
-<div id="worker" data-job_id= {{ job_id }} >
+<div id="worker" data-job_id={ { job_id }}>
   <div class="container">
     <h1>Recommendations</h1>
     <div class="row">
@@ -39,7 +39,9 @@ body {
   <script type="text/javascript">
   var job_id = $("#worker").data("job_id");
   //console.log("Job id: " + job_id);
-  check_job_status("/status/" + job_id);
+  if (job_id.length > 2) {
+    check_job_status("/status/" + job_id);
+  }
 
   var parsed = JSON.parse('{{recommendations | tojson}}');
   $("#results").html(parsed);

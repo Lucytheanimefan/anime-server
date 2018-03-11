@@ -150,8 +150,11 @@ def analyze_MAL(username):
 
 	anime_data = batch_anime_scrape(data_list)
 	for data in anime_data:
-		# if user's score is below 5, it's negative
 		original_score = data["user_score"]
+		if original_score == 0:
+			original_score = data["public_score"]
+		
+		# if user's score is below 5, it's negative
 		if original_score >= 8:
 			genre_score = original_score * 0.5
 			studio_score = original_score*3
@@ -191,26 +194,14 @@ def findSeasonRecs(username, season, year, genre_count = None, studio_count = No
 		username = "Silent_Muse"
 	if genre_count is None or studio_count is None:
 		if username:
-			# Search the database first
-			user_data = database.mal.find_one({"username":username})
-			print("Found user?")
-			print(user_data)
-			if user_data:
-				print("Found data from db for this user!")
-				print(user_data)
-				genre_count = json.loads(user_data["genre_count"])
-				studio_count = json.loads(user_data["studio_count"])
-				print(genre_count)
-				print(studio_count)
+			print("Ok gotta do the actual work of scraping")
+			genre_count, studio_count, mal_list = analyze_MAL(username)
+			if genre_count == "error":
+				return studio_count #the error message
 			else:
-				print("Ok gotta do the actual work of scraping")
-				genre_count, studio_count, mal_list = analyze_MAL(username)
-				if genre_count == "error":
-					return studio_count #the error message
-				else:
-					db_data = {"username":username, "genre_count":json.dumps(genre_count), "studio_count": json.dumps(studio_count)}
-					database.mal.update({'username':username}, {"$set": db_data}, upsert=True)
-					print("Updated database!")
+				db_data = {"username":username, "genre_count":json.dumps(genre_count), "studio_count": json.dumps(studio_count)}
+				database.mal.update({'username':username}, {"$set": db_data}, upsert=True)
+				print("Updated database!")
 
 	final_mal_list = []
 	if mal_list is None:
