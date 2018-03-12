@@ -86,8 +86,6 @@ def get_reviews():
 def job_status(job_id):
 	#q = Queue()
     job = q.fetch_job(job_id)
-    print("JOB")
-    print(job)
     if job is None:
         response = {'status': 'unknown'}
     else:
@@ -122,7 +120,7 @@ def anime_recommendations():
 			job = q.enqueue(findSeasonRecs, username, season, year, timeout=700)
 			job_id = job.get_id()
 
-	return render_template('recommendations.html', job_id=job_id, recommendations=recs)
+	return render_template('recommendations.html', job_id=job_id, recommendations=recs, season=season, year=year, username=username)
 
 @app.route("/character_biometrics", methods=["GET"])
 def character_biometrics():

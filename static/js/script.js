@@ -26,6 +26,7 @@ function check_job_status(status_url) {
   });
 }
 
+
 function startLoadSpinner() {
   // var opts = {
   //   lines: 13, // The number of lines to draw
