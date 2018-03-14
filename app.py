@@ -116,6 +116,8 @@ def anime_recommendations():
 			genre_count = json.loads(user_data["genre_count"])
 			studio_count = json.loads(user_data["studio_count"])
 			recs = findSeasonRecs(username, season, year, genre_count, studio_count)
+		elif user_data is None:
+			recs = "Could not find an animelist associated with that user."
 		else:
 			job = q.enqueue(findSeasonRecs, username, season, year, timeout=700)
 			job_id = job.get_id()

@@ -147,7 +147,8 @@ def analyze_MAL(username):
 	data_list = coordinator.fetch_animelist(username)
 	if "error" in data_list:
 		return "error",data_list["error"]
-
+	if len(data_list) == 0:
+		print("Data list length is 0")
 	anime_data = batch_anime_scrape(data_list)
 	for data in anime_data:
 		original_score = data["user_score"]
