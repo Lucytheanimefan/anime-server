@@ -12,9 +12,11 @@ body {
       <div class="col-md-8">
         <form method="/recommendations" type="GET">
           <div class="form-group">
-            <input class="form-control" placeholder="MAL Username" type="text" name="username" value={{ username }}>
+            <label for="username">MAL username</label>
+            <input class="form-control" type="text" name="username" value={{ username }}>
           </div>
           <div class="form-group">
+            <label for="season">Season</label>
             <select class="form-control" placeholder="Season" name="season" value={{ season }}>
               <option>Summer</option>
               <option>Fall</option>
@@ -23,6 +25,7 @@ body {
             </select>
           </div>
           <div class="form-group">
+            <label for="year">Year</label>
             <input class="form-control" placeholder="Year" type="number" name="year" value={{ year }}>
           </div>
           <div class="form-group">
