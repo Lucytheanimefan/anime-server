@@ -152,7 +152,7 @@ def analyze_MAL(username):
 	for data in anime_data:
 		original_score = data["user_score"]
 		if original_score == 0 and data["public_score"] is not None:
-			original_score = data["public_score"]
+			original_score = float(data["public_score"])
 		
 		# if user's score is below 5, it's negative
 		if original_score >= 8:
