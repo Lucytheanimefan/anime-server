@@ -1,7 +1,7 @@
 var spinner;
 
 function check_job_status(status_url) {
-  //console.log("Status url: " + status_url)
+  console.log("Status url: " + status_url)
   $.getJSON(status_url, function(data) {
     startLoadSpinner();
     $("#results").html("<h2>Loading...this could take a long time so maybe go do something else first</h2>");
