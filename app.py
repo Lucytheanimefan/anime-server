@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import sys  
 if 'threading' in sys.modules:
-    del sys.modules['threading']
+	del sys.modules['threading']
 import os
 from flask import Flask, render_template,send_from_directory, jsonify, request, session, json, Response
 import requests
@@ -20,14 +20,46 @@ import importlib
 from worker import *
 from rq import Queue
 import json
+from flask_mail import Mail, Message
+from threading import Thread
 
-#importlib.reload(sys)  
-#sys.setdefaultencoding('utf8')
+
+MAIL_USERNAME = os.environ.get('MAIL_USERNAME')
+MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
+
+ADMINS = ['spothorse9.lucy@gmail.com']
+
 
 app = Flask(__name__)
+
+app.config.update(dict(
+    DEBUG = True,
+    MAIL_SERVER = 'smtp.gmail.com',
+    MAIL_PORT = 587,
+    MAIL_USE_TLS = True,
+    MAIL_USE_SSL = False,
+    MAIL_USERNAME = MAIL_USERNAME,
+    MAIL_PASSWORD = MAIL_PASSWORD ,
+))
+
+mail = Mail(app)
 app.secret_key = os.urandom(12)
 database = server.get_db()
 funi = Funimation.Funimation()
+
+
+def send_async_email(app, msg):
+	with app.app_context():
+		mail.send(msg)
+
+def send_email(subject, message):
+	msg = Message("Lucy's anime server: " + subject, sender=ADMINS[0], recipients=ADMINS)
+	msg.body = message
+	#msg.html = '<b>HTML</b> body'
+	with app.app_context():
+		mail.send(msg)
+	#thr = Thread(target=send_async_email, args=[app, msg])
+	#thr.start()
 
 @app.route("/")
 def home():
@@ -40,7 +72,7 @@ def form():
 
 @app.errorhandler(404)
 def page_not_found(e):
-    return render_template('error.html', error = "Sorry this page was not found. Why don't you go watch some anime instead?")
+	return render_template('error.html', error = "Sorry this page was not found. Why don't you go watch some anime instead?")
 
 @app.errorhandler(500)
 def page_not_found(e):
@@ -85,17 +117,17 @@ def get_reviews():
 @app.route('/status/<job_id>', methods=["GET"])
 def job_status(job_id):
 	#q = Queue()
-    job = q.fetch_job(job_id)
-    if job is None:
-        response = {'status': 'unknown'}
-    else:
-        response = {
-            'status': job.get_status(),
-            'result': job.result,
-        }
-        if job.is_failed:
-            response['message'] = job.exc_info.strip().split('\n')[-1]
-    return jsonify(response)
+	job = q.fetch_job(job_id)
+	if job is None:
+		response = {'status': 'unknown'}
+	else:
+		response = {
+			'status': job.get_status(),
+			'result': job.result,
+		}
+		if job.is_failed:
+			response['message'] = job.exc_info.strip().split('\n')[-1]
+	return jsonify(response)
 
 @app.route("/recommendations", methods=["GET"])
 def anime_recommendations():
@@ -113,12 +145,15 @@ def anime_recommendations():
 		print(user_data)
 		if user_data:
 			print("Found data from db for this user!")
+			send_email("Existing user used recommendations", "User: " + username + " used the recommender system")
 			genre_count = json.loads(user_data["genre_count"])
 			studio_count = json.loads(user_data["studio_count"])
 			recs = findSeasonRecs(username, season, year, genre_count, studio_count)
 		elif user_data is None:
+			send_email("New user couldn't get animelist from MAL", "User: " + username + " couldn't get animelist from MAL")
 			recs = "Could not find an animelist associated with that user."
 		else:
+			send_email("New user used recommendations", "User: " + username + " used the recommender system")
 			job = q.enqueue(findSeasonRecs, username, season, year, timeout=700)
 			job_id = job.get_id()
 
