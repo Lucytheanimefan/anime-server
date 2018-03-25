@@ -145,15 +145,12 @@ def anime_recommendations():
 		print(user_data)
 		if user_data:
 			print("Found data from db for this user!")
-			send_email("Existing user used recommendations", "User: " + username + " used the recommender system")
+			#send_email("Existing user used recommendations", "User: " + username + " used the recommender system")
 			genre_count = json.loads(user_data["genre_count"])
 			studio_count = json.loads(user_data["studio_count"])
 			recs = findSeasonRecs(username, season, year, genre_count, studio_count)
-		elif user_data is None:
-			send_email("New user couldn't get animelist from MAL", "User: " + username + " couldn't get animelist from MAL")
-			recs = "Could not find an animelist associated with that user."
 		else:
-			send_email("New user used recommendations", "User: " + username + " used the recommender system")
+			#send_email("New user used recommendations", "User: " + username + " used the recommender system")
 			job = q.enqueue(findSeasonRecs, username, season, year, timeout=700)
 			job_id = job.get_id()
 
