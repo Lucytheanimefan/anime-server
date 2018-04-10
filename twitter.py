@@ -8,7 +8,6 @@ TWITTER_ACCESS_TOKEN_KEY = environ.get('TWITTER_ACCESS_TOKEN_KEY')
 TWITTER_ACCESS_TOKEN_SECRET = environ.get('TWITTER_ACCESS_TOKEN_SECRET')
 
 
-
 class AnimeTweeter:
 	def __init__(self):
 		self.auth = tweepy.OAuthHandler(TWITTER_CONSUMER_KEY, TWITTER_CONSUMER_SECRET)

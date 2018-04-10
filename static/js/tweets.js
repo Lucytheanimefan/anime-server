@@ -5,41 +5,58 @@ $(document).ready(function() {
   init();
   get_tweets();
 
-  $('.btn').click(function() {
+  // $('.btn').click(function() {
 
-    var $canvas = $('canvas');
+  //   var $canvas = $('canvas');
 
-    function clearDrawing($canvas) {
-      $canvas.each(function() {
-        var ctx = this.getContext('2d');
-        ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-      });
-    }
-    clearDrawing($canvas);
-    clearTimeout(get_tweets_timeout);
-    get_tweets();
-  });
+  //   function clearDrawing($canvas) {
+  //     $canvas.each(function() {
+  //       var ctx = this.getContext('2d');
+  //       ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+  //     });
+  //   }
+  //   clearDrawing($canvas);
+  //   clearTimeout(get_tweets_timeout);
+  //   get_tweets();
+  // });
 
 });
 
+function clearDrawing() {
+  $('canvas').each(function() {
+    var ctx = this.getContext('2d');
+    ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+  });
+}
+
 function get_tweets() {
-  //console.log("Status url: " + status_url)
+  $("#tweets").empty();
+  clearDrawing();
   $.getJSON("/tweets", function(data) {
     console.log(data);
 
-    for (var i=0; i<data.length; i++){
+    for (var i = 0; i < data.length; i++) {
       processTweet(data[i]);
     }
     //refresh every 5 minutes
     get_tweets_timeout = setTimeout(function() {
-      get_tweets(status_url);
+      get_tweets();
     }, 5 * 60 * 1000);
   });
 }
 
 function processTweet(tweetObject) {
-  var text = tweetObject["text"];
-  applyCrack({x:Math.random() * 500,y: Math.random() * 500});
+  let text = tweetObject["text"];
+  let numNames = (text.match(/kaneki/g) || []).length +
+    (text.match(/haise/g) || []).length +
+    (text.match(/tokyo/g) || []).length +
+    (text.match(/ghoul/g) || []).length;
+
+  let options = validate();
+  options.center = { x: Math.random() * 800, y: Math.random() * 600 };
+  options.numLines = numNames;
+  applyCrack(options);
+  $("#tweets").append(text + "\n");
 }
 
 
@@ -117,7 +134,9 @@ function renderCrackEffectReflect(cvs, img, p1, p2, line, options) {
     grd = ctx.createLinearGradient(p1.x + dd * tx, p1.y + dd * ty, p1.x - dd * tx, p1.y - dd * ty);
   } catch (e) {
     // Bounds debugging
+    console.log('Bounds not right!');
     console.log('x1:' + (p1.x + dd * tx) + ',y1:' + (p1.y + dd * ty) + ',x2:' + (p1.x - dd * tx) + ',y2:' + (p1.y - dd * ty));
+    return
   }
 
   grd.addColorStop(0, clr.alpha(0).toRgbaString());
@@ -245,7 +264,7 @@ function renderCrackEffectNoise(cvs, img, p1, p2, line, options) {
     sx = line.sx,
     sy = line.sy,
 
-    freq = 0.4,
+    freq = 0.5,
 
     dl = line.dl,
     mp = dl / 2,
@@ -437,7 +456,12 @@ function findCrackEffectPaths(options) {
    * created by incrementing the starting radius.
    */
 
-  num = 20;
+  //Number of lines
+  if (options.numLines != null) {
+    num = options.numLines
+  } else {
+    num = Math.round(10 * Math.random()) + 1; //20;
+  }
   ang = 360 / (num + 1);
 
   while (main[0].length < num) {
@@ -537,12 +561,6 @@ function findCrackEffectPaths(options) {
   return lines;
 }
 
-function clearDrawing($canvas) {
-  $canvas.each(function() {
-    var ctx = this.getContext('2d');
-    ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-  });
-}
 
 function validate() {
   var f = $('.c-field:not([fieldtype=none])'),
@@ -574,7 +592,8 @@ function validate() {
       o[b] = val;
     }
   });
-
+  o.height = 600;
+  o.width = 800;
   return o;
 }
 
@@ -606,7 +625,7 @@ function fillImage(img, color, w, h) {
 function init() {
   var $canvas = $('canvas'),
     $image = $('.main'),
-    options, paths, currentCenter;
+    currentCenter;
 
   // Instead of 1418 originally used - $image.outerHeight(true)
   // Instead of 2556 originally used - $image.outerWidth(true)
@@ -626,44 +645,48 @@ function init() {
     y: 300
   }
 
-  $('#draw-picker').click(function(e) {
-    var pos = $('.drawing').offset(),
-      x = e.pageX - pos.left - 5,
-      y = e.pageY - pos.top - 5;
+  let options = validate();
+  options.center = currentCenter;
+  let paths = findCrackEffectPaths(options);
 
-    currentCenter = { x: x, y: y };
-  });
+  renderCrackEffectAll($canvas, $image, paths, options);
+
+  // $('#draw-picker').click(function(e) {
+  //   var pos = $('.drawing').offset(),
+  //     x = e.pageX - pos.left - 5,
+  //     y = e.pageY - pos.top - 5;
+
+  //   currentCenter = { x: x, y: y };
+  // });
+
 
   // Click on background image/video creates a new path
-  $('#draw-picker').click(function() {
-    if (options = validate()) {
-      options.height = 600;
-      options.width = 800;
-      options.center = currentCenter;
-      options.debug = true;
+  // $('#draw-picker').click(function() {
+  //   if (options = validate()) {
+  //     options.height = 600;
+  //     options.width = 800;
+  //     options.center = currentCenter;
+  //     options.debug = true;
 
-      paths = findCrackEffectPaths(options);
+  //     paths = findCrackEffectPaths(options);
 
-      // clearDrawing($canvas);
-      renderCrackEffectAll($canvas, $image, paths, options);
-    }
+  //     // clearDrawing($canvas);
+  //     renderCrackEffectAll($canvas, $image, paths, options);
+  //   }
 
-  });
+  // });
   console.log('init() run')
 }
 
-function applyCrack(currentCenter) {
-  console.log("Apply crack");
+function applyCrack(options = null) {
   var $canvas = $('canvas'),
-    $image = $('.main'),
-    options, paths;
+    $image = $('.main');
 
-  options = validate();
-
-  options.height = 600;
-  options.width = 800;
-  options.center = currentCenter;
-  options.debug = true;
+  if (options == null) {
+    options = validate();
+    options.center = { x: Math.random() * 800, y: Math.random() * 600 };
+    options.debug = true;
+  }
 
   paths = findCrackEffectPaths(options);
 

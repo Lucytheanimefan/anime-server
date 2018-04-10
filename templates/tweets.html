@@ -10,6 +10,13 @@
   border: 8px solid #000;
 }
 
+.bg-image {
+  display: block;
+  position: absolute;
+  width: 800px;
+  height: 600px;
+}
+
 .drawing {
   position: relative;
 }
@@ -19,10 +26,15 @@
   top: 0;
   left: 0;
 }
+
+#tweets{
+	color: white;
+	font-size: 22px;
+}
 </style>
 {% endblock %} {% block body %}
 <div class="wrapper">
-  <img class="bg-image main animated" src="https://images.unsplash.com/photo-1442589031151-61d5645469d7?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&s=12154afe0240145e09bdad8a752d4fd6" alt="">
+  {# <img class="bg-image main animated" src="https://images.unsplash.com/photo-1442589031151-61d5645469d7?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&s=12154afe0240145e09bdad8a752d4fd6" alt=""> #}
   <div class="drawing ui-corner-all animated">
     <canvas id="draw-refract"></canvas>
     <canvas id="draw-reflect"></canvas>
@@ -33,6 +45,7 @@
     <div id="draw-picker"></div>
   </div>
 </div>
+<div id="tweets"></div>
 {% endblock %} {% block scripts %}
 <script type="text/javascript" src="{{ url_for('static', filename='plugins/jquery.color.js') }}"></script>
 <script type="text/javascript" src="{{ url_for('static', filename='js/tweets.js') }}"></script>

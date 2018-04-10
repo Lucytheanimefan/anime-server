@@ -146,7 +146,7 @@ def get_news():
 @app.route("/tweets", methods=["GET"])
 def get_tweets():
     animeTweet = AnimeTweeter()
-    tweets = animeTweet.search_hashtag("tokyo ghoul", 50)
+    tweets = animeTweet.search_hashtag("tokyo ghoul", 30)
     return jsonify(tweets)
 
 @app.route("/tokyo_ghoul", methods=["GET"])
