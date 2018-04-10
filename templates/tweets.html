@@ -1,0 +1,39 @@
+{% extends "layout.html" %} {% block css %}
+<style type="text/css">
+.wrapper {
+  position: absolute;
+  width: 800px;
+  height: 600px;
+  top: 100px;
+  left: 50%;
+  margin-left: -408px;
+  border: 8px solid #000;
+}
+
+.drawing {
+  position: relative;
+}
+
+.drawing>* {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+</style>
+{% endblock %} {% block body %}
+<div class="wrapper">
+  <img class="bg-image main animated" src="https://images.unsplash.com/photo-1442589031151-61d5645469d7?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&s=12154afe0240145e09bdad8a752d4fd6" alt="">
+  <div class="drawing ui-corner-all animated">
+    <canvas id="draw-refract"></canvas>
+    <canvas id="draw-reflect"></canvas>
+    <canvas id="draw-fractures"></canvas>
+    <canvas id="draw-mainline"></canvas>
+    <canvas id="draw-noise"></canvas>
+    <canvas id="draw-debug" style="display: none;"></canvas>
+    <div id="draw-picker"></div>
+  </div>
+</div>
+{% endblock %} {% block scripts %}
+<script type="text/javascript" src="{{ url_for('static', filename='plugins/jquery.color.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='js/tweets.js') }}"></script>
+{% endblock %}

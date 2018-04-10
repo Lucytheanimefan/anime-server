@@ -20,6 +20,7 @@ import importlib
 from worker import *
 from rq import Queue
 import json
+from twitter import AnimeTweeter
 
 #importlib.reload(sys)  
 #sys.setdefaultencoding('utf8')
@@ -142,6 +143,15 @@ def get_news():
 
 	return jsonify(articles)
 
+@app.route("/tweets", methods=["GET"])
+def get_tweets():
+    animeTweet = AnimeTweeter()
+    tweets = animeTweet.search_hashtag("tokyo ghoul", 50)
+    return jsonify(tweets)
+
+@app.route("/tokyo_ghoul", methods=["GET"])
+def tg_tweets():
+    return render_template('tweets.html')
 
 @app.route("/animeapplehipchat", methods=["GET"])
 def jsonstuff():
