@@ -56,7 +56,7 @@ function processTweet(tweetObject) {
   options.center = { x: Math.random() * 800, y: Math.random() * 600 };
   options.numLines = numNames;
   applyCrack(options);
-  $("#tweets").append(text + "\n");
+  //$("#tweets").append(text + "\n");
 }
 
 
