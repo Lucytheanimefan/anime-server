@@ -14,7 +14,7 @@ class AnimeTweeter:
 		self.api = tweepy.API(self.auth, parser=tweepy.parsers.JSONParser())
 
 	def search_hashtag(self, query, limit):
-		return self.api.search(q=query, count=limit)["statuses"]
+		return self.api.search(q=query, lang="en", count=limit)["statuses"]
 
 
 
