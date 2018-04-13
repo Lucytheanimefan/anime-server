@@ -30,3 +30,7 @@ form {
 input{
 	color: black;
 }
+
+audio{
+  z-index: 1;
+}

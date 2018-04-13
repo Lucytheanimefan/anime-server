@@ -3,7 +3,7 @@ import sys
 if 'threading' in sys.modules:
     del sys.modules['threading']
 import os
-from flask import Flask, render_template,send_from_directory, jsonify, request, session, json, Response
+from flask import Flask, render_template,send_from_directory, jsonify, request, session, json, Response, url_for
 import requests
 import server
 import JSONEncoder
@@ -29,6 +29,8 @@ app = Flask(__name__)
 app.secret_key = os.urandom(12)
 database = server.get_db()
 funi = Funimation.Funimation()
+UPLOAD_FOLDER = '/tmp/'
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 @app.route("/")
 def home():
@@ -143,6 +145,24 @@ def get_news():
 
 	return jsonify(articles)
 
+@app.route('/upload/<template>', methods=['POST'])
+def upload(template):
+    # Get the name of the uploaded file
+    file = request.files['file']
+    full_filename = os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
+    file.save(full_filename)
+
+    return render_template(template + '.html', musicfile=str(url_for('uploaded_file', filename=file.filename)))
+
+# This route is expecting a parameter containing the name
+# of a file. Then it will locate that file on the upload
+# directory and show it on the browser, so if the user uploads
+# an image, that image is going to be show after the upload
+@app.route('/uploads/<filename>')
+def uploaded_file(filename):
+    return send_from_directory(app.config['UPLOAD_FOLDER'],
+                               filename)
+
 @app.route("/tweets", methods=["GET"])
 def get_tweets():
     animeTweet = AnimeTweeter()
@@ -151,7 +171,7 @@ def get_tweets():
 
 @app.route("/tokyo_ghoul", methods=["GET"])
 def tg_tweets():
-    return render_template('tweets.html')
+    return render_template('tweets.html', musicfile=None)
 
 @app.route("/animeapplehipchat", methods=["GET"])
 def jsonstuff():

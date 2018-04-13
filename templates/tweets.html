@@ -34,8 +34,22 @@
 </style>
 {% endblock %} {% block body %}
 
-<input type="file" id="audio" onchange="setUpFile(this)" />
-<audio onplay="playMusic()" id="sound"></audio>
+<form action="upload/tweets" method="post" enctype="multipart/form-data">
+    <div>
+        <label class="btn btn-default btn-file">
+            Browse
+            <input type="file" name="file" style="display: none;">
+        </label>
+    </div>
+    <!--<label class="custom-file">
+        <input type="file" id="file" class="custom-file-input">
+        <span class="custom-file-control"></span>
+    </label>-->
+    <div>
+        <input class="btn btn-default" type="submit" value="Upload">
+    </div>
+</form>
+<audio src="{{ musicfile }}"" onplay="playMusic()" id="sound"></audio>
 
 <div class="wrapper">
   {# <img class="bg-image main animated" src="https://images.unsplash.com/photo-1442589031151-61d5645469d7?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&s=12154afe0240145e09bdad8a752d4fd6" alt=""> #}
