@@ -662,6 +662,8 @@ var bufferLength;
 var timeDomainData;
 var frequencyData;
 
+var animationID;
+
 function setUpFile(event) {
   console.log(event);
   var files = event.target.files;
@@ -670,28 +672,53 @@ function setUpFile(event) {
   //document.getElementById("player").play();
 }
 
+var firstTimePlay = true;
+
 function playMusic() {
-  audioCtx = new AudioContext();
-  audio = document.getElementById('audio');
+  if (firstTimePlay) {
+    firstTimePlay = false;
+    audioCtx = new AudioContext();
+    audio = document.getElementById('sound');
 
-  console.log("Source: " + url);
+    duration = audio.duration;
+    var audioSrc = audioCtx.createMediaElementSource(audio);
+    analyser = audioCtx.createAnalyser();
+    analyser.fftSize = 64; //2048;
+    audioSrc.connect(audioCtx.destination);
+    audioSrc.connect(analyser);
 
-  duration = audio.duration;
-  var audioSrc = audioCtx.createMediaElementSource(audio);
-  analyser = audioCtx.createAnalyser();
-  analyser.fftSize = 64; //2048;
-  audioSrc.connect(audioCtx.destination);
-  audioSrc.connect(analyser);
+    bufferLength = analyser.frequencyBinCount;
 
-  bufferLength = analyser.frequencyBinCount;
+    freqAnalyser = audioCtx.createAnalyser();
+    freqAnalyser.fftSize = 64;
+    audioSrc.connect(freqAnalyser);
+    // frequencyBinCount tells you how many values you'll receive from the analyser
+    frequencyData = new Uint8Array(freqAnalyser.frequencyBinCount); // Not being used
+    timeDomainData = new Uint8Array(analyser.fftSize); // Uint8Array should be the same length as the fftSize 
+    console.log(timeDomainData);
+  }
 
-  freqAnalyser = audioCtx.createAnalyser();
-  freqAnalyser.fftSize = 64;
-  audioSrc.connect(freqAnalyser);
-  // frequencyBinCount tells you how many values you'll receive from the analyser
-  frequencyData = new Uint8Array(freqAnalyser.frequencyBinCount); // Not being used
-  timeDomainData = new Uint8Array(analyser.fftSize); // Uint8Array should be the same length as the fftSize 
-  console.log(timeDomainData);
+  renderFrame();
+}
+
+function renderFrame() {
+
+  animationID = requestAnimationFrame(renderFrame);
+  // update data in frequencyData
+
+  //analyser.getByteFrequencyData(frequencyData);
+  // render frame based on values in frequencyData
+
+  //The byte values do range between 0-255, and yes, that maps to -1 to +1, so 128 is zero. (It's not volts, but full-range unitless values.)
+  analyser.getByteTimeDomainData(timeDomainData); // fill the Uint8Array with data returned from getByteTimeDomainData()
+  console.log(timeDomainData)
+
+
+}
+
+function pauseMusic() {
+  console.log('Pause!');
+  cancelAnimationFrame(animationID);
 }
 
 // function playFile(obj) {

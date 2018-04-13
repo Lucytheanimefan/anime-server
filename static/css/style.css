@@ -31,6 +31,6 @@ input{
 	color: black;
 }
 
-audio{
-  z-index: 1;
+audio, #sound{
+  z-index: 100 !important;
 }
