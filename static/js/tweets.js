@@ -4,22 +4,6 @@ var get_tweets_timeout;
 $(document).ready(function() {
   init();
   get_tweets();
-
-  // $('.btn').click(function() {
-
-  //   var $canvas = $('canvas');
-
-  //   function clearDrawing($canvas) {
-  //     $canvas.each(function() {
-  //       var ctx = this.getContext('2d');
-  //       ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-  //     });
-  //   }
-  //   clearDrawing($canvas);
-  //   clearTimeout(get_tweets_timeout);
-  //   get_tweets();
-  // });
-
 });
 
 function clearDrawing() {
@@ -651,30 +635,6 @@ function init() {
 
   renderCrackEffectAll($canvas, $image, paths, options);
 
-  // $('#draw-picker').click(function(e) {
-  //   var pos = $('.drawing').offset(),
-  //     x = e.pageX - pos.left - 5,
-  //     y = e.pageY - pos.top - 5;
-
-  //   currentCenter = { x: x, y: y };
-  // });
-
-
-  // Click on background image/video creates a new path
-  // $('#draw-picker').click(function() {
-  //   if (options = validate()) {
-  //     options.height = 600;
-  //     options.width = 800;
-  //     options.center = currentCenter;
-  //     options.debug = true;
-
-  //     paths = findCrackEffectPaths(options);
-
-  //     // clearDrawing($canvas);
-  //     renderCrackEffectAll($canvas, $image, paths, options);
-  //   }
-
-  // });
   console.log('init() run')
 }
 
@@ -693,3 +653,51 @@ function applyCrack(options = null) {
   // clearDrawing($canvas);
   renderCrackEffectAll($canvas, $image, paths, options);
 }
+
+
+/*------------- MUSIC --------------------- */
+var audioCtx = new(window.AudioContext || window.webkitAudioContext)();
+var analyser;
+var bufferLength;
+var timeDomainData;
+var frequencyData;
+
+function setUpFile(event) {
+  console.log(event);
+  var files = event.target.files;
+  $("#audio").attr("src", URL.createObjectURL(files[0]));
+  document.getElementById("sound").load();
+  //document.getElementById("player").play();
+}
+
+function playMusic() {
+  audioCtx = new AudioContext();
+  audio = document.getElementById('audio');
+
+  console.log("Source: " + url);
+
+  duration = audio.duration;
+  var audioSrc = audioCtx.createMediaElementSource(audio);
+  analyser = audioCtx.createAnalyser();
+  analyser.fftSize = 64; //2048;
+  audioSrc.connect(audioCtx.destination);
+  audioSrc.connect(analyser);
+
+  bufferLength = analyser.frequencyBinCount;
+
+  freqAnalyser = audioCtx.createAnalyser();
+  freqAnalyser.fftSize = 64;
+  audioSrc.connect(freqAnalyser);
+  // frequencyBinCount tells you how many values you'll receive from the analyser
+  frequencyData = new Uint8Array(freqAnalyser.frequencyBinCount); // Not being used
+  timeDomainData = new Uint8Array(analyser.fftSize); // Uint8Array should be the same length as the fftSize 
+  console.log(timeDomainData);
+}
+
+// function playFile(obj) {
+//   var url = document.getElementById("audio").url;
+//   document.getElementById("sound").src = url;
+//   document.getElementById("sound").play()
+
+//   analyser.getByteTimeDomainData(dataArray);
+// }
