@@ -118,8 +118,8 @@ function renderCrackEffectReflect(cvs, img, p1, p2, line, options) {
     grd = ctx.createLinearGradient(p1.x + dd * tx, p1.y + dd * ty, p1.x - dd * tx, p1.y - dd * ty);
   } catch (e) {
     // Bounds debugging
-    console.log('Bounds not right!');
-    console.log('x1:' + (p1.x + dd * tx) + ',y1:' + (p1.y + dd * ty) + ',x2:' + (p1.x - dd * tx) + ',y2:' + (p1.y - dd * ty));
+    //console.log('Bounds not right!');
+    //console.log('x1:' + (p1.x + dd * tx) + ',y1:' + (p1.y + dd * ty) + ',x2:' + (p1.x - dd * tx) + ',y2:' + (p1.y - dd * ty));
     return
   }
 
@@ -655,6 +655,247 @@ function applyCrack(options = null) {
 }
 
 
+/*-------------------Image shattering-------------------------*/
+// triangulation using https://github.com/ironwallaby/delaunay
+
+const TWO_PI = Math.PI * 2;
+
+
+var image,
+  imageWidth = 800,
+  imageHeight = 600;
+
+var vertices = [],
+  indices = [],
+  fragments = [];
+
+var container = document.getElementById('container');
+
+var clickPosition = [imageWidth * 0.5, imageHeight * 0.5];
+
+function divToImage(callback) {
+  var divImage = document.getElementById("container");
+  html2canvas(divImage).then(function(canvas) {
+    console.log('Canvas:');
+    console.log(canvas);
+    image = new Image();
+    image.src = canvas.toDataURL();
+    console.log('Src: ');
+    console.log(canvas.toDataURL());
+    image.onload = function() {
+      console.log('Image loaded');
+
+      callback(image);
+    }
+  });
+}
+
+function beginShattering() {
+  console.log('Begin shattering')
+  TweenMax.set(container, { perspective: 500 });
+
+  divToImage(function(image) {
+    console.log('Created image: ');
+    console.log(image);
+    image = image;
+    $("#container").empty();
+    container.appendChild(image);
+    imagesLoaded();
+  })
+}
+
+
+function imagesLoaded() {
+  placeImage(false);
+  triangulate();
+  //shatter();
+}
+
+function placeImage(transitionIn=true) {
+  //image = images[imageIndex];
+
+  //if (++imageIndex === images.length) imageIndex = 0;
+
+  image.addEventListener('click', imageClickHandler);
+  container.appendChild(image);
+
+  if (transitionIn) {
+    TweenMax.fromTo(image, 0.75, { y: -1000 }, { y: 0, ease: Back.easeOut });
+  }
+}
+
+function imageClickHandler(event) {
+  var box = image.getBoundingClientRect(),
+    top = box.top,
+    left = box.left;
+
+  clickPosition[0] = event.clientX - left;
+  clickPosition[1] = event.clientY - top;
+
+  triangulate();
+  shatter();
+}
+
+function triangulate() {
+  var rings = [
+      { r: 50, c: 12 },
+      { r: 150, c: 12 },
+      { r: 300, c: 12 },
+      { r: 1200, c: 12 } // very large in case of corner clicks
+    ],
+    x,
+    y,
+    centerX = clickPosition[0],
+    centerY = clickPosition[1];
+
+  vertices.push([centerX, centerY]);
+
+  rings.forEach(function(ring) {
+    var radius = ring.r,
+      count = ring.c,
+      variance = radius * 0.25;
+
+    for (var i = 0; i < count; i++) {
+      x = Math.cos((i / count) * TWO_PI) * radius + centerX + randomRange(-variance, variance);
+      y = Math.sin((i / count) * TWO_PI) * radius + centerY + randomRange(-variance, variance);
+      vertices.push([x, y]);
+    }
+  });
+
+  vertices.forEach(function(v) {
+    v[0] = clamp(v[0], 0, imageWidth);
+    v[1] = clamp(v[1], 0, imageHeight);
+  });
+
+  indices = Delaunay.triangulate(vertices);
+}
+
+function shatter() {
+  var p0, p1, p2,
+    fragment;
+
+  var tl0 = new TimelineMax({ onComplete: shatterCompleteHandler });
+
+  for (var i = 0; i < indices.length; i += 3) {
+    p0 = vertices[indices[i + 0]];
+    p1 = vertices[indices[i + 1]];
+    p2 = vertices[indices[i + 2]];
+
+    fragment = new Fragment(p0, p1, p2);
+
+    var dx = fragment.centroid[0] - clickPosition[0],
+      dy = fragment.centroid[1] - clickPosition[1],
+      d = Math.sqrt(dx * dx + dy * dy),
+      rx = 30 * sign(dy),
+      ry = 90 * -sign(dx),
+      delay = d * 0.003 * randomRange(0.9, 1.1);
+    fragment.canvas.style.zIndex = Math.floor(d).toString();
+
+    var tl1 = new TimelineMax();
+
+
+    tl1.to(fragment.canvas, 1, {
+      z: -500,
+      rotationX: rx,
+      rotationY: ry,
+      ease: Cubic.easeIn
+    });
+    tl1.to(fragment.canvas, 0.4, { alpha: 0 }, 0.6);
+
+    tl0.insert(tl1, delay);
+
+    fragments.push(fragment);
+    container.appendChild(fragment.canvas);
+  }
+
+  container.removeChild(image);
+  image.removeEventListener('click', imageClickHandler);
+}
+
+function shatterCompleteHandler() {
+  // add pooling?
+  fragments.forEach(function(f) {
+    container.removeChild(f.canvas);
+  });
+  fragments.length = 0;
+  vertices.length = 0;
+  indices.length = 0;
+
+  //placeImage();
+}
+
+//////////////
+// MATH UTILS
+//////////////
+
+function randomRange(min, max) {
+  return min + (max - min) * Math.random();
+}
+
+function clamp(x, min, max) {
+  return x < min ? min : (x > max ? max : x);
+}
+
+function sign(x) {
+  return x < 0 ? -1 : 1;
+}
+
+//////////////
+// FRAGMENT
+//////////////
+
+Fragment = function(v0, v1, v2) {
+  this.v0 = v0;
+  this.v1 = v1;
+  this.v2 = v2;
+
+  this.computeBoundingBox();
+  this.computeCentroid();
+  this.createCanvas();
+  this.clip();
+};
+Fragment.prototype = {
+  computeBoundingBox: function() {
+    var xMin = Math.min(this.v0[0], this.v1[0], this.v2[0]),
+      xMax = Math.max(this.v0[0], this.v1[0], this.v2[0]),
+      yMin = Math.min(this.v0[1], this.v1[1], this.v2[1]),
+      yMax = Math.max(this.v0[1], this.v1[1], this.v2[1]);
+
+    this.box = {
+      x: xMin,
+      y: yMin,
+      w: xMax - xMin,
+      h: yMax - yMin
+    };
+  },
+  computeCentroid: function() {
+    var x = (this.v0[0] + this.v1[0] + this.v2[0]) / 3,
+      y = (this.v0[1] + this.v1[1] + this.v2[1]) / 3;
+
+    this.centroid = [x, y];
+  },
+  createCanvas: function() {
+    this.canvas = document.createElement('canvas');
+    this.canvas.width = this.box.w;
+    this.canvas.height = this.box.h;
+    this.canvas.style.width = this.box.w + 'px';
+    this.canvas.style.height = this.box.h + 'px';
+    this.canvas.style.left = this.box.x + 'px';
+    this.canvas.style.top = this.box.y + 'px';
+    this.ctx = this.canvas.getContext('2d');
+  },
+  clip: function() {
+    this.ctx.translate(-this.box.x, -this.box.y);
+    this.ctx.beginPath();
+    this.ctx.moveTo(this.v0[0], this.v0[1]);
+    this.ctx.lineTo(this.v1[0], this.v1[1]);
+    this.ctx.lineTo(this.v2[0], this.v2[1]);
+    this.ctx.closePath();
+    this.ctx.clip();
+    this.ctx.drawImage(image, 0, 0);
+  }
+};
+
 /*------------- MUSIC --------------------- */
 var audioCtx = new(window.AudioContext || window.webkitAudioContext)();
 var analyser;
@@ -695,7 +936,9 @@ function playMusic() {
     // frequencyBinCount tells you how many values you'll receive from the analyser
     frequencyData = new Uint8Array(freqAnalyser.frequencyBinCount); // Not being used
     timeDomainData = new Uint8Array(analyser.fftSize); // Uint8Array should be the same length as the fftSize 
-    console.log(timeDomainData);
+    //console.log(timeDomainData);
+
+    beginShattering();
   }
 
   renderFrame();
@@ -711,7 +954,7 @@ function renderFrame() {
 
   //The byte values do range between 0-255, and yes, that maps to -1 to +1, so 128 is zero. (It's not volts, but full-range unitless values.)
   analyser.getByteTimeDomainData(timeDomainData); // fill the Uint8Array with data returned from getByteTimeDomainData()
-  console.log(timeDomainData)
+  //console.log(timeDomainData)
 
 
 }
