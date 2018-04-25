@@ -1,3 +1,5 @@
+var files = ['Naruto_Konoha_Leaf_Headband', 'sakura_key','Alphonse_Elric_Helmet_High_Res']
+
 // once everything is loaded, we run our Three.js stuff.
 function init() {
   //var stats = initStats();
@@ -32,12 +34,12 @@ function init() {
   // model from http://www.thingiverse.com/thing:69709
   var loader = new THREE.STLLoader();
   var group = new THREE.Object3D();
-  loader.load("/static/stl/naruto/Naruto_Konoha_Leaf_Headband.stl", function(geometry) {
+  loader.load("/static/stl/"+files[2]+".stl", function(geometry) {
     console.log(geometry);
-    var mat = new THREE.MeshLambertMaterial({ color: 0x7fffff });
+    var mat = new THREE.MeshLambertMaterial({ color: 0x77ffff });
     group = new THREE.Mesh(geometry, mat);
-    group.rotation.x = -0.5 * Math.PI;
-    group.scale.set(0.6, 0.6, 0.6);
+    group.rotation.y = 0.5 * Math.PI;
+    //group.scale.set(0, 0, 0);
     scene.add(group);
   });
   render();
@@ -46,7 +48,7 @@ function init() {
     //stats.update();
     if (group) {
       group.rotation.z += 0.006;
-      // group.rotation.x+=0.006;
+      group.rotation.y+=0.006;
     }
     // render using requestAnimationFrame
     requestAnimationFrame(render);
