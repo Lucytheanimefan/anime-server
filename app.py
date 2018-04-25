@@ -41,6 +41,10 @@ def form():
 	return render_template("form.html")
 	
 
+@app.route("/life")
+def life():
+	return render_template("life_til_now.html")
+
 @app.errorhandler(404)
 def page_not_found(e):
     return render_template('error.html', error = "Sorry this page was not found. Why don't you go watch some anime instead?")

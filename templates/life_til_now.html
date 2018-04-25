@@ -1,0 +1,18 @@
+{% extends "layout.html" %} {% block css %}
+<style>
+body,
+html {
+
+}
+</style>
+{% endblock %} {% block body %} 
+
+<div id="Stats-output">
+</div>
+<!-- Div which will hold the Output -->
+<div id="WebGL-output">
+</div>
+{% endblock %} {% block scripts %}
+<script type="text/javascript" src="{{ url_for('static', filename='plugins/STLLoader.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='js/life_til_now.js') }}"></script>
+{% endblock %}

@@ -1,9 +1,11 @@
 var get_tweets_timeout;
 
+var width = $(window).width();
+var height = $(window).height();
 
 $(document).ready(function() {
   init();
-  get_tweets();
+  //get_tweets();
 });
 
 function clearDrawing() {
@@ -37,7 +39,7 @@ function processTweet(tweetObject) {
     (text.match(/ghoul/g) || []).length;
 
   let options = validate();
-  options.center = { x: Math.random() * 800, y: Math.random() * 600 };
+  options.center = { x: Math.random() * width, y: Math.random() * height };
   options.numLines = numNames;
   applyCrack(options);
   //$("#tweets").append(text + "\n");
@@ -576,8 +578,8 @@ function validate() {
       o[b] = val;
     }
   });
-  o.height = 600;
-  o.width = 800;
+  o.height = height;
+  o.width = width;
   return o;
 }
 
@@ -615,13 +617,13 @@ function init() {
   // Instead of 2556 originally used - $image.outerWidth(true)
 
   $canvas.each(function() {
-    this.height = 600;
-    this.width = 800;
+    this.height = height;
+    this.width = width;
   });
 
   $('#draw-picker').css({
-    height: 600,
-    width: 800
+    height: height,
+    width: width
   });
 
   currentCenter = {
@@ -644,7 +646,7 @@ function applyCrack(options = null) {
 
   if (options == null) {
     options = validate();
-    options.center = { x: Math.random() * 800, y: Math.random() * 600 };
+    options.center = { x: Math.random() * width, y: Math.random() * height };
     options.debug = true;
   }
 
@@ -662,8 +664,8 @@ const TWO_PI = Math.PI * 2;
 
 
 var image,
-  imageWidth = 800,
-  imageHeight = 600;
+  imageWidth = width,
+  imageHeight = height;
 
 var vertices = [],
   indices = [],
@@ -673,21 +675,41 @@ var container = document.getElementById('container');
 
 var clickPosition = [imageWidth * 0.5, imageHeight * 0.5];
 
-function divToImage(callback) {
-  var divImage = document.getElementById("container");
-  html2canvas(divImage).then(function(canvas) {
-    console.log('Canvas:');
-    console.log(canvas);
-    image = new Image();
-    image.src = canvas.toDataURL();
-    console.log('Src: ');
-    console.log(canvas.toDataURL());
-    image.onload = function() {
-      console.log('Image loaded');
 
-      callback(image);
-    }
+// TO IMAGE
+function divToImage(callback) {
+  let canvases = ['refract', 'reflect', 'fractures', 'mainline', 'noise', 'debug'];
+  canvases.forEach(function(canvasDes) {
+    console.log(canvasDes);
+    $("#tweets").append("<img id='newImage" + canvasDes + "'");
+    let canvas = document.getElementById("draw-" + canvasDes);
+    let ctx = canvas.getContext('2d');
+    let img = document.getElementById("img-draw-" + canvasDes);
+    ctx.drawImage(img, 0, 0);
   });
+
+}
+
+function htmlToImage() {
+
+  var divImage = document.getElementById("draw-picker");
+  //var w = window.open('about:blank', 'image from canvas');
+  html2canvas(divImage).then(function(canvas) {
+    console.log('Rendered');
+    var myImage = canvas.toDataURL();
+    downloadURI(myImage, "tg.png");
+  });
+}
+
+function downloadURI(uri, name) {
+    var link = document.createElement("a");
+
+    link.download = name;
+    link.href = uri;
+    document.body.appendChild(link);
+    link.click();   
+    //after creating link you should delete dynamic link
+    //clearDynamicLink(link); 
 }
 
 function beginShattering() {
@@ -711,7 +733,7 @@ function imagesLoaded() {
   //shatter();
 }
 
-function placeImage(transitionIn=true) {
+function placeImage(transitionIn = true) {
   //image = images[imageIndex];
 
   //if (++imageIndex === images.length) imageIndex = 0;
@@ -938,7 +960,7 @@ function playMusic() {
     timeDomainData = new Uint8Array(analyser.fftSize); // Uint8Array should be the same length as the fftSize 
     //console.log(timeDomainData);
 
-    beginShattering();
+    //beginShattering();
   }
 
   renderFrame();
@@ -954,6 +976,8 @@ function renderFrame() {
 
   //The byte values do range between 0-255, and yes, that maps to -1 to +1, so 128 is zero. (It's not volts, but full-range unitless values.)
   analyser.getByteTimeDomainData(timeDomainData); // fill the Uint8Array with data returned from getByteTimeDomainData()
+
+
   //console.log(timeDomainData)
 
 

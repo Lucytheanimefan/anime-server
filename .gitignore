@@ -5,3 +5,4 @@ venv/
 config.py
 *.out
 ENV_DIR/*
+secrets.py

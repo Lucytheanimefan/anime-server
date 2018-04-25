@@ -2,11 +2,11 @@
 <style type="text/css">
 .wrapper {
   position: absolute;
-  width: 800px;
+/*  width: 800px;
   height: 600px;
   top: 100px;
   left: 50%;
-  margin-left: -408px;
+  margin-left: -408px;*/
   border: 8px solid #000;
 }
 
@@ -27,26 +27,27 @@
   left: 0;
 }
 
-#tweets{
-	color: white;
-	font-size: 22px;
+#tweets {
+  color: white;
+  font-size: 22px;
 }
+
+
 </style>
 {% endblock %} {% block body %}
-
-<form action="upload/tweets" method="post" enctype="multipart/form-data">
-    <div>
-        <label class="btn btn-default btn-file">
-            Browse
-            <input type="file" name="file" style="display: none;">
-        </label>
-    </div>
-    <div>
-        <input class="btn btn-default" type="submit" value="Upload">
-    </div>
+<!-- <form action="upload/tweets" method="post" enctype="multipart/form-data">
+  <div>
+    <label class="btn btn-default btn-file">
+      Browse
+      <input type="file" name="file" style="display: none;">
+    </label>
+  </div>
+  <div>
+    <input class="btn btn-default" type="submit" value="Upload">
+  </div>
 </form>
-<audio src="{{ musicfile }}" controls onpause="pauseMusic()" onplay="playMusic()" id="sound"></audio>
-
+<audio src="{{ musicfile }}" controls onpause="pauseMusic()" onplay="playMusic()" id="sound"></audio>-->
+<!-- <button onclick="htmlToImage();">Get image</button> -->
 <div id="container" class="wrapper">
   {# <img class="bg-image main animated" src="https://images.unsplash.com/photo-1442589031151-61d5645469d7?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&s=12154afe0240145e09bdad8a752d4fd6" alt=""> #}
   <div class="drawing ui-corner-all animated">
@@ -58,9 +59,16 @@
     <canvas id="draw-debug" style="display: none;"></canvas>
     <div id="draw-picker"></div>
   </div>
-</div>
+</div> 
 <div id="tweets"></div>
-{% endblock %} {% block scripts %}
+<!-- <img id="img-draw-refract"></img>
+<img id="img-draw-reflect"></img>
+<img id="img-draw-fractures"></img>
+<img id="img-draw-mainline"></img>
+<img id="img-draw-noise"></img>
+<img id="img-draw-debug" style="display: none;"></img> -->
+{#
+<div id="newImage"></div> #} {% endblock %} {% block scripts %}
 <script type="text/javascript" src="{{ url_for('static', filename='plugins/jquery.color.js') }}"></script>
 <script type="text/javascript" src="{{ url_for('static', filename='plugins/html2canvas.min.js') }}"></script>
 <script type="text/javascript" src="{{ url_for('static', filename='plugins/TweenMax.min.js') }}"></script>

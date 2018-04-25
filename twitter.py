@@ -1,5 +1,6 @@
 import tweepy
 from os import environ
+import secrets
 
 
 TWITTER_CONSUMER_KEY = environ.get('TWITTER_CONSUMER_KEY')
