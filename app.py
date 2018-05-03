@@ -231,11 +231,9 @@ def funi_queue():
 
 @app.route("/slack", methods = ["POST"])
 def slack_anime():
-    print('JSON:')
     slack_event = request.json
-    challenge = slack_event["challenge"]
-    print("challenge:")
-    print(challenge)
+    print('REQUEST BODY:')
+    print(slack_event)
     if "challenge" in slack_event:
         return make_response(slack_event["challenge"], 200, {"content_type":"application/json"})
     # text = "Hello world"
