@@ -246,6 +246,7 @@ def slack_anime():
             token = "cncJAiNGXi8wfr7FQD97mJtI"
             url = "https://slack.com/api/chat.postMessage?token="+token+"&channel=test_stuff&text=test%20anime&as_user=anime&pretty=1"
             r = requests.post(url)
+            print(r.status_code, r.text)
         print('Event type:')
         print(event_type)
         return make_response("Got event", 200,)
