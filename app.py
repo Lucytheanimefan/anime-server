@@ -235,7 +235,7 @@ def random_anime():
 	# text = "Hello world"
 	# url = "https://slack.com/api/chat.postMessage?token=" + token + "&channel=test_stuff&text=" + text + "&as_user=anime&pretty=1"
 	# r = requests.post(url)
-	return {"challenge":"somechallenge"}
+	return jsonify({"challenge":"somechallenge"})
 
 
 if __name__ == '__main__':
