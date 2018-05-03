@@ -229,16 +229,15 @@ def funi_queue():
 	return jsonify(funi.get_my_queue(auth_token))
 
 
-@app.route("/slack/random_anime", methods = ["POST"])
-def random_anime():
+@app.route("/slack", methods = ["POST"])
+def slack_anime():
 	print('JSON:')
 	print(request.json)
-	print('FORM: ')
-	print(request.form)
+	challenge = request.json["challenge"]
 	# text = "Hello world"
 	# url = "https://slack.com/api/chat.postMessage?token=" + token + "&channel=test_stuff&text=" + text + "&as_user=anime&pretty=1"
 	# r = requests.post(url)
-	return jsonify({"challenge":"somechallenge"})
+	return {"challenge":challenge}
 
 
 if __name__ == '__main__':
