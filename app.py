@@ -3,7 +3,7 @@ import sys
 if 'threading' in sys.modules:
     del sys.modules['threading']
 import os
-from flask import Flask, render_template,send_from_directory, jsonify, request, session, json, Response, url_for
+from flask import Flask, render_template,send_from_directory, jsonify, request, session, json, Response, url_for, make_response
 import requests
 import server
 import JSONEncoder
@@ -232,12 +232,18 @@ def funi_queue():
 @app.route("/slack", methods = ["POST"])
 def slack_anime():
 	print('JSON:')
-	print(request.json)
-	challenge = request.json["challenge"]
+	slack_event = request.json
+	challenge = slack_event["challenge"]
+	print("challenge:")
+	print(challenge)
+	if "challenge" in slack_event:
+        return make_response(slack_event["challenge"], 200, {"content_type":
+                                                             "application/json"
+                                                             })
 	# text = "Hello world"
 	# url = "https://slack.com/api/chat.postMessage?token=" + token + "&channel=test_stuff&text=" + text + "&as_user=anime&pretty=1"
 	# r = requests.post(url)
-	return {"challenge":challenge}
+	return "Failed"
 
 
 if __name__ == '__main__':
