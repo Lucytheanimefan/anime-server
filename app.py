@@ -234,16 +234,16 @@ def slack_anime():
     slack_event = request.json
     print('REQUEST BODY:')
     print(slack_event)
+    token = slack_event["token"]
     if "challenge" in slack_event:
         return make_response(slack_event["challenge"], 200, {"content_type":"application/json"})
     if "event" in slack_event:
         event = slack_event["event"]
         event_type = event["type"]
-        if event_type == "message":
+        if event_type == "message" and "text" in event:
             text = event["text"]
         elif event_type == "app_mention":
             print("do something random")
-            token = "cncJAiNGXi8wfr7FQD97mJtI"
             url = "https://slack.com/api/chat.postMessage?token="+token+"&channel=test_stuff&text=test%20anime&as_user=anime&pretty=1"
             r = requests.post(url)
             print(r.status_code, r.text)
