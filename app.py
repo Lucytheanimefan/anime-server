@@ -229,6 +229,15 @@ def funi_queue():
 	return jsonify(funi.get_my_queue(auth_token))
 
 
+@app.route("/slack/random_anime", methods = ["POST"])
+def random_anime():
+	print(request.get_json())
+	# text = "Hello world"
+	# url = "https://slack.com/api/chat.postMessage?token=" + token + "&channel=test_stuff&text=" + text + "&as_user=anime&pretty=1"
+	# r = requests.post(url)
+	return {"challenge":"somechallenge"}
+
+
 if __name__ == '__main__':
 	port = int(os.environ.get("PORT", 5000))
 	#app.run(host='0.0.0.0', port=port, debug=True)
