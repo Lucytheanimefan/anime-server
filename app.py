@@ -32,6 +32,9 @@ funi = Funimation.Funimation()
 UPLOAD_FOLDER = '/tmp/'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
+CLIENT_ID = os.environ.get('CLIENT_ID')
+CLIENT_SECRET = os.environ.get('CLIENT_SECRET')
+
 @app.route("/")
 def home():
     return render_template("index.html")
@@ -255,6 +258,11 @@ def slack_anime():
     # r = requests.post(url)
     return "Failed"
 
+
+def get_access_token():
+    url = "https://slack.com/api/oauth.access"
+    body = {"client_id":CLIENT_ID,"client_secret":CLIENT_SECRET, "code":""}
+    r = requests.post(url, data=body)
 
 if __name__ == '__main__':
     port = int(os.environ.get("PORT", 5000))
