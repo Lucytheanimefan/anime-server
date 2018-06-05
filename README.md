@@ -14,3 +14,6 @@ This is also done in parallel using python's `multiprocessing` as some people ca
 3. The above operation in #2 can take a long time–so long that it timesout heroku's maximum http request time. As a result, I use a Redis queue to schedule a background worker to do the scraping and have an ajax call periodically calling a backend endpoint to see whether or not the method has returned. When it returns, the results are presented in a UI.
 
 ## View data on anime character biometrics (such as height and weight)
+* Uses beautifulsoup to scrape individual anime character heights and weights in character_biostats/weightScraper.py
+* Compute averages/medians in character_biostats/dataAnalysis.py
+* Graphs data using c3.js 
